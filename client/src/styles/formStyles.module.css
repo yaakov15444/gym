@@ -1,0 +1,103 @@
+/* Form container styling */
+.formContainer {
+  margin: 0 auto;
+  padding: 3%;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  max-height: 40%;
+}
+
+/* Input fields styling */
+.input {
+  width: 100%;
+  padding: 1.5%;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Focus state for input fields */
+.input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Error message styling */
+.errorMessage {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Submit button styling */
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* Label styling */
+.label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 768px) {
+  /* Adjust form container width */
+  .formContainer {
+    max-width: 70%; /* Make the form take up most of the screen width on small screens */
+    padding: 15px; /* Slightly reduce padding */
+  }
+
+  /* Adjust input fields for better spacing */
+  .input {
+    padding: 12px; /* Increase padding on smaller screens */
+    font-size: 18px; /* Larger font size for better readability */
+  }
+
+  /* Adjust button size for better accessibility */
+  .button {
+    padding: 14px; /* Increase button padding */
+    font-size: 18px; /* Larger font size */
+  }
+
+  /* Adjust label size */
+  .label {
+    font-size: 16px; /* Larger font size for better readability */
+  }
+
+  /* Reduce error message font size */
+  .errorMessage {
+    font-size: 16px; /* Larger font size for smaller screens */
+  }
+}
+
+/* Further adjustments for very small screens */
+@media screen and (max-width: 480px) {
+  .input {
+    font-size: 18px; /* Larger font size for smaller screens */
+  }
+
+  .button {
+    font-size: 18px; /* Larger button font for easier clicking on small devices */
+  }
+}
