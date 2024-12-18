@@ -14,7 +14,7 @@ const Home = () => {
   const { user } = useUser();
   useEffect(() => {
     if (selectedCourseId || packageId) {
-      handlePurchase(selectedPackageName, selectedCourseId);
+      handlePurchase();
     }
   }, [selectedCourseId, packageId]);
   const {
