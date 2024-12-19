@@ -19,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Navbar />}>
           <Route path="*" element={<NotFound />} />
           <Route path="" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/success" element={<Success />} />
           <Route path="/successMessage" element={<SuccessMessage />} />
           <Route path="/info" element={<UserInfo />} />

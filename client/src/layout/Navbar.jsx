@@ -14,7 +14,7 @@ const Navbar = () => {
         <nav className={styles.navbar}>
           {/* Logo or Home Link */}
           <NavLink to="/" className={styles.navbarLogo}>
-            Logo
+            Gym Nest
           </NavLink>
 
           {/* NavLinks based on User Authentication */}
