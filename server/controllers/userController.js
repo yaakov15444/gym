@@ -157,8 +157,8 @@ const ctrl = {
     },
     async getAllUserCourses(req, res, next) {
         try {
-
-            const user = await userModel.findById(req.user._id).populate('enrolledCourses');
+            const { id } = req.params
+            const user = await userModel.findById(id).populate('enrolledCourses');
             if (!user) {
                 console.log("User not found");
                 return next(new AppError("User not found", 404));

@@ -1,12 +1,14 @@
 /* Navbar container */
 .navbarContainer {
+  /* display: inline-block; */
   background-color: #333;
   color: white;
   margin: 0 auto;
   font-family: Arial, sans-serif;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
 }
+
 /* Main navbar styles */
 .navbar {
   display: flex;
@@ -29,7 +31,8 @@
 }
 
 .navbarLogo:hover {
-  color: #d1d1d1; /* Light gray on hover */
+  color: #d1d1d1;
+  /* Light gray on hover */
 }
 
 /* Links container */
@@ -51,7 +54,8 @@
 }
 
 .navbarLink:hover {
-  color: #d1d1d1; /* Light gray on hover */
+  color: #d1d1d1;
+  /* Light gray on hover */
 }
 
 /* Button styles */
@@ -67,20 +71,24 @@
 
 /* Signup button specific styles */
 .signup {
-  background-color: #3b82f6; /* Blue */
+  background-color: #3b82f6;
+  /* Blue */
   color: white;
 }
 
 .signup:hover {
-  background-color: #2563eb; /* Darker blue on hover */
+  background-color: #2563eb;
+  /* Darker blue on hover */
 }
 
 /* Logout button specific styles */
 .logout {
-  background-color: #ef4444; /* Red */
+  background-color: #ef4444;
+  /* Red */
   color: white;
 }
 
 .logout:hover {
-  background-color: #dc2626; /* Darker red on hover */
+  background-color: #dc2626;
+  /* Darker red on hover */
 }

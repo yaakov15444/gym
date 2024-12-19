@@ -1,4 +1,4 @@
-const { signup, login, getUser, logout, getAllUsers, deleteUser, getUserById, isLoggedIn } = require("../controllers/userController");
+const { signup, login, getUser, logout, getAllUsers, deleteUser, getUserById, isLoggedIn, getAllUserCourses } = require("../controllers/userController");
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddlewareAdmin = require("../middleware/adminMiddlewareAdmin");
 const express = require("express");
@@ -10,7 +10,7 @@ router.post("/login", login);
 router.get("/userInfo", authMiddleware, getUser);
 router.post("/logout", logout);
 router.get("/isLoggedIn", isLoggedIn);
-
+router.get("/allUserCourses/:id", getAllUserCourses);
 // Admin routes
 const adminRouter = express.Router();
 adminRouter.use(authMiddleware, adminMiddlewareAdmin);
