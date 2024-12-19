@@ -49,7 +49,6 @@ const packageController = {
                     paymentId: paymentResult.paymentId,
                 });
             }
-            console.log(paymentId);
 
             // שלב 2: אם יש Payment ID, מבצעים CAPTURE
             const captureResult = await capturePayment(paymentId);
@@ -57,8 +56,17 @@ const packageController = {
                 console.error('Payment capture failed.');
                 return next(new AppError('Payment capture failed.', 500));
             }
-            console.log(captureResult);
-
+            const existingCourses = await courseModel.find({
+                participants: user._id
+            });
+            for (const course of existingCourses) {
+                const index = course.participants.findIndex(participant => participant.toString() === user._id.toString());
+                if (index > -1) {
+                    course.participants.splice(index, 1);
+                    await course.save();
+                    console.log(`Removed user from course: ${course._id}`);
+                }
+            }
             // שלב 3: עדכון מנוי המשתמש
             const currentDate = new Date();
             const expirationDate = new Date(currentDate);
@@ -78,13 +86,16 @@ const packageController = {
             } else {
                 const allCourses = await courseModel.find({});
                 coursesToEnroll.push(...allCourses.filter(course => !course.participants.includes(user._id)));
+                console.log("coursesToEnroll", coursesToEnroll);
+
             }
             user.enrolledCourses.splice(0, user.enrolledCourses.length);
-            await user.save();
+            console.log("coursesToEnroll", coursesToEnroll);
+
             for (const course of coursesToEnroll) {
                 course.participants.push(user._id);
                 user.enrolledCourses.push(course._id);
-                console.log("Saving course:", course._id); // הדפס את הקורס לפני השמירה
+                console.log("Saving course:", course._id);
 
                 await course.save();
             }
@@ -132,6 +143,20 @@ const packageController = {
         } catch (error) {
             console.error("Error purchasing package:", error);
             next(new AppError("Internal server error", 500));
+        }
+    },
+    async getPackageById(req, res, next) {
+        try {
+            const { id } = req.params;
+            const package = await packageModel.findById(id);
+            if (!package) {
+                console.log("Package not found");
+                return next(new AppError("Package not found", 404));
+            }
+            res.status(200).json(package);
+        } catch (error) {
+            console.log(error);
+            next(new AppError("Internal server error", 500, error));
         }
     }
 
