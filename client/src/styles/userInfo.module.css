@@ -1,0 +1,78 @@
+/* src/styles/userInfo.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background: linear-gradient(to right, #333, #444);
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.container h1,
+.container h2 {
+    color: #d51616;
+}
+
+.userInfo,
+.packageInfo,
+.coursesInfo {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease-in-out;
+}
+
+.userInfo p,
+.packageInfo p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.coursesInfo {
+    width: 100%;
+}
+
+.coursesTable {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.courseCard {
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.courseCard h3 {
+    color: #0056b3;
+    margin: 0 0 10px;
+}
+
+.courseCard p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.courseCard strong {
+    color: #333;
+}
+
+.userInfo,
+.packageInfo,
+.coursesInfo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}

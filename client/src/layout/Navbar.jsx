@@ -25,6 +25,10 @@ const Navbar = () => {
                 <NavLink to="/Data" className={styles.navbarLink}>
                   Data
                 </NavLink>
+                <NavLink to="/info" className={styles.navbarLink}>
+                  {user.name}
+                </NavLink>
+
                 {/* Log Out Button */}
                 <button
                   onClick={() => {

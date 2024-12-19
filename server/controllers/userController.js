@@ -154,6 +154,21 @@ const ctrl = {
             console.log(error);
             next(new AppError("Internal server error", 500, error));
         }
+    },
+    async getAllUserCourses(req, res, next) {
+        try {
+            const { id } = req.params
+            const user = await userModel.findById(id).populate('enrolledCourses');
+            if (!user) {
+                console.log("User not found");
+                return next(new AppError("User not found", 404));
+            }
+            const courses = user.enrolledCourses;
+            res.status(200).json(courses);
+        } catch (error) {
+            console.log(error);
+            next(new AppError("Internal server error", 500, error));
+        }
     }
 }
 
