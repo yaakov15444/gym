@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import NotFound from "../pages/NotFound";
 import Success from "../pages/Success";
 import SuccessMessage from "../pages/successMessage";
+import About from "../pages/About";
 
 const AppRoutes = () => {
   const { user } = useUser();
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Navbar />}>
           <Route path="*" element={<NotFound />} />
           <Route path="" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/success" element={<Success />} />
           <Route path="/successMessage" element={<SuccessMessage />} />
           {user ? (

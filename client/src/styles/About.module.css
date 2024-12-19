@@ -1,0 +1,118 @@
+/* Basic styling for About page */
+.aboutContainer {
+  background-color: #f5f7fa; /* Soft light gray background */
+  color: #333; /* Dark text for contrast */
+  padding: 2vw; /* Use relative units for padding, adjusts with screen size */
+  font-family: "Arial", sans-serif;
+  max-width: 100%; /* Full width */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.aboutHeader {
+  margin-top: 10vh;
+  color: #0d47a1; /* Vibrant dark blue for header */
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 4vw; /* Relative font size based on screen width */
+  animation: slideInTop 1s ease-out; /* Slide-in from the top */
+}
+
+.aboutDescription {
+  color: #555; /* Softer gray text for the description */
+  font-size: 1.7rem; /* Fixed size for better readability, will adjust on large screens */
+  line-height: 1.6;
+  text-align: center;
+  animation: scaleUp 1s ease-out; /* Scale-up animation */
+  max-width: 90%; /* Limit width for large screens */
+}
+
+.courseHeader {
+  margin: 0;
+  color: #007bb5; /* Soft blue for course header */
+  text-align: center;
+  font-size: 3rem; /* Larger font for course header */
+  animation: slideInTop 1s ease; /* Slide-in from the top */
+}
+
+.courseSummary {
+  border-radius: 8px;
+  text-align: center;
+  animation: scaleUp 1s ease-out; /* Rotate-in animation */
+  width: 100%; /* Full width */
+  max-width: 800px; /* Maximum width for larger screens */
+}
+
+.courseSummary p {
+  color: #555; /* Medium gray for course summary */
+  font-size: 1.5rem; /* Relative font size */
+  line-height: 1.8;
+}
+
+/* Animations */
+/* @keyframes slideInTop {
+  from {
+    transform: translateY(-50px);
+  }
+  to {
+    transform: translateY(0);
+  }
+} */
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-45deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 1200px) {
+  .aboutHeader {
+    font-size: 5vw; /* Adjust font size for smaller screens */
+  }
+
+  .aboutDescription {
+    font-size: 1.5rem; /* Adjust font size for smaller screens */
+  }
+
+  .courseSummary p {
+    font-size: 1.3rem; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutContainer {
+    padding: 4vw; /* Reduce padding on smaller screens */
+  }
+  img {
+    max-width: 90%;
+    height: fit-content;
+  }
+
+  .aboutHeader {
+    font-size: 6vw; /* Adjust font size for mobile screens */
+  }
+
+  .courseHeader {
+    font-size: 2.5rem; /* Slightly smaller course header */
+  }
+
+  .courseSummary p {
+    font-size: 1.2rem; /* Adjust font size for readability */
+  }
+}
