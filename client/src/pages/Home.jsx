@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/HomePage.module.css";
-import GymPic from "../../pictures/commercial-gym-equipment-list-dk-2048x941.jpg";
+import GymPic from "../../pictures/gym.jpg";
 import useFetch from "../hooks/useFetch";
 import { useUser } from "../contexts/UserProvider";
 import Modal from "./Modal";
@@ -80,7 +80,6 @@ const Home = () => {
       <section className={styles.imageSection}>
         <img src={GymPic} alt="Gym Image" className={styles.image} />
       </section>
-
       {/* Gym Packages Section */}
       <section id="packages" className={styles.packagesSection}>
         <h2>Our Gym Packages</h2>
