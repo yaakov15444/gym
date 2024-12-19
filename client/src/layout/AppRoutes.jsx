@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import NotFound from "../pages/NotFound";
 import Success from "../pages/Success";
 import SuccessMessage from "../pages/successMessage";
+import UserInfo from "../pages/UserInfo";
 
 const AppRoutes = () => {
   const { user } = useUser();
@@ -19,6 +20,7 @@ const AppRoutes = () => {
           <Route path="" element={<Home />} />
           <Route path="/success" element={<Success />} />
           <Route path="/successMessage" element={<SuccessMessage />} />
+          <Route path="/info" element={<UserInfo />} />
           {user ? (
             <>{/* <Route path="DataPage" element={<DataPage />} /> */}</>
           ) : (
