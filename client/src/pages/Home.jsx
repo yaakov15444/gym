@@ -129,6 +129,11 @@ const Home = () => {
           <div className={styles.courses}>
             {showCourses.map((course, i) => (
               <div key={i} className={styles.course}>
+                <img
+                  src={course.image}
+                  alt={course.name}
+                  className={styles.courseImage}
+                />
                 <h3>{course.name}</h3>
                 <p>{course.description}</p>
               </div>

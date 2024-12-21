@@ -133,11 +133,11 @@ const ctrl = {
     },
     async changePassword(req, res, next) {
         try {
-            const { currentPassword, newPassword } = req.body;
+            const { currentPassword, newPassword, email } = req.body;
             if (!currentPassword || !newPassword) {
                 return next(new AppError("All fields are required", 400));
             }
-            const user = await userModel.findById(req.user._id);
+            const user = await userModel.findOne({ email });
             if (!user) {
                 console.log("User not found");
                 return next(new AppError("User not found", 404));
@@ -150,6 +150,9 @@ const ctrl = {
             const hashedPassword = await bcrypt.hash(newPassword, 10);
             user.password = hashedPassword;
             await user.save();
+            console.log("Password changed successfully");
+
+            res.status(200).json({ message: "Password changed successfully" });
         } catch (error) {
             console.log(error);
             next(new AppError("Internal server error", 500, error));

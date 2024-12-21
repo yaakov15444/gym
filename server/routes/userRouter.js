@@ -1,4 +1,4 @@
-const { signup, login, getUser, logout, getAllUsers, deleteUser, getUserById, isLoggedIn, getAllUserCourses, loginWithGoogle } = require("../controllers/userController");
+const { signup, login, getUser, logout, getAllUsers, deleteUser, getUserById, isLoggedIn, getAllUserCourses, changePassword, loginWithGoogle } = require("../controllers/userController");
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddlewareAdmin = require("../middleware/adminMiddlewareAdmin");
 const express = require("express");
@@ -12,6 +12,7 @@ router.get("/userInfo", authMiddleware, getUser);
 router.post("/logout", logout);
 router.get("/isLoggedIn", isLoggedIn);
 router.get("/allUserCourses/:id", getAllUserCourses);
+router.post("/changePassword", changePassword);
 // Admin routes
 const adminRouter = express.Router();
 adminRouter.use(authMiddleware, adminMiddlewareAdmin);
