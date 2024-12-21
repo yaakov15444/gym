@@ -1,0 +1,8 @@
+.MuiPagination-ul {
+  max-width: fit-content;
+  background-color: #f5f7fa;
+}
+.MuiPagination-root {
+  justify-content: center;
+  display: flex;
+}
