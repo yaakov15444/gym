@@ -1,14 +1,25 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { GET_USERINFO_URL, LOGOUT_URL } from "../constants/endPoint";
 import { useNavigate } from "react-router-dom";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 // Create the UserContext
 const UserContext = createContext();
 
 // Create the UserProvider component
 const UserProvider = ({ children }) => {
+  const supabase = useSupabaseClient();
+
   const [user, setUser] = useState(null);
   // Function to logout the user
+  const logout = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const logoutUser = async () => {
+    logout();
     try {
       const response = await fetch(LOGOUT_URL, {
         method: "POST",

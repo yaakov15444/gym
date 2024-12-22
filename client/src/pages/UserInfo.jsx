@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserProvider";
 import styles from "../styles/userInfo.module.css";
 import useFetch from "../hooks/useFetch";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import DateTimePicker from "react-datetime-picker";
 
 const UserInfo = () => {
   const { user } = useUser();
   const [packageUrl, setPackageUrl] = useState("");
   const [coursesUrl, setCoursesUrl] = useState("");
+  const session = useSession();
+  const supabase = useSupabaseClient();
+  console.log(session);
 
   useEffect(() => {
     if (user && user.package) {
@@ -39,9 +44,25 @@ const UserInfo = () => {
       })
       .join(", ");
   };
+  const googleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          scopes: "https://www.googleapis.com/auth/calendar ",
+        },
+      });
+      if (error) {
+        alert("Error signing in with Google");
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!user || packageLoading || coursesLoading) {
-    return <h1>Loading...</h1>;
+    return <></>;
   }
 
   return (
@@ -97,6 +118,20 @@ const UserInfo = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div>
+        {session ? (
+          <>
+            <h2>hey {session.user.user_metadata.full_name}</h2>
+          </>
+        ) : (
+          <>
+            <h2>
+              to access your Google Calendar, we need additional permissions
+            </h2>
+            <button onClick={() => googleSignIn()}>log in with google</button>
+          </>
+        )}
       </div>
     </div>
   );
