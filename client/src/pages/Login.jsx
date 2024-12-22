@@ -231,7 +231,8 @@ const Login = () => {
                     credentialResponse.credential
                   );
                   const email = decodedCredential.email;
-                  console.log("Email:", email);
+                  const accessToken = decodedCredential;
+                  console.log(accessToken);
 
                   const response = await fetch(
                     "http://localhost:3000/users/google",
@@ -242,6 +243,7 @@ const Login = () => {
                       },
                       body: JSON.stringify({
                         email: email,
+                        token: accessToken,
                       }),
                       credentials: "include",
                     }
@@ -266,6 +268,8 @@ const Login = () => {
               onError={() => {
                 console.log("Login Failed");
               }}
+              scope="https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email"
+              useOneTap
             />
           </div>
         )}

@@ -6,7 +6,7 @@
   margin: 0 auto;
   font-family: Arial, sans-serif;
   /* position: fixed; */
-  width: 100%;
+  width: 100vw;
 }
 
 /* Main navbar styles */
