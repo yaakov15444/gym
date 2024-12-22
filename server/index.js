@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
+const path = require('path');
+
 const { port } = require('./secrets/dotenv');
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 require('./db/connectToMongo');
 const router = require('./routes/indexRouter');
-
 const corsOptions = {
     origin: "http://localhost:5173",
     credentials: true
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(router);
+// app.use('/', express.static(path.join(__dirname, 'pictures')));
 
 
 app.listen(port, () => {

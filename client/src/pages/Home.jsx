@@ -4,6 +4,7 @@ import GymPic from "../../pictures/gym.jpg";
 import useFetch from "../hooks/useFetch";
 import { useUser } from "../contexts/UserProvider";
 import Modal from "./Modal";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [showCourses, setShowCourses] = useState([]);
@@ -17,6 +18,7 @@ const Home = () => {
       handlePurchase();
     }
   }, [selectedCourseId, packageId]);
+  const navigate = useNavigate();
   const {
     data: packages,
     loading,
@@ -113,7 +115,12 @@ const Home = () => {
 
       {/* Courses Section */}
       <section id="courses" className={styles.coursesSection}>
-        <h2>Our Courses</h2>
+        <h2
+          className={styles.coursesHeader}
+          onClick={() => navigate("/courses")}
+        >
+          Our Courses
+        </h2>
         {courseLoading ? (
           <p>Loading courses...</p>
         ) : courseError ? (
@@ -122,6 +129,11 @@ const Home = () => {
           <div className={styles.courses}>
             {showCourses.map((course, i) => (
               <div key={i} className={styles.course}>
+                <img
+                  src={course.image}
+                  alt={course.name}
+                  className={styles.courseImage}
+                />
                 <h3>{course.name}</h3>
                 <p>{course.description}</p>
               </div>

@@ -78,6 +78,11 @@ const UserInfo = () => {
         <div className={styles.coursesTable}>
           {userCourses.map((course) => (
             <div key={course._id} className={styles.courseCard}>
+              <img
+                src={course.image}
+                alt={course.name}
+                className={styles.courseImage}
+              />
               <h3>{course.name}</h3>
               <p>{course.description}</p>
               <p>
