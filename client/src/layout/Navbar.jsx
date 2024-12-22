@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useUser, UserProvider } from "../contexts/UserProvider";
 import styles from "../styles/navbarStyles.module.css";
+import gymLogo from "../../pictures/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useUser();
@@ -13,12 +14,15 @@ const Navbar = () => {
       <div className={styles.navbarContainer}>
         <nav className={styles.navbar}>
           {/* Logo or Home Link */}
-          <NavLink to="/" className={styles.navbarLogo}>
-            Gym Nest
+          <NavLink to="/">
+            <img src={gymLogo} alt="logo" className={styles.logo} />
           </NavLink>
 
           {/* NavLinks based on User Authentication */}
           <ul className={styles.navbarLinks}>
+            <NavLink to="/courses" className={styles.navbarLink}>
+              Our Courses
+            </NavLink>
             {user ? (
               <>
                 {/* Data link for logged-in users */}
@@ -57,9 +61,6 @@ const Navbar = () => {
           </ul>
         </nav>
       </div>
-
-      {/* Outlet for rendering child components */}
-      <Outlet />
     </div>
   );
 };

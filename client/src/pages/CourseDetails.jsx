@@ -9,9 +9,9 @@ const CourseDetails = ({ course, onBack }) => {
         const endTime = new Date(s.endTime);
         const options = { hour: "2-digit", minute: "2-digit" };
         return `${s.day}: ${startTime.toLocaleTimeString(
-          "en-GB",
+          "en-IL",
           options
-        )} - ${endTime.toLocaleTimeString("en-GB", options)}`;
+        )} - ${endTime.toLocaleTimeString("en-IL", options)}`;
       })
       .join(", ");
   };
