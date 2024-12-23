@@ -1,0 +1,171 @@
+[1mdiff --git a/client/package-lock.json b/client/package-lock.json[m
+[1mindex 61f2f3e..1f289c2 100644[m
+[1m--- a/client/package-lock.json[m
+[1m+++ b/client/package-lock.json[m
+[36m@@ -15,17 +15,12 @@[m
+         "@mui/material": "^6.2.1",[m
+         "@mui/styles": "^6.2.1",[m
+         "@react-oauth/google": "^0.12.1",[m
+[31m-        "@supabase/auth-helpers-react": "^0.5.0",[m
+[31m-        "@supabase/supabase-js": "^2.47.10",[m
+         "aws-sdk": "^2.1692.0",[m
+         "dotenv": "^16.4.7",[m
+         "fs": "^0.0.1-security",[m
+         "gapi-script": "^1.2.0",[m
+         "jwt-decode": "^4.0.0",[m
+         "react": "^18.3.1",[m
+[31m-        "react-calendar": "^5.1.0",[m
+[31m-        "react-datepicker": "^7.5.0",[m
+[31m-        "react-datetime-picker": "^6.0.1",[m
+         "react-dom": "^18.3.1",[m
+         "react-hook-form": "^7.54.0",[m
+         "react-router-dom": "^7.0.2",[m
+[36m@@ -1043,59 +1038,6 @@[m
+         "node": "^18.18.0 || ^20.9.0 || >=21.1.0"[m
+       }[m
+     },[m
+[31m-    "node_modules/@floating-ui/core": {[m
+[31m-      "version": "1.6.8",[m
+[31m-      "resolved": "https://registry.npmjs.org/@floating-ui/core/-/core-1.6.8.tgz",[m
+[31m-      "integrity": "sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@floating-ui/utils": "^0.2.8"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@floating-ui/dom": {[m
+[31m-      "version": "1.6.12",[m
+[31m-      "resolved": "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.6.12.tgz",[m
+[31m-      "integrity": "sha512-NP83c0HjokcGVEMeoStg317VD9W7eDlGK7457dMBANbKA6GJZdc7rjujdgqzTaz93jkGgc5P/jeWbaCHnMNc+w==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@floating-ui/core": "^1.6.0",[m
+[31m-        "@floating-ui/utils": "^0.2.8"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@floating-ui/react": {[m
+[31m-      "version": "0.26.28",[m
+[31m-      "resolved": "https://registry.npmjs.org/@floating-ui/react/-/react-0.26.28.tgz",[m
+[31m-      "integrity": "sha512-yORQuuAtVpiRjpMhdc0wJj06b9JFjrYF4qp96j++v2NBpbi6SEGF7donUJ3TMieerQ6qVkAv1tgr7L4r5roTqw==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@floating-ui/react-dom": "^2.1.2",[m
+[31m-        "@floating-ui/utils": "^0.2.8",[m
+[31m-        "tabbable": "^6.0.0"[m
+[31m-      },[m
+[31m-      "peerDependencies": {[m
+[31m-        "react": ">=16.8.0",[m
+[31m-        "react-dom": ">=16.8.0"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@floating-ui/react-dom": {[m
+[31m-      "version": "2.1.2",[m
+[31m-      "resolved": "https://registry.npmjs.org/@floating-ui/react-dom/-/react-dom-2.1.2.tgz",[m
+[31m-      "integrity": "sha512-06okr5cgPzMNBy+Ycse2A6udMi4bqwW/zgBF/rwjcNqWkyr82Mcg8b0vjX8OJpZFy/FKjJmw6wV7t44kK6kW7A==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@floating-ui/dom": "^1.0.0"[m
+[31m-      },[m
+[31m-      "peerDependencies": {[m
+[31m-        "react": ">=16.8.0",[m
+[31m-        "react-dom": ">=16.8.0"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@floating-ui/utils": {[m
+[31m-      "version": "0.2.8",[m
+[31m-      "resolved": "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.8.tgz",[m
+[31m-      "integrity": "sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==",[m
+[31m-      "license": "MIT"[m
+[31m-    },[m
+     "node_modules/@fontsource/roboto": {[m
+       "version": "5.1.0",[m
+       "resolved": "https://registry.npmjs.org/@fontsource/roboto/-/roboto-5.1.0.tgz",[m
+[36m@@ -1785,90 +1727,6 @@[m
+         "win32"[m
+       ][m
+     },[m
+[31m-    "node_modules/@supabase/auth-helpers-react": {[m
+[31m-      "version": "0.5.0",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/auth-helpers-react/-/auth-helpers-react-0.5.0.tgz",[m
+[31m-      "integrity": "sha512-5QSaV2CGuhDhd7RlQCoviVEAYsP7XnrFMReOcBazDvVmqSIyjKcDwhLhWvnrxMOq5qjOaA44MHo7wXqDiF0puQ==",[m
+[31m-      "deprecated": "This package is now deprecated - please use the @supabase/ssr package instead.",[m
+[31m-      "license": "MIT",[m
+[31m-      "peerDependencies": {[m
+[31m-        "@supabase/supabase-js": "^2.39.8"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@supabase/auth-js": {[m
+[31m-      "version": "2.67.3",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/auth-js/-/auth-js-2.67.3.tgz",[m
+[31m-      "integrity": "sha512-NJDaW8yXs49xMvWVOkSIr8j46jf+tYHV0wHhrwOaLLMZSFO4g6kKAf+MfzQ2RaD06OCUkUHIzctLAxjTgEVpzw==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@supabase/node-fetch": "^2.6.14"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@supabase/functions-js": {[m
+[31m-      "version": "2.4.4",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/functions-js/-/functions-js-2.4.4.tgz",[m
+[31m-      "integrity": "sha512-WL2p6r4AXNGwop7iwvul2BvOtuJ1YQy8EbOd0dhG1oN1q8el/BIRSFCFnWAMM/vJJlHWLi4ad22sKbKr9mvjoA==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@supabase/node-fetch": "^2.6.14"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@supabase/node-fetch": {[m
+[31m-      "version": "2.6.15",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/node-fetch/-/node-fetch-2.6.15.tgz",[m
+[31m-      "integrity": "sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "whatwg-url": "^5.0.0"[m
+[31m-      },[m
+[31m-      "engines": {[m
+[31m-        "node": "4.x || >=6.0.0"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@supabase/postgrest-js": {[m
+[31m-      "version": "1.17.7",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/postgrest-js/-/postgrest-js-1.17.7.tgz",[m
+[31m-      "integrity": "sha512-aOzOYaTADm/dVTNksyqv9KsbhVa1gHz1Hoxb2ZEF2Ed9H7qlWOfptECQWmkEmrrFjtNaiPrgiSaPECvzI/seDA==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@supabase/node-fetch": "^2.6.14"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@supabase/realtime-js": {[m
+[31m-      "version": "2.11.2",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/realtime-js/-/realtime-js-2.11.2.tgz",[m
+[31m-      "integrity": "sha512-u/XeuL2Y0QEhXSoIPZZwR6wMXgB+RQbJzG9VErA3VghVt7uRfSVsjeqd7m5GhX3JR6dM/WRmLbVR8URpDWG4+w==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@supabase/node-fetch": "^2.6.14",[m
+[31m-        "@types/phoenix": "^1.5.4",[m
+[31m-        "@types/ws": "^8.5.10",[m
+[31m-        "ws": "^8.18.0"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@supabase/storage-js": {[m
+[31m-      "version": "2.7.1",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/storage-js/-/storage-js-2.7.1.tgz",[m
+[31m-      "integrity": "sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@supabase/node-fetch": "^2.6.14"[m
+[31m-      }[m
+[31m-    },[m
+[31m-    "node_modules/@supabase/supabase-js": {[m
+[31m-      "version": "2.47.10",[m
+[31m-      "resolved": "https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.47.10.tgz",[m
+[31m-      "integrity": "sha512-vJfPF820Ho5WILYHfKiBykDQ1SB9odTHrRZ0JxHfuLMC8GRvv21YLkUZQK7/rSVCkLvD6/ZwMWaOAfdUd//guw==",[m
+[31m-      "license": "MIT",[m
+[31m-      "dependencies": {[m
+[31m-        "@supabase/auth-js": "2.67.3",[m
+[31m-        "@supabase/functions-js": "2.4.4",[m
+[31m-        "@supabase/node-fetch": "2.6.15",[m
+[31m-        "@supabase/postgrest-js": "1.17.7",[m
+[31m-        "@supabase/realtime-js": "2.11.2",[m
+[31m-        "@supabase/storage-js": "2.7.1"[m
+[31m-      }[m
+[31m-    },[m
+     "nod
