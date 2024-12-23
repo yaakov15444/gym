@@ -1,90 +1,182 @@
-/* src/styles/userInfo.module.css */
+/* הגדרות כלליות */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+/* מכולת הדף */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 1000px;
-    margin: 40px auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
     padding: 20px;
-    background: linear-gradient(to right, #333, #444);
+    height: 100vh;
+}
+
+/* סגנון לחלקי הדף */
+.section {
+    background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    width: 100vw;
-}
-
-.container h1,
-.container h2 {
-    color: #d51616;
-}
-
-.userInfo,
-.packageInfo,
-.coursesInfo {
-    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-    width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease-in-out;
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
 }
 
 .userInfo p,
-.packageInfo p {
-    font-size: 16px;
-    color: #333;
-    margin: 5px 0;
+.packageInfo p,
+.coursesTable p {
+    margin: 8px 0;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
-.coursesInfo {
-    width: 100%;
+.userInfo p strong,
+.packageInfo p strong {
+    color: #007bff;
 }
 
+/* עיצוב הקורסים */
 .coursesTable {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }
 
 .courseCard {
-    background: #f8f8f8;
-    border: 1px solid #ccc;
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
     padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.courseCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.courseCard img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
     border-radius: 8px;
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 15px;
 }
 
 .courseCard h3 {
-    color: #0056b3;
-    margin: 0 0 10px;
-}
-
-.courseCard p {
-    font-size: 14px;
-    color: #666;
-    margin: 5px 0;
-}
-
-.courseCard strong {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
     color: #333;
 }
 
-.userInfo,
-.packageInfo,
-.coursesInfo:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+.addToCalendarButton {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
 }
 
-.courseImage {
-    width: 100%;
-    height: auto;
-    max-height: 200px;
-    /* אם תרצה למנוע שהתמונה תהיה גדולה מדי */
-    object-fit: cover;
-    /* אם תרצה שהתמונה תתממש במידות שלה בצורה טובה */
+.addToCalendarButton:hover {
+    background: #0056b3;
+}
+
+/* לוח שנה */
+
+
+
+/* כפתורים */
+button {
+    cursor: pointer;
+}
+
+/* התאמות למסכים קטנים */
+@media screen and (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .coursesTable {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Main Calendar Container */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 2px solid #ddd;
     border-radius: 10px;
-    /* אם תרצה פינות מעוגלות */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual Day */
+.day {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Current Day */
+.today {
+    background-color: #e6f7ff;
+    border: 2px solid #1890ff;
+    font-weight: bold;
+}
+
+/* Day with Events */
+.event {
+    background-color: #fffbe6;
+    border: 2px solid #fadb14;
+    font-weight: bold;
+}
+
+.event:hover {
+    background-color: #fff1b8;
+}
+
+/* Event Details */
+.day p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.day .eventTitle {
+    font-weight: bold;
+    color: #333;
+}
+
+.day .eventTime {
+    font-size: 11px;
+    color: #888;
 }
