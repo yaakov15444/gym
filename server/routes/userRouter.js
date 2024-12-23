@@ -1,4 +1,16 @@
-const { signup, login, getUser, logout, getAllUsers, deleteUser, getUserById, isLoggedIn, getAllUserCourses, changePassword, loginWithGoogle } = require("../controllers/userController");
+const {
+  signup,
+  login,
+  getUser,
+  logout,
+  getAllUsers,
+  deleteUser,
+  getUserById,
+  isLoggedIn,
+  getAllUserCourses,
+  changePassword,
+  loginWithGoogle,
+} = require("../controllers/userController");
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddlewareAdmin = require("../middleware/adminMiddlewareAdmin");
 const express = require("express");
@@ -22,5 +34,4 @@ adminRouter.get("/allUsers", getAllUsers);
 adminRouter.delete("/:id", deleteUser);
 router.use("/admin", adminRouter);
 
-
-module.exports = router
+module.exports = router;

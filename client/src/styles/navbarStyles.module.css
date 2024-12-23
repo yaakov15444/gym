@@ -6,7 +6,7 @@
   margin: 0 auto;
   font-family: Arial, sans-serif;
   /* position: fixed; */
-  width: 100vw;
+  width: 98.72vw;
 }
 
 /* Main navbar styles */
@@ -18,15 +18,10 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: padding 0.3s ease;
 }
-
 /* Logo/Home link */
-.navbarLogo {
-  font-size: 1.25rem;
-  text-align: center;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.logo {
+  height: 12vh;
+  transition: transform 0.3s ease;
 }
 
 .navbarLogo:hover {
@@ -48,7 +43,6 @@
   color: white;
   text-decoration: none;
   font-size: 1rem;
-  padding: 5px 10px;
   transition: color 0.3s ease;
 }
 

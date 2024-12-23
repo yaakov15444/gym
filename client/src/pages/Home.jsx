@@ -5,6 +5,7 @@ import useFetch from "../hooks/useFetch";
 import { useUser } from "../contexts/UserProvider";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
+import Footer from "../layout/Footer";
 
 const Home = () => {
   const [showCourses, setShowCourses] = useState([]);
@@ -141,30 +142,6 @@ const Home = () => {
           </div>
         )}
       </section>
-
-      {/* Footer Section */}
-      <footer className={styles.footer}>
-        <div className={styles.footerLinks}>
-          <ul>
-            <li>
-              <a href="#about">About Us</a>
-            </li>
-            <li>
-              <a href="#contact">Contact Us</a>
-            </li>
-            <li>
-              <a href="#faq">FAQ</a>
-            </li>
-            <li>
-              <a href="#branches">Branches</a>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.footerContact}>
-          <p>Phone: 9940*</p>
-          <p>Email: contact@holmesplace.co.il</p>
-        </div>
-      </footer>
       {isModalOpen && (
         <Modal
           courses={courses}

@@ -1,0 +1,26 @@
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 30px 0;
+}
+
+.footerLinks ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footerLink {
+  color: white;
+  text-decoration: none;
+}
+
+.footerContact {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footerContact p {
+  margin: 5px 0;
+}

@@ -11,13 +11,14 @@ import SuccessMessage from "../pages/successMessage";
 import About from "../pages/About";
 import UserInfo from "../pages/UserInfo";
 import Courses from "../pages/Courses";
+import Layout from "./Layout";
 
 const AppRoutes = () => {
   const { user } = useUser();
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navbar />}>
+        <Route path="/" element={<Layout />}>
           <Route path="*" element={<NotFound />} />
           <Route path="" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -25,7 +26,6 @@ const AppRoutes = () => {
           <Route path="/successMessage" element={<SuccessMessage />} />
           <Route path="/info" element={<UserInfo />} />
           <Route path="/courses" element={<Courses />} />
-
           {user ? (
             <>{/* <Route path="DataPage" element={<DataPage />} /> */}</>
           ) : (

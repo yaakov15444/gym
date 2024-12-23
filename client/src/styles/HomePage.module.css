@@ -4,11 +4,11 @@
 }
 
 .wrapper {
-  width: 98.92vw;
+  width: 98.72vw;
 }
 
 .image {
-  max-width: 100%;
+  width: 98.72vw;
   height: auto;
 }
 
@@ -52,35 +52,6 @@
   font-size: 1.5rem;
   margin-bottom: 10px;
 }
-
-.footer {
-  background-color: #333;
-  color: white;
-  padding: 30px 0;
-}
-
-.footerLinks ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.footerLinks li a {
-  color: white;
-  text-decoration: none;
-}
-
-.footerContact {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.footerContact p {
-  margin: 5px 0;
-}
-
-
 .coursesHeader {
   color: #007bff;
   text-decoration: none;
@@ -91,7 +62,7 @@
 
 .coursesHeader:hover {
   color: #0056b3;
-  text-decoration: underline;
+  text-decoration: wavy;
   transform: scale(1.1);
 }
 
