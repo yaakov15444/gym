@@ -1,15 +1,7 @@
-#root {
-  max-width: 1280px;
-}
-body{
-  margin: 0;
-}
-ul {
-  list-style-type: none;
+body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  background-color: #333;
+  min-width: 320px;
 }
 
 li {

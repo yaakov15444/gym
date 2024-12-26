@@ -4,11 +4,11 @@
 }
 
 .wrapper {
-  width: 98.72vw;
+  width: 100%;
 }
 
 .image {
-  width: 98.72vw;
+  width: 100%;
   height: auto;
 }
 
@@ -80,4 +80,19 @@
 
 .courseImage:hover {
   transform: scale(1.1);
+}
+@media screen and (max-width: 885px) {
+  .packages,
+  .courses {
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .package,
+  .course {
+    background-color: #e8e8e8;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+  }
 }

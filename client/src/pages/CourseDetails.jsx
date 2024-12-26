@@ -18,32 +18,28 @@ const CourseDetails = ({ course, onBack }) => {
 
   return (
     <div className={styles.courseDetailsContainer}>
-      <button onClick={onBack} className={styles.backButton}>
-        Back to Courses
-      </button>
-
-      {/* כותרת פרטי הקורס */}
       <h1 className={styles.courseTitle}>{course.name}</h1>
-
-      {/* תמונה של הקורס */}
-      <div className={styles.imageContainer}>
-        <img
-          src={course.image}
-          alt={course.name}
-          className={styles.courseImage}
-        />
+      <div>
+        <div className={styles.imageContainer}>
+          <img
+            src={course.image}
+            alt={course.name}
+            className={styles.courseImage}
+          />
+        </div>
+        <div>
+          {/* תיאור הקורס */}
+          <p className={styles.courseDescription}>{course.description}</p>
+          {/* לוח זמנים */}
+          <div className={styles.scheduleContainer}>
+            <h2>Schedule</h2>
+            <p>{formatSchedule(course.schedule)}</p>
+          </div>
+        </div>
       </div>
-
-      {/* תיאור הקורס */}
-      <p className={styles.courseDescription}>{course.description}</p>
-
-      {/* לוח זמנים */}
-      <div className={styles.scheduleContainer}>
-        <h2>Schedule</h2>
-        <p>{formatSchedule(course.schedule)}</p>
-      </div>
-
-      {/* אפשר להוסיף כאן פרטים נוספים כמו מדריך הקורס, מקום ועוד */}
+      <button onClick={onBack} className={styles.backButton}>
+        Back to All Courses
+      </button>
     </div>
   );
 };

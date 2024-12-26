@@ -99,7 +99,7 @@
   .aboutContainer {
     padding: 4vw; /* Reduce padding on smaller screens */
   }
-  img {
+  .image {
     max-width: 90%;
     height: fit-content;
   }

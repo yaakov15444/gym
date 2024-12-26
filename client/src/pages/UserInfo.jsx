@@ -67,71 +67,73 @@ const UserInfo = () => {
 
   return (
     <div className={styles.container}>
-      <h1>User Profile</h1>
-      <div className={styles.userInfo}>
-        <p>
-          <strong>Name:</strong> {user.name}
-        </p>
-        <p>
-          <strong>Email:</strong> {user.email}
-        </p>
-        <p>
-          <strong>Phone:</strong> {user.phone}
-        </p>
-      </div>
-      <div className={styles.packageInfo}>
-        <h2>Package Details</h2>
-        <p>
-          <strong>Name:</strong> {userPackage.name}
-        </p>
-        <p>
-          <strong>Description:</strong> {userPackage.description}
-        </p>
-        <p>
-          <strong>Price:</strong> {userPackage.price} ILS
-        </p>
-        <p>
-          <strong>Duration:</strong> {userPackage.durationInMonths} months
-        </p>
-      </div>
-      <div className={styles.coursesInfo}>
-        <h2>Your Courses</h2>
-        <div className={styles.coursesTable}>
-          {userCourses.map((course) => (
-            <div key={course._id} className={styles.courseCard}>
-              <img
-                src={course.image}
-                alt={course.name}
-                className={styles.courseImage}
-              />
-              <h3>{course.name}</h3>
-              <p>{course.description}</p>
-              <p>
-                <strong>Coach:</strong> {course.coach.name}
-              </p>
-              <p>
-                <strong>Schedule:</strong>{" "}
+      {/* Main content */}
+      <div className={styles.mainContent}>
+        <div className={styles.section}>
+          <h2>User Info</h2>
+          <div className={styles.userInfo}>
+            <p>
+              <strong>Name:</strong> {user.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {user.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {user.phone}
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <h2>Package Info</h2>
+          <div className={styles.packageInfo}>
+            <p>
+              <strong>Name:</strong> {userPackage.name}
+            </p>
+            <p>
+              <strong>Description:</strong> {userPackage.description}
+            </p>
+            <p>
+              <strong>Price:</strong> {userPackage.price} ILS
+            </p>
+            <p>
+              <strong>Duration:</strong> {userPackage.durationInMonths} months
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <h2>Your Courses</h2>
+          <div className={styles.coursesTable}>
+            {userCourses.map((course) => (
+              <div key={course._id} className={styles.courseCard}>
+                <img src={course.image} alt={course.name} />
+                <h3>{course.name}</h3>
+                <p>{course.description}</p>
+                <p>
+                  <strong>Coach:</strong> {course.coach.name}
+                </p>
                 <p>
                   <strong>Schedule:</strong> {formatSchedule(course.schedule)}
                 </p>
-              </p>
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <div>
-        {session ? (
-          <>
-            <h2>hey {session.user.user_metadata.full_name}</h2>
-          </>
-        ) : (
-          <>
-            <h2>
-              to access your Google Calendar, we need additional permissions
-            </h2>
-            <button onClick={() => googleSignIn()}>log in with google</button>
-          </>
-        )}
+        <div>
+          {session ? (
+            <>
+              <h2>hey {session.user.user_metadata.full_name}</h2>
+            </>
+          ) : (
+            <>
+              <h2>
+                to access your Google Calendar, we need additional permissions
+              </h2>
+              <button onClick={() => googleSignIn()}>log in with google</button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

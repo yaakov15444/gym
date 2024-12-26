@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/About.module.css";
 import "../styles/MUI.css"; // Import the CSS module
 import { Pagination, Stack, Box } from "@mui/material";
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // List of image URLs or local paths
   const images = [
     "../../pictures/gym.jpg",
@@ -69,6 +72,7 @@ const About = () => {
           {/* Render images for the current page */}
           {currentImages.map((img, index) => (
             <img
+              className={styles.image}
               key={index}
               src={img}
               alt={`Image ${startIndex + index + 1}`}

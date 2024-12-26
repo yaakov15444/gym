@@ -5,8 +5,7 @@
   color: white;
   margin: 0 auto;
   font-family: Arial, sans-serif;
-  /* position: fixed; */
-  width: 98.72vw;
+  width: 100%;
 }
 
 /* Main navbar styles */
@@ -14,13 +13,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: padding 0.3s ease;
+  width: 100%;
 }
+
 /* Logo/Home link */
 .logo {
   height: 12vh;
+  padding: 5px;
   transition: transform 0.3s ease;
 }
 
@@ -33,6 +34,7 @@
 .navbarLinks {
   list-style: none;
   display: flex;
+  padding-inline: 15px;
   gap: 20px;
 }
 
