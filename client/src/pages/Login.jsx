@@ -108,6 +108,7 @@ const Login = () => {
                       },
                     })}
                     className={formStyles.input}
+                    autoComplete="email"
                   />
                   {errors.email && (
                     <p className={formStyles.errorMessage}>

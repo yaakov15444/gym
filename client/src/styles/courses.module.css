@@ -207,3 +207,21 @@ p {
     font-size: 0.9rem;
   }
 }
+
+.coach {
+  font-size: 1.1rem;
+  /* גודל טקסט קצת יותר גדול */
+  font-weight: bold;
+  /* מודגש */
+  color: #0056b3;
+  /* צבע כחול */
+  margin-top: 0.5rem;
+  /* רווח למעלה */
+}
+
+.coach span {
+  font-weight: normal;
+  /* משקל רגיל לטקסט בתוך ה-span */
+  color: #333;
+  /* צבע טקסט כהה */
+}

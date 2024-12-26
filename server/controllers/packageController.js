@@ -23,7 +23,8 @@ const packageController = {
             // מציאת החבילה והמשתמש
             const package = await packageModel.findById(packageId);
             const user = await userModel.findById(userId);
-            if (user.package && user.package.toString() === packageId) {
+            if (package.name !== "Single Class Package" && user.package && user.package.toString() === packageId) {
+                console.log("You have already purchased this package.");
                 return next(new AppError("You have already purchased this package.", 400));
             }
 
@@ -34,7 +35,8 @@ const packageController = {
 
             // שלב 1: אם אין Payment ID, מתחילים תשלום
             if (!paymentId) {
-                const successUrl = `http://localhost:5173/success?packageId=${packageId}&userId=${userId}&courseId=${selectedCourseId}`; const cancelUrl = `http://localhost:5173/cancel`;
+                const successUrl = `http://localhost:5173/success?packageId=${packageId}&userId=${userId}&courseId=${selectedCourseId}`;
+                const cancelUrl = `http://localhost:5173/cancel`;
 
                 const paymentResult = await createPayment(
                     package.price,

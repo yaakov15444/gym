@@ -29,8 +29,8 @@ router.post("/changePassword", changePassword);
 const adminRouter = express.Router();
 adminRouter.use(authMiddleware, adminMiddlewareAdmin);
 
-adminRouter.get("/:id", getUserById);
 adminRouter.get("/allUsers", getAllUsers);
+adminRouter.get("/:id", getUserById);
 adminRouter.delete("/:id", deleteUser);
 router.use("/admin", adminRouter);
 

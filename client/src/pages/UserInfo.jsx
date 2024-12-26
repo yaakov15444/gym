@@ -5,16 +5,17 @@ import useFetch from "../hooks/useFetch";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // סג
+import "react-calendar/dist/Calendar.css";
+import UserCalendar from "./UserCalendar";
 const UserInfo = () => {
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const [packageUrl, setPackageUrl] = useState("");
   const [coursesUrl, setCoursesUrl] = useState("");
   const [userEvents, setUserEvents] = useState([]);
-  const [loadingEvents, setLoadingEvents] = useState(false);
+
   const session = useSession();
   const supabase = useSupabaseClient();
-  console.log(session);
+  // console.log(session);
 
   useEffect(() => {
     if (user && user.package) {
@@ -26,10 +27,8 @@ const UserInfo = () => {
   useEffect(() => {
     const loadEvents = async () => {
       if (session && session.provider_token) {
-        setLoadingEvents(true); // התחלת טעינה
         const events = await fetchUserEvents(session.provider_token); // קבלת אירועים
         setUserEvents(events); // עדכון state של אירועים
-        setLoadingEvents(false); // סיום טעינה
       }
     };
     loadEvents();
@@ -77,6 +76,9 @@ const UserInfo = () => {
   };
 
   if (!user || packageLoading || coursesLoading) {
+    return <></>;
+  }
+  if (loading) {
     return <></>;
   }
   const calculateNextOccurrence = (schedule) => {
@@ -227,6 +229,118 @@ const UserInfo = () => {
       return [];
     }
   }
+  const addRecurringEventsToCalendar = async (course) => {
+    if (!session?.provider_token) {
+      alert("Please log in with Google to add events to your calendar");
+      return;
+    }
+
+    const accessToken = session.provider_token;
+    const subscriptionEndDate = new Date(user.subscriptionEndDate);
+    const now = new Date();
+
+    if (now >= subscriptionEndDate) {
+      alert("Your subscription has already ended!");
+      return;
+    }
+
+    // מציאת כל הימים הרלוונטיים
+    const dayMap = {
+      Sunday: 0,
+      Monday: 1,
+      Tuesday: 2,
+      Wednesday: 3,
+      Thursday: 4,
+      Friday: 5,
+      Saturday: 6,
+    };
+    const courseDay = dayMap[course.schedule[0].day];
+    const recurringDates = [];
+
+    let nextDate = new Date(now);
+
+    while (nextDate <= subscriptionEndDate) {
+      nextDate.setDate(
+        nextDate.getDate() + ((courseDay - nextDate.getDay() + 7) % 7)
+      );
+
+      if (nextDate <= subscriptionEndDate) {
+        recurringDates.push(new Date(nextDate));
+      }
+
+      nextDate.setDate(nextDate.getDate() + 7); // שבוע קדימה
+    }
+
+    try {
+      for (const date of recurringDates) {
+        const startTime = new Date(date);
+        const endTime = new Date(date);
+        endTime.setHours(startTime.getHours() + 1);
+
+        // בדיקה אם האירוע כבר קיים ב-userEvents
+        const roundToMinutes = (date) => {
+          const roundedDate = new Date(date);
+          roundedDate.setSeconds(0, 0); // מאפס את השניות והמילישניות
+          return roundedDate.getTime();
+        };
+
+        const normalizeTitle = (title) => title.trim().toLowerCase();
+        const updatedEvents = await fetchUserEvents(accessToken);
+        setUserEvents(updatedEvents);
+        const isEventExists = userEvents.some((existingEvent) => {
+          const existingStart = roundToMinutes(
+            new Date(existingEvent.start.dateTime)
+          );
+          const newStart = roundToMinutes(startTime);
+
+          const existingTitle = normalizeTitle(existingEvent.summary);
+          const newTitle = normalizeTitle(course.name);
+
+          return existingTitle === newTitle && existingStart === newStart;
+        });
+
+        if (isEventExists) {
+          console.log(`Event on ${startTime} already exists. Skipping.`);
+          continue; // דלג אם האירוע כבר קיים
+        }
+
+        const event = {
+          summary: course.name,
+          description: course.description,
+          start: {
+            dateTime: startTime.toISOString(),
+            timeZone: "Asia/Jerusalem",
+          },
+          end: {
+            dateTime: endTime.toISOString(),
+            timeZone: "Asia/Jerusalem",
+          },
+        };
+
+        const response = await fetch(
+          "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(event),
+          }
+        );
+
+        if (!response.ok) {
+          const error = await response.json();
+          console.error("Failed to add event:", error);
+        }
+      }
+      const updatedEvents = await fetchUserEvents(accessToken); // מעדכן את רשימת האירועים
+      setUserEvents(updatedEvents); // מעדכן את ה-state עם האירועים החדשים
+      alert("All recurring events have been added to your Google Calendar!");
+    } catch (error) {
+      console.error("An error occurred while adding recurring events:", error);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -285,6 +399,12 @@ const UserInfo = () => {
                 >
                   Add to Google Calendar
                 </button>
+                <button
+                  onClick={() => addRecurringEventsToCalendar(course)}
+                  className={styles.addToCalendarButton}
+                >
+                  Add All Recurring Events
+                </button>
               </div>
             ))}
           </div>
@@ -293,57 +413,20 @@ const UserInfo = () => {
 
       {/* Calendar section */}
       <div className={styles.events}>
-        <h2>לוח השנה שלך</h2>
-        <div className={styles.calendar}>
-          {Array.from({ length: 30 }).map((_, index) => {
-            const day = new Date();
-            day.setDate(day.getDate() + index);
-
-            const eventsForDay = userEvents.filter(
-              (event) =>
-                new Date(event.start.dateTime).toDateString() ===
-                day.toDateString()
-            );
-
-            return (
-              <div
-                key={index}
-                className={`${styles.day} ${index === 0 ? styles.today : ""} ${
-                  eventsForDay.length > 0 ? styles.event : ""
-                }`}
-              >
-                <strong>{day.getDate()}</strong>
-                {eventsForDay.length > 0 ? (
-                  eventsForDay.map((event, i) => (
-                    <div key={i}>
-                      <p className={styles.eventTitle}>{event.summary}</p>
-                      <p className={styles.eventTime}>
-                        {new Date(event.start.dateTime).toLocaleTimeString(
-                          "he-IL",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )}
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <p>no events</p>
-                )}
-              </div>
-            );
-          })}
+        <div className={styles.events}>
+          <UserCalendar userEvents={userEvents} />
         </div>
 
         {/* Google Sign-In Button */}
-        {!session && (
+        {!session?.provider_token ? (
           <div className={styles.googleSignIn}>
             <h3>connect with google to see your events</h3>
             <button onClick={googleSignIn} className={styles.signInButton}>
               Sign in with Google
             </button>
           </div>
+        ) : (
+          <></>
         )}
       </div>
     </div>

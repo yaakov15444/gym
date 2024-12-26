@@ -12,9 +12,17 @@ import About from "../pages/About";
 import UserInfo from "../pages/UserInfo";
 import Courses from "../pages/Courses";
 import Layout from "./Layout";
+import UserManagement from "../pages/admin/adminPages/UserManagment";
+import EditCourse from "../pages/admin/adminPages/EditCourse";
+import CoursesManagment from "../pages/admin/adminPages/CoursesManagment";
+import AdminHome from "../pages/admin/adminPages/AdminHome";
+import { AdminProvider } from "../pages/admin/adminPages/AdminContext";
 
 const AppRoutes = () => {
-  const { user } = useUser();
+  const { user, loading } = useUser();
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <BrowserRouter>
       <Routes>
@@ -22,17 +30,35 @@ const AppRoutes = () => {
           <Route path="*" element={<NotFound />} />
           <Route path="" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/success" element={<Success />} />
-          <Route path="/successMessage" element={<SuccessMessage />} />
-          <Route path="/info" element={<UserInfo />} />
+
           <Route path="/courses" element={<Courses />} />
           {user ? (
-            <>{/* <Route path="DataPage" element={<DataPage />} /> */}</>
+            <>
+              <Route path="/success" element={<Success />} />
+              <Route path="/successMessage" element={<SuccessMessage />} />
+              <Route path="/info" element={<UserInfo />} />
+            </>
           ) : (
             <>
               <Route path="/Login" element={<Login />} />
               <Route path="/Signup" element={<Signup />} />
             </>
+          )}
+          {user && user.role === "Admin" && (
+            <Route
+              path="/Admin/*"
+              element={
+                <AdminProvider>
+                  <Routes>
+                    <Route path="" element={<AdminHome />} />
+                    <Route path="/users" element={<UserManagement />} />
+                    <Route path="/courses" element={<CoursesManagment />} />
+                    <Route path="/courses/edit/:id" element={<EditCourse />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </AdminProvider>
+              }
+            />
           )}
         </Route>
       </Routes>

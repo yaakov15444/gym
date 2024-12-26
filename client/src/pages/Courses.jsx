@@ -5,7 +5,6 @@ import CourseDetails from "./CourseDetails";
 
 const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
-
   const {
     data: courses,
     loading,
@@ -61,6 +60,9 @@ const Courses = () => {
                 />
                 <h3>{course.name}</h3>
                 <p>{course.description}</p>
+                <div className={styles.coach}>
+                  <strong>Coach:</strong> <span>{course.coach}</span>
+                </div>
                 <div className={styles.schedule}>
                   <strong>Schedule:</strong>{" "}
                   <span>{formatSchedule(course.schedule)}</span>

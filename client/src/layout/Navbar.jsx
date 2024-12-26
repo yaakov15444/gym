@@ -7,7 +7,6 @@ import gymLogo from "../../pictures/logo.png";
 const Navbar = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
-
   return (
     <div>
       {/* Navbar Section */}
@@ -32,7 +31,12 @@ const Navbar = () => {
                 <NavLink to="/info" className={styles.navbarLink}>
                   {user.name}
                 </NavLink>
-
+                {/* Admin link if user.role is ADMIN */}
+                {user && user.role === "Admin" && (
+                  <NavLink to="/admin" className={styles.navbarLink}>
+                    Admin Panel
+                  </NavLink>
+                )}
                 {/* Log Out Button */}
                 <button
                   onClick={() => {

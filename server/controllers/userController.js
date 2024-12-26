@@ -87,6 +87,10 @@ const ctrl = {
   async getAllUsers(req, res, next) {
     try {
       const users = await userModel.find({});
+      if (!users || users.length === 0) {
+        console.log("No users found");
+        return next(new AppError("No users found", 404));
+      }
       res.status(200).json(users);
     } catch (error) {
       console.log(error);

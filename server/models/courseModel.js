@@ -12,8 +12,7 @@ const courseSchema = new mongoose.Schema(
       required: true,
     },
     coach: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Coach",
+      type: String,
       required: true,
     },
     participants: {

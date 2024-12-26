@@ -10,6 +10,7 @@ const UserProvider = ({ children }) => {
   const supabase = useSupabaseClient();
 
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   // Function to logout the user
   const logout = async () => {
     try {
@@ -39,6 +40,7 @@ const UserProvider = ({ children }) => {
     }
   };
   const loginUser = async () => {
+    setLoading(true);
     try {
       const response = await fetch(GET_USERINFO_URL, {
         method: "GET",
@@ -55,6 +57,8 @@ const UserProvider = ({ children }) => {
     } catch (error) {
       // Catch network errors
       console.log("Error during login:", error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -62,7 +66,7 @@ const UserProvider = ({ children }) => {
   }, []);
   return (
     <UserContext.Provider
-      value={{ user, logout: logoutUser, login: loginUser }}
+      value={{ user, logout: logoutUser, login: loginUser, loading }}
     >
       {children}
     </UserContext.Provider>

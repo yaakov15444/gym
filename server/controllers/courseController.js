@@ -2,14 +2,6 @@ const courseModel = require("../models/courseModel");
 const AppError = require("../utils/handleError");
 const path = require("path");
 
-function convertRelativeToFullPath(relativePath) {
-  // תיקיית הבסיס של התמונות (ממוקמת בתיקיית השרת, בלי להוסיף פעמיים את "pictures")
-  const basePath = path.join(__dirname, "..", "pictures"); // מתקבל "C:\Users\User\Desktop\gym\server\pictures"
-
-  // אם כבר יש את תיקיית "pictures" בנתיב, אל תוסיף אותה שוב
-  return path.resolve(basePath, relativePath); // שימוש ב-resolve מבטיח חיבור נכון ללא כפילויות
-}
-
 const ctrlCourse = {
   async createCourse(req, res, next) {
     try {
@@ -64,34 +56,67 @@ const ctrlCourse = {
   },
   async updateCourse(req, res, next) {
     try {
+      console.log(req.body);
+
       const { id } = req.params;
-      const course = await courseModel.findOneAndUpdate({ _id: id }, req.body, {
-        new: true,
+
+      // חיפוש הקורס לפי מזהה
+      const course = await courseModel.findById(id);
+      if (!course) {
+        return next(new AppError("Course not found", 404));
+      }
+
+      // עדכון דינמי רק של השדות שנשלחו
+      const fieldsToUpdate = ["name", "description", "coach", "schedule"];
+      fieldsToUpdate.forEach((field) => {
+        if (req.body[field] !== undefined) {
+          course[field] = req.body[field];
+        }
       });
-      if (!course) {
-        console.log("Course not found");
-        return next(new AppError("Course not found", 404));
+
+      if (req.body.schedule) {
+        // המרת schedule לפורמט נכון
+        req.body.schedule = req.body.schedule.map((item) => {
+          const [startHour, startMinute] = item.startTime.split(":").map(Number);
+          const [endHour, endMinute] = item.endTime.split(":").map(Number);
+
+          return {
+            ...item,
+            startTime: new Date(1970, 0, 1, startHour, startMinute), // יצירת אובייקט Date
+            endTime: new Date(1970, 0, 1, endHour, endMinute), // יצירת אובייקט Date
+          };
+        });
+
+        // ולידציה ללוח הזמנים
+        const isValidSchedule = req.body.schedule.every(
+          (item) =>
+            ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].includes(item.day) &&
+            item.startTime < item.endTime
+        );
+
+        if (!isValidSchedule) {
+          return next(new AppError("Invalid schedule format", 400));
+        }
+
+        // עדכון השדה schedule
+        course.schedule = req.body.schedule;
       }
-      res.status(200).json({ course, message: "Course updated successfully" });
+
+      // שמירת הקורס לאחר העדכון
+      await course.save();
+
+      // החזרת תגובה ללקוח
+      res.status(200).json({
+        course,
+        message: "Course updated successfully",
+      });
     } catch (error) {
-      console.log(error);
+      console.error("Error updating course:", error);
       next(new AppError("Internal server error", 500, error));
     }
   },
-  async deleteCourse(req, res, next) {
-    try {
-      const { id } = req.params;
-      const course = await courseModel.findByIdAndDelete(id);
-      if (!course) {
-        console.log("Course not found");
-        return next(new AppError("Course not found", 404));
-      }
-      res.status(200).json({ message: "Course deleted successfully" });
-    } catch (error) {
-      console.log(error);
-      next(new AppError("Internal server error", 500, error));
-    }
-  },
+
+
   async enrollInCourse(req, res, next) {
     try {
       const { courseId, userId } = req.body;

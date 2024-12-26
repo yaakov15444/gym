@@ -16,6 +16,5 @@ const adminRouter = express.Router();
 adminRouter.use(authMiddleware, adminMiddlewareAdmin);
 adminRouter.post("/create", createCourse);
 adminRouter.put("/update/:id", updateCourse);
-adminRouter.delete("/delete/:id", deleteCourse);
 router.use("/admin", adminRouter);
 module.exports = router

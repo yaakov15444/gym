@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-
 const { port } = require('./secrets/dotenv');
+const { makeAdmin, removeAdmin } = require('./services/makeAdmin')
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 require('./db/connectToMongo');
