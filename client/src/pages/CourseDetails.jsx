@@ -53,36 +53,34 @@ const CourseDetails = ({ course, onBack }) => {
   };
   return (
     <div className={styles.courseDetailsContainer}>
-      <button onClick={onBack} className={styles.backButton}>
-        Back to Courses
-      </button>
-
-      {/* כותרת פרטי הקורס */}
       <h1 className={styles.courseTitle}>{course.name}</h1>
-
-      {/* תמונה של הקורס */}
-      <div className={styles.imageContainer}>
-        <img
-          src={course.image}
-          alt={course.name}
-          className={styles.courseImage}
-        />
+      <div>
+        <div className={styles.imageContainer}>
+          <img
+            src={course.image}
+            alt={course.name}
+            className={styles.courseImage}
+          />
+        </div>
+        <div>
+          {/* תיאור הקורס */}
+          <p className={styles.courseDescription}>{course.description}</p>
+          <div className={styles.coach}>
+            <strong>Coach:</strong> <span>{course.coach}</span>
+          </div>{" "}
+          {/* לוח זמנים */}
+          <div className={styles.scheduleContainer}>
+            <h2>Schedule</h2>
+            <p>{formatSchedule(course.schedule)}</p>
+          </div>
+          <button onClick={handlePurchase} className={styles.purchaseButton}>
+            Purchase Package
+          </button>{" "}
+        </div>
       </div>
-
-      {/* תיאור הקורס */}
-      <p className={styles.courseDescription}>{course.description}</p>
-      <div className={styles.coach}>
-        <strong>Coach:</strong> <span>{course.coach}</span>
-      </div>
-      {/* לוח זמנים */}
-      <div className={styles.scheduleContainer}>
-        <h2>Schedule</h2>
-        <p>{formatSchedule(course.schedule)}</p>
-      </div>
-      <button onClick={handlePurchase} className={styles.purchaseButton}>
-        Purchase Package
+      <button onClick={onBack} className={styles.backButton}>
+        Back to All Courses
       </button>
-      {/* אפשר להוסיף כאן פרטים נוספים כמו מדריך הקורס, מקום ועוד */}
     </div>
   );
 };

@@ -345,7 +345,7 @@ const UserInfo = () => {
   return (
     <div className={styles.container}>
       {/* Main content */}
-      <div>
+      <div className={styles.mainContent}>
         <div className={styles.section}>
           <h2>User Info</h2>
           <div className={styles.userInfo}>

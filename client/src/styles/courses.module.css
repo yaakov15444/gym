@@ -1,5 +1,5 @@
 .page {
-  width: 98.7vw;
+  height: auto;
 }
 
 .coursesContainer {
@@ -122,7 +122,6 @@ p {
 
 .courseDetailsContainer {
   padding: 20px;
-  width: 100vw;
   margin: 0 auto;
   text-align: center;
 }
@@ -154,11 +153,10 @@ p {
 .imageContainer {
   position: relative;
   margin-bottom: 20px;
+  float: left;
 }
 
 .courseImage {
-  width: 400px;
-  height: auto;
   border-radius: 10px;
   object-fit: cover;
   transition: transform 0.3s ease;
@@ -173,7 +171,6 @@ p {
   font-size: 1.2rem;
   color: #555;
   line-height: 1.6;
-  margin-bottom: 30px;
 }
 
 .scheduleContainer {

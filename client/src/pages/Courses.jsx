@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch"; // שימוש ב-useFetch כדי לשלוף קורסים
 import styles from "../styles/courses.module.css";
 import CourseDetails from "./CourseDetails";
@@ -34,11 +34,16 @@ const Courses = () => {
   return (
     <div className={styles.page}>
       <div className={styles.coursesContainer}>
-        <h1>Available Courses</h1>
-        <p className={styles.description}>
-          Join our dynamic courses designed to transform your fitness journey.
-          Choose from various styles and intensities to meet your goals.
-        </p>
+        {selectedCourse == null && (
+          <>
+            <h1>Available Courses</h1>
+            <p className={styles.description}>
+              Join our dynamic courses designed to transform your fitness
+              journey. Choose from various styles and intensities to meet your
+              goals.
+            </p>
+          </>
+        )}
         {loading && <p>Loading courses...</p>}
         {error && (
           <p>
