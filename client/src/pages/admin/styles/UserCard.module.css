@@ -1,29 +1,54 @@
 .card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 8px;
-    background-color: #f9f9f9;
+    background: #ffffff;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.deleteButton {
-    background-color: #e74c3c;
-    color: white;
+.card h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin: 5px 0;
+}
+
+.card p strong {
+    color: #2c3e50;
+}
+
+.card button {
+    background: #e74c3c;
+    color: #ffffff;
     border: none;
-    padding: 10px 16px;
-    border-radius: 4px;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 14px;
+    transition: background 0.3s ease;
+    align-self: stretch;
+    text-align: center;
 }
 
-.deleteButton:hover {
-    background-color: #c0392b;
+.card button:hover {
+    background: #c0392b;
+}
+
+.card button:active {
+    transform: scale(0.98);
 }

@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
     package: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Package'
+    },
+    profileImageUrl: { // שדה חדש לתמונת פרופיל
+        type: String,
+        default: null
     }
 },
 

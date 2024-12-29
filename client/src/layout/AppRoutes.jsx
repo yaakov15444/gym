@@ -17,6 +17,7 @@ import EditCourse from "../pages/admin/adminPages/EditCourse";
 import CoursesManagment from "../pages/admin/adminPages/CoursesManagment";
 import AdminHome from "../pages/admin/adminPages/AdminHome";
 import { AdminProvider } from "../pages/admin/adminPages/AdminContext";
+import AnnouncementsManagment from "../pages/admin/adminPages/AnnouncementsManagment";
 
 const AppRoutes = () => {
   const { user, loading } = useUser();
@@ -54,6 +55,10 @@ const AppRoutes = () => {
                     <Route path="/users" element={<UserManagement />} />
                     <Route path="/courses" element={<CoursesManagment />} />
                     <Route path="/courses/edit/:id" element={<EditCourse />} />
+                    <Route
+                      path="/Announcements"
+                      element={<AnnouncementsManagment />}
+                    />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </AdminProvider>

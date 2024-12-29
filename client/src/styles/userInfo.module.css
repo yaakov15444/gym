@@ -1,97 +1,89 @@
-/* הגדרות כלליות */
-body {
-  margin: 0;
-  font-family: "Roboto", sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
-}
-
-/* מכולת הדף */
 .container {
-  width: 80%;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
   padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
+
 .mainContent {
-  margin-bottom: 2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
-/* סגנון לחלקי הדף */
+
 .section {
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: #f9f9f9;
   padding: 20px;
-  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .section h2 {
-  color: #007bff;
-  margin-bottom: 20px;
-  text-align: center;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 10px;
-}
-
-.userInfo p,
-.packageInfo p,
-.coursesTable p {
-  margin: 8px 0;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.userInfo p strong,
-.packageInfo p strong {
-  color: #007bff;
-}
-
-/* עיצוב הקורסים */
-.coursesTable {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.courseCard {
-  background: #ffffff;
-  border: 1px solid #f0f0f0;
-  border-radius: 10px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.courseCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.courseCard img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.courseCard h3 {
   margin-bottom: 10px;
-  font-size: 1.2rem;
   color: #333;
 }
 
+.userInfo p,
+.packageInfo p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.coursesTable,
+.announcementsList {
+  max-height: 300px;
+  /* אזור גלילה */
+  overflow-y: auto;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.courseCard,
+.announcementItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fefefe;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.courseCard img {
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.courseCard h3,
+.announcementItem h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #222;
+}
+
+.courseCard p,
+.announcementItem p {
+  font-size: 14px;
+  color: #555;
+}
+
 .addToCalendarButton {
+  padding: 8px 12px;
   background: #007bff;
-  color: #fff;
+  color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1rem;
   transition: background 0.3s;
 }
 
@@ -99,120 +91,140 @@ body {
   background: #0056b3;
 }
 
-/* לוח שנה */
-
-/* כפתורים */
-button {
-  cursor: pointer;
+.announcementsSection h2 {
+  margin-bottom: 10px;
+  color: #333;
 }
 
-/* התאמות למסכים קטנים */
-@media screen and (max-width: 976px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
-
-  .coursesTable {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Main Calendar Container */
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+.googleSignIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
-  margin-top: 20px;
-  padding: 20px;
-  background: #f9f9f9;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Individual Day */
-.day {
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
+.signInButton {
+  padding: 10px 20px;
+  background: #ea4335;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.signInButton:hover {
+  background: #c5221f;
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .mainContent {
+    flex-direction: column;
+  }
+
+  .section {
+    padding: 15px;
+  }
+
+  .addToCalendarButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .courseCard img {
+    max-height: 100px;
+  }
+
+  .courseCard h3,
+  .announcementItem h3 {
+    font-size: 16px;
+  }
+
+  .courseCard p,
+  .announcementItem p {
+    font-size: 12px;
+  }
+}
+
+.profileImageSection {
   text-align: center;
-  font-size: 14px;
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
 }
 
-.day:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.profileImageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Current Day */
-.today {
-  background-color: #e6f7ff;
-  border: 2px solid #1890ff;
-  font-weight: bold;
+.profileImage {
+  width: 100px;
+  /* קוטר התמונה */
+  height: 100px;
+  border-radius: 50%;
+  /* הופך את התמונה לעגולה */
+  object-fit: cover;
+  /* כדי שהתמונה לא תתעוות */
+  border: 2px solid #ccc;
+  /* מסגרת דקה מסביב לתמונה */
+  margin-bottom: 10px;
 }
 
-/* Day with Events */
-.event {
-  background-color: #fffbe6;
-  border: 2px solid #fadb14;
-  font-weight: bold;
-}
-
-.event:hover {
-  background-color: #fff1b8;
-}
-
-/* Event Details */
-.day p {
-  margin: 5px 0 0;
+.placeholderImage {
+  width: 100px;
+  /* גודל הסמל במקום תמונה */
+  height: 100px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  /* צבע רקע אפור */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
-  color: #555;
-}
-
-.day .eventTitle {
-  font-weight: bold;
-  color: #333;
-}
-
-.day:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Current Day */
-.today {
-  background-color: #e6f7ff;
-  border: 2px solid #1890ff;
-  font-weight: bold;
-}
-
-/* Day with Events */
-.event {
-  background-color: #fffbe6;
-  border: 2px solid #fadb14;
-  font-weight: bold;
-}
-
-.event:hover {
-  background-color: #fff1b8;
-}
-
-/* Event Details */
-.day p {
-  margin: 5px 0 0;
-  font-size: 12px;
-  color: #555;
-}
-
-.day .eventTitle {
-  font-weight: bold;
-  color: #333;
-}
-
-.day .eventTime {
-  font-size: 11px;
   color: #888;
+  /* צבע טקסט */
+  border: 2px dashed #ccc;
+  /* מסגרת מקווקוות */
+}
+
+.changeImageButton,
+.uploadImageButton {
+  background-color: #007bff;
+  /* צבע רקע כחול */
+  color: #fff;
+  /* צבע טקסט לבן */
+  border: none;
+  border-radius: 5px;
+  /* פינות מעוגלות */
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  /* אנימציה חלקה */
+}
+
+.changeImageButton:hover,
+.uploadImageButton:hover {
+  background-color: #0056b3;
+  /* צבע כהה יותר במעבר עכבר */
+}
+
+.changeImageButton:active,
+.uploadImageButton:active {
+  background-color: #003f7f;
+  /* צבע לחיצה */
+}
+
+.changeImageButton:focus,
+.uploadImageButton:focus {
+  outline: none;
+  /* ביטול מסגרת ברירת המחדל */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  /* הדגשה בעת מיקוד */
 }

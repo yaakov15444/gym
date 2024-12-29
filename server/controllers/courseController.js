@@ -1,7 +1,5 @@
 const courseModel = require("../models/courseModel");
 const AppError = require("../utils/handleError");
-const path = require("path");
-
 const ctrlCourse = {
   async createCourse(req, res, next) {
     try {
@@ -207,6 +205,52 @@ const ctrlCourse = {
       next(new AppError("Internal server error", 500, error));
     }
   },
+  async getCourseStatistics(req, res, next) {
+    try {
+      // סך כל הקורסים
+      const totalCourses = await courseModel.countDocuments();
+
+      // קורסים מלאים (10 משתתפים)
+      const fullCourses = await courseModel.countDocuments({ "participants.9": { $exists: true } });
+
+      // קורסים ריקים (ללא משתתפים)
+      const emptyCourses = await courseModel.countDocuments({
+        participants: { $exists: true, $size: 0 },
+      });
+
+      // סך כל המשתתפים הייחודיים
+      const uniqueParticipants = await courseModel.aggregate([
+        { $unwind: "$participants" }, // פירוק מערך המשתתפים לשורות נפרדות
+        { $group: { _id: "$participants" } }, // קיבוץ לפי מזהי המשתמשים
+        { $count: "uniqueCount" }, // ספירה של מזהים ייחודיים
+      ]);
+
+      // סיכום נתונים לפי מאמנים
+      const coachData = await courseModel.aggregate([
+        { $match: { coach: { $exists: true, $ne: null } } }, // ודא שהמאמן קיים ואינו null
+        {
+          $group: {
+            _id: "$coach", // מקבץ לפי שם המאמן
+            courses: { $push: "$name" }, // רשימת שמות הקורסים של המאמן
+            totalParticipants: { $sum: { $size: "$participants" } }, // סך המשתתפים בכל הקורסים של המאמן
+          },
+        },
+      ]);
+
+      // החזרת הנתונים בתגובה ללקוח
+      res.status(200).json({
+        totalCourses,
+        fullCourses,
+        emptyCourses,
+        uniqueParticipants: uniqueParticipants[0]?.uniqueCount || 0,
+        coachData,
+      });
+    } catch (error) {
+      console.error("Error fetching course statistics:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
 };
 
 module.exports = ctrlCourse;

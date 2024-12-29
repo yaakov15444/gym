@@ -6,6 +6,8 @@ const { makeAdmin, removeAdmin } = require('./services/makeAdmin')
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 require('./db/connectToMongo');
+const expireAnnouncements = require('./jobs/expireAnnouncements')();
+
 const router = require('./routes/indexRouter');
 const corsOptions = {
     origin: "http://localhost:5173",

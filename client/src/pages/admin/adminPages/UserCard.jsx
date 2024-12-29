@@ -5,31 +5,26 @@ const UserCard = ({ user, onDelete }) => {
   return (
     <div className={styles.card}>
       <h3>{user.name}</h3>
+      <p>Email: {user.email}</p>
+      <p>Phone: {user.phone}</p>
+      <p>Role: {user.role}</p>
+      <p>Package: {user.package.name}</p>
+      {user.subscriptionStartDate && (
+        <>
+          <p>Subscription start: {user.subscriptionStartDate}</p>
+          <p>Subscription end: {user.subscriptionEndDate}</p>
+        </>
+      )}
       <p>
-        <strong>Email:</strong> {user.email}
+        Registered on:{" "}
+        {new Date(user.createdAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
       </p>
-      <p>
-        <strong>Phone:</strong> {user.phone}
-      </p>
-      <p>
-        <strong>Role:</strong> {user.role}
-      </p>
-      <p>
-        <strong>Subscription:</strong>{" "}
-        {user.subscriptionStartDate
-          ? `${new Date(
-              user.subscriptionStartDate
-            ).toLocaleDateString()} - ${new Date(
-              user.subscriptionEndDate
-            ).toLocaleDateString()}`
-          : "Not Subscribed"}
-      </p>
-      <button
-        className={styles.deleteButton}
-        onClick={() => onDelete(user._id)}
-      >
-        Delete User
-      </button>
+
+      <button onClick={() => onDelete(user._id)}>Delete User</button>
     </div>
   );
 };

@@ -86,7 +86,7 @@ const ctrl = {
   },
   async getAllUsers(req, res, next) {
     try {
-      const users = await userModel.find({});
+      const users = await userModel.find().populate("package");
       if (!users || users.length === 0) {
         console.log("No users found");
         return next(new AppError("No users found", 404));
@@ -211,6 +211,87 @@ const ctrl = {
       next(new AppError("Internal server error", 500, error));
     }
   },
+  async getUserStatistics(req, res, next) {
+    try {
+      // כמות משתמשים לפי תפקיד
+      const rolesCount = await userModel.aggregate([
+        { $group: { _id: "$role", count: { $sum: 1 } } }
+      ]);
+
+      // מנויים פעילים
+      const activeSubscriptions = await userModel.countDocuments({
+        subscriptionEndDate: { $gte: new Date() }
+      });
+
+      // משתמשים ללא מנוי
+      const noSubscription = await userModel.countDocuments({
+        $or: [
+          { subscriptionStartDate: { $exists: false } },
+          { subscriptionEndDate: { $exists: false } }
+        ]
+      });
+
+      // משתמשים לכל חבילה
+      const packageStats = await userModel.aggregate([
+        { $group: { _id: "$package", count: { $sum: 1 } } }
+      ]);
+
+      // משתמשים הרשומים לקורסים
+      const enrolledUsers = await userModel.countDocuments({
+        enrolledCourses: { $exists: true, $ne: [] }
+      });
+
+      // משתמשים ללא קורסים
+      const noCourses = await userModel.countDocuments({
+        enrolledCourses: { $exists: true, $size: 0 }
+      });
+
+      // משתמשים עם מנוי שפג תוקף
+      const expiredSubscriptions = await userModel.countDocuments({
+        subscriptionEndDate: { $lt: new Date() }
+      });
+
+      res.status(200).json({
+        totalUsers: await userModel.countDocuments(),
+        rolesCount,
+        activeSubscriptions,
+        noSubscription,
+        packageStats,
+        enrolledUsers,
+        noCourses,
+        expiredSubscriptions,
+      });
+    } catch (error) {
+      console.error("Error fetching user statistics:", error);
+      next(new AppError("Internal server error", 500, error));
+    }
+  },
+  async updateProfileImage(req, res, next) {
+    try {
+      const { profileImage } = req.body;
+
+      if (!profileImage) {
+        return next(new AppError("Profile image URL is required", 400));
+      }
+
+      const user = await userModel.findById(req.user._id);
+      if (!user) {
+        return next(new AppError("User not found", 404));
+      }
+
+      user.profileImageUrl = profileImage; // עדכון שדה התמונה במודל
+      await user.save();
+
+      res.status(200).json({
+        message: "Profile image updated successfully",
+        profileImage: user.profileImageUrl,
+      });
+    } catch (error) {
+      console.error("Error updating profile image:", error);
+      next(new AppError("Internal server error", 500, error));
+    }
+  }
+
 };
 
 module.exports = ctrl;

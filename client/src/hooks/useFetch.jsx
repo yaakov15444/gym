@@ -14,6 +14,8 @@ const useFetch = (url, typeRequest = "GET", body = null) => {
       setError(null);
       const options = {
         method: typeRequest,
+        credentials: "include",
+
         headers: {
           "Content-Type": "application/json",
         },

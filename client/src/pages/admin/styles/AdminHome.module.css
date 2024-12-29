@@ -1,32 +1,122 @@
 .container {
-    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+    min-height: 100vh;
+    font-family: "Roboto", sans-serif;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
     text-align: center;
+}
+
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .card {
-    display: inline-block;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px auto;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 30px 20px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    width: 200px;
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .card h2 {
-    font-size: 18px;
-    margin: 8px 0;
+    font-size: 1.6rem;
+    color: #34495e;
+    margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .card p {
-    margin: 4px 0;
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin: 8px 0;
+}
+
+.card:hover p {
+    color: #2980b9;
+}
+
+.card .icon {
+    font-size: 4rem;
+    color: #3498db;
+    margin-bottom: 20px;
+    transition: color 0.3s;
+}
+
+.card:hover .icon {
+    color: #1abc9c;
+}
+
+.cardOverlay {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 15px;
+    transition: background 0.3s ease-in-out;
+}
+
+.card:hover .cardOverlay {
+    background: rgba(26, 188, 156, 0.15);
+}
+
+.statsSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 40px;
+}
+
+.statsBox {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.statsBox:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.statsBox h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.statsBox p {
+    font-size: 1.2rem;
+    color: #7f8c8d;
 }

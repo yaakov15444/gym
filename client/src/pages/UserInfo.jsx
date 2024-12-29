@@ -12,7 +12,62 @@ const UserInfo = () => {
   const [packageUrl, setPackageUrl] = useState("");
   const [coursesUrl, setCoursesUrl] = useState("");
   const [userEvents, setUserEvents] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0]; // קבלת הקובץ מהמשתמש
+    if (!file) return;
 
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dizbc3u1u/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      console.log(response);
+
+      const data = await response.json();
+      console.log(data.secure_url);
+
+      updateUserProfileImage(data.secure_url);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Error uploading image. Please try again.");
+    } finally {
+      setUploading(false);
+    }
+  };
+  const updateUserProfileImage = async (imageUrl) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/users/updateProfileImage",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // כדי לשלוח את הטוקן לשרת
+          body: JSON.stringify({ profileImage: imageUrl }),
+        }
+      );
+
+      if (response.ok) {
+        alert("Profile image updated successfully!");
+        window.location.reload();
+      } else {
+        const errorData = await response.json();
+        console.error("Error updating profile image:", errorData);
+      }
+    } catch (error) {
+      console.error("Error updating profile image:", error);
+    }
+  };
   const session = useSession();
   const supabase = useSupabaseClient();
   // console.log(session);
@@ -45,6 +100,12 @@ const UserInfo = () => {
     loading: coursesLoading,
     error: coursesError,
   } = useFetch(coursesUrl);
+
+  const {
+    data: announcements,
+    loading: announcementsLoading,
+    error: announcementsError,
+  } = useFetch("http://localhost:3000/announcements/byUser");
   const formatSchedule = (schedule) => {
     return schedule
       .map((s) => {
@@ -75,11 +136,8 @@ const UserInfo = () => {
     }
   };
 
-  if (!user || packageLoading || coursesLoading) {
-    return <></>;
-  }
-  if (loading) {
-    return <></>;
+  if (!user || loading || announcementsLoading) {
+    return <div>טוען נתונים...</div>;
   }
   const calculateNextOccurrence = (schedule) => {
     const now = new Date();
@@ -346,6 +404,45 @@ const UserInfo = () => {
     <div className={styles.container}>
       {/* Main content */}
       <div className={styles.mainContent}>
+        <div className={styles.profileImageSection}>
+          <h2>תמונת פרופיל</h2>
+          <div className={styles.profileImageWrapper}>
+            {user && user.profileImageUrl ? (
+              <>
+                <img
+                  src={user.profileImageUrl}
+                  alt="Profile"
+                  className={styles.profileImage}
+                />
+                <button
+                  onClick={() => document.getElementById("fileInput").click()}
+                  className={styles.changeImageButton}
+                >
+                  שנה תמונה
+                </button>
+              </>
+            ) : (
+              <>
+                <div className={styles.placeholderImage}></div>
+                <button
+                  onClick={() => document.getElementById("fileInput").click()}
+                  className={styles.uploadImageButton}
+                >
+                  העלה תמונה
+                </button>
+              </>
+            )}
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+              onChange={handleImageUpload}
+              style={{ display: "none" }}
+            />
+          </div>
+          {uploading && <p>מעלה תמונה...</p>}
+        </div>
+
         <div className={styles.section}>
           <h2>User Info</h2>
           <div className={styles.userInfo}>
@@ -388,7 +485,7 @@ const UserInfo = () => {
                 <h3>{course.name}</h3>
                 <p>{course.description}</p>
                 <p>
-                  <strong>Coach:</strong> {course.coach.name}
+                  <strong>Coach:</strong> {course.coach}
                 </p>
                 <p>
                   <strong>Schedule:</strong> {formatSchedule(course.schedule)}
@@ -410,7 +507,29 @@ const UserInfo = () => {
           </div>
         </div>
       </div>
-
+      <div className={styles.announcementsSection}>
+        <h2>המודעות שלך</h2>
+        {announcementsError ? (
+          <p>שגיאה בטעינת המודעות</p>
+        ) : announcements.length === 0 ? (
+          <p>אין מודעות להצגה</p>
+        ) : (
+          <ul className={styles.announcementsList}>
+            {announcements.map((announcement) => (
+              <li key={announcement._id} className={styles.announcementItem}>
+                <h3>{announcement.title}</h3>
+                <p>{announcement.content}</p>
+                {announcement.expirationDate && (
+                  <p>
+                    <strong>תוקף:</strong>{" "}
+                    {new Date(announcement.expirationDate).toLocaleDateString()}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       {/* Calendar section */}
       <div className={styles.events}>
         <div className={styles.events}>

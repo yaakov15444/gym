@@ -5,7 +5,6 @@ import useFetch from "../hooks/useFetch";
 import { useUser } from "../contexts/UserProvider";
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
-import Footer from "../layout/Footer";
 
 const Home = () => {
   const [showCourses, setShowCourses] = useState([]);
@@ -14,35 +13,38 @@ const Home = () => {
   const [packageId, setPackageId] = useState("");
   const [selectedPackageName, setSelectedPackageName] = useState("");
   const { user } = useUser();
-  useEffect(() => {
-    if (selectedCourseId || packageId) {
-      handlePurchase();
-    }
-  }, [selectedCourseId, packageId]);
   const navigate = useNavigate();
+
   const {
     data: packages,
-    loading,
-    error,
-    response,
+    loading: packagesLoading,
+    error: packagesError,
   } = useFetch("http://localhost:3000/packages");
 
   const {
     data: courses,
-    loading: courseLoading,
-    error: courseError,
+    loading: coursesLoading,
+    error: coursesError,
   } = useFetch("http://localhost:3000/courses/all");
 
+  const {
+    data: generalAnnouncements,
+    loading: announcementsLoading,
+    error: announcementsError,
+  } = useFetch("http://localhost:3000/announcements/general");
+
   useEffect(() => {
-    setShowCourses(courses.slice(0, 3));
+    if (courses) {
+      setShowCourses(courses.slice(0, 3));
+    }
   }, [courses]);
+
   const handlePurchase = async () => {
     if (!user) {
       alert("You must be logged in to purchase a package!");
       return;
     }
 
-    // עדכון קוד בהתאם לסוג החבילה
     if (selectedPackageName === "Single Class Package" && !selectedCourseId) {
       setIsModalOpen(true);
       return;
@@ -57,11 +59,10 @@ const Home = () => {
         credentials: "include",
         body: JSON.stringify({
           userId: user._id,
-          packageId: packageId,
-          selectedCourseId: selectedCourseId,
+          packageId,
+          selectedCourseId,
         }),
       });
-      console.log("response", response, packageId, selectedCourseId);
 
       const data = await response.json();
 
@@ -69,7 +70,6 @@ const Home = () => {
         throw new Error(data.message || "Failed to initiate payment process");
       }
 
-      // פתיחת הקישור של פייפאל בחלון חדש
       window.open(data.approvalUrl, "_blank");
     } catch (error) {
       console.error("Error purchasing package:", error);
@@ -79,42 +79,37 @@ const Home = () => {
 
   return (
     <div className={styles.wrapper}>
-      {/* Image Section */}
       <section className={styles.imageSection}>
         <img src={GymPic} alt="Gym Image" className={styles.image} />
       </section>
-      {/* Gym Packages Section */}
+
       <section id="packages" className={styles.packagesSection}>
         <h2>Our Gym Packages</h2>
-        {loading ? (
+        {packagesLoading ? (
           <p>Loading...</p>
-        ) : error ? (
+        ) : packagesError ? (
           <p>Error loading packages!</p>
         ) : (
           <div className={styles.packages}>
-            {packages.map((pkg, i) => (
-              <div key={i} className={styles.package}>
+            {packages.map((pkg) => (
+              <div key={pkg._id} className={styles.package}>
                 <h3>{pkg.name}</h3>
                 <p>{pkg.description}</p>
                 <p>Price: {pkg.price}</p>
                 <button
                   onClick={() => {
-                    console.log("Button clicked!");
                     setPackageId(pkg._id);
                     setSelectedPackageName(pkg.name);
-                    console.log(pkg._id + " aaaaaaaa");
                   }}
                 >
                   Book Now
-                </button>{" "}
-                {/* הוספת הפונקציה כאן */}
+                </button>
               </div>
             ))}
           </div>
         )}
       </section>
 
-      {/* Courses Section */}
       <section id="courses" className={styles.coursesSection}>
         <h2
           className={styles.coursesHeader}
@@ -122,14 +117,14 @@ const Home = () => {
         >
           Our Courses
         </h2>
-        {courseLoading ? (
+        {coursesLoading ? (
           <p>Loading courses...</p>
-        ) : courseError ? (
-          <p>Error loading courses: {courseError.message}</p>
+        ) : coursesError ? (
+          <p>Error loading courses: {coursesError.message}</p>
         ) : (
           <div className={styles.courses}>
-            {showCourses.map((course, i) => (
-              <div key={i} className={styles.course}>
+            {showCourses.map((course) => (
+              <div key={course._id} className={styles.course}>
                 <img
                   src={course.image}
                   alt={course.name}
@@ -142,6 +137,7 @@ const Home = () => {
           </div>
         )}
       </section>
+
       {isModalOpen && (
         <Modal
           courses={courses}
@@ -149,6 +145,24 @@ const Home = () => {
           setIsModalOpen={setIsModalOpen}
         />
       )}
+
+      <aside className={styles.announcementsSidebar}>
+        <h3>Latest Announcements</h3>
+        {announcementsLoading ? (
+          <p>Loading announcements...</p>
+        ) : announcementsError ? (
+          <p>Error loading announcements: {announcementsError.message}</p>
+        ) : (
+          <ul className={styles.announcementsList}>
+            {generalAnnouncements.map((announcement) => (
+              <li key={announcement._id} className={styles.announcementItem}>
+                <h4>{announcement.title}</h4>
+                <p>{announcement.content}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </aside>
     </div>
   );
 };
