@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import UserCalendar from "./UserCalendar";
-import { BASE_URL } from "../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const UserInfo = () => {
   const { user, loading } = useUser();
@@ -50,7 +50,7 @@ const UserInfo = () => {
   };
   const updateUserProfileImage = async (imageUrl) => {
     try {
-      const response = await fetch(`${BASE_URL}users/updateProfileImage`, {
+      const response = await fetch(`${base_url}users/updateProfileImage`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -76,8 +76,8 @@ const UserInfo = () => {
 
   useEffect(() => {
     if (user && user.package) {
-      setPackageUrl(`${BASE_URL}packages/${user.package}`);
-      setCoursesUrl(`${BASE_URL}users/allUserCourses/${user._id}`);
+      setPackageUrl(`${base_url}packages/${user.package}`);
+      setCoursesUrl(`${base_url}users/allUserCourses/${user._id}`);
     }
   }, [user]);
 
@@ -107,7 +107,7 @@ const UserInfo = () => {
     data: announcements,
     loading: announcementsLoading,
     error: announcementsError,
-  } = useFetch(`${BASE_URL}announcements/byUser`);
+  } = useFetch(`${base_url}announcements/byUser`);
   const formatSchedule = (schedule) => {
     return schedule
       .map((s) => {

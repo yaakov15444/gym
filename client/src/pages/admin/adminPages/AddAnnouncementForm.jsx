@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAdmin } from "./AdminContext";
 import styles from "../styles/AddAnnouncementForm.module.css";
-import { BASE_URL } from "../../../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const AddAnnouncementForm = ({ onClose }) => {
   const { courses } = useAdmin(); // משיכת נתוני הקורסים מהקונטקסט
@@ -24,7 +24,7 @@ const AddAnnouncementForm = ({ onClose }) => {
       courseId: formData.courseId || null, // המרה של "" ל-null
     };
     try {
-      const response = await fetch(`${BASE_URL}announcements/create`, {
+      const response = await fetch(`${base_url}announcements/create`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

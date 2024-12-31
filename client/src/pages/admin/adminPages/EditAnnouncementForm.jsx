@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "../styles/EditAnnouncementForm.module.css";
-import { BASE_URL } from "../../../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const EditAnnouncementForm = ({ announcement, onClose }) => {
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const EditAnnouncementForm = ({ announcement, onClose }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${BASE_URL}announcements/${announcement._id}`,
+        `${base_url}announcements/${announcement._id}`,
         {
           method: "PATCH",
           credentials: "include",

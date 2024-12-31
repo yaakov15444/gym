@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Success.css";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const Success = () => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ const Success = () => {
         if (paymentId && packageId && userId) {
           setLoading(true);
 
-          const response = await fetch(`${BASE_URL}packages/purchase`, {
+          const response = await fetch(`${base_url}packages/purchase`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

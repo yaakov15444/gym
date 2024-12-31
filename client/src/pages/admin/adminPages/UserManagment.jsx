@@ -3,7 +3,7 @@ import { useAdmin } from "./AdminContext";
 import { useUser } from "../../../contexts/UserProvider";
 import UserCard from "./UserCard";
 import styles from "../styles/UserManagement.module.css"; // קובץ CSS מותאם אישית
-import { BASE_URL } from "../../../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const UserManagement = () => {
   const { users } = useAdmin();
@@ -13,7 +13,7 @@ const UserManagement = () => {
 
   const handleDelete = async (userId) => {
     try {
-      const response = await fetch(`${BASE_URL}users/admin/${userId}`, {
+      const response = await fetch(`${base_url}users/admin/${userId}`, {
         method: "DELETE",
         credentials: "include",
       });

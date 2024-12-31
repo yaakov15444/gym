@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/courses.module.css"; // ייבוא סגנונות עיצוב
 import { useUser } from "../contexts/UserProvider";
-import { BASE_URL } from "../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const CourseDetails = ({ course, onBack }) => {
   const { user } = useUser();
@@ -25,7 +25,7 @@ const CourseDetails = ({ course, onBack }) => {
     }
 
     try {
-      const response = await fetch(`${BASE_URL}packages/purchase`, {
+      const response = await fetch(`${base_url}packages/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

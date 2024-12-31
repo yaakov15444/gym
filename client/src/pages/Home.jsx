@@ -6,7 +6,7 @@ import { useUser } from "../contexts/UserProvider";
 import Modal from "./Modal";
 import { useLocation, useNavigate } from "react-router-dom";
 import CourseDetails from "./CourseDetails";
-import { BASE_URL } from "../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const Home = () => {
   const [showCourses, setShowCourses] = useState([]);
@@ -32,20 +32,20 @@ const Home = () => {
     loading,
     error,
     response,
-  } = useFetch(`${BASE_URL}packages`);
+  } = useFetch(`${base_url}packages`);
 
   const {
     data: courses,
     loading: courseLoading,
     error: courseError,
-  } = useFetch(`${BASE_URL}courses/all`);
+  } = useFetch(`${base_url}courses/all`);
   console.log(courses);
 
   const {
     data: announcement,
     loading: announcementLoading,
     error: announcementError,
-  } = useFetch(`${BASE_URL}announcements/general`);
+  } = useFetch(`${base_url}announcements/general`);
   useEffect(() => {
     setShowCourses(courses.slice(0, 3));
   }, [courses]);

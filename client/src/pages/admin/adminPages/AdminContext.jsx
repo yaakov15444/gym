@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 const AdminContext = createContext();
-import { BASE_URL } from "../../../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const AdminProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
@@ -14,7 +14,7 @@ const AdminProvider = ({ children }) => {
   };
   async function fetchUsers() {
     try {
-      const response = await fetch(`${BASE_URL}users/admin/allUsers`, {
+      const response = await fetch(`${base_url}users/admin/allUsers`, {
         method: "GET",
         credentials: "include",
       });
@@ -30,7 +30,7 @@ const AdminProvider = ({ children }) => {
   }
   async function fetchCourses() {
     try {
-      const response = await fetch(`${BASE_URL}courses/all`, {
+      const response = await fetch(`${base_url}courses/all`, {
         method: "GET",
         credentials: "include",
       });

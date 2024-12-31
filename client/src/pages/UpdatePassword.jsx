@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import formStyles from "../styles/formStyles.module.css";
-import { BASE_URL } from "../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const UpdatePassword = () => {
   const [req, setReq] = useState({
@@ -31,7 +31,7 @@ const UpdatePassword = () => {
     setReq({ loading: true, error: null });
 
     try {
-      const response = await fetch(`${BASE_URL}/users/updatePassword`, {
+      const response = await fetch(`${base_url}/users/updatePassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -8,7 +8,8 @@ import { useUser } from "../contexts/UserProvider";
 import { fetchData } from "../utils/fetchData";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { BASE_URL } from "../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
+
 const Login = () => {
   const { login } = useUser();
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const Login = () => {
     setReq({ ...req, loading: true });
     const { email } = data;
     try {
-      const response = await fetch(`${BASE_URL}/users/forgotPassword`, {
+      const response = await fetch(`${base_url}/users/forgotPassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -190,20 +191,17 @@ const Login = () => {
                   const accessToken = decodedCredential;
                   console.log(accessToken);
 
-                  const response = await fetch(
-                    `${BASE_URL}/users/google`,
-                    {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        email: email,
-                        token: accessToken,
-                      }),
-                      credentials: "include",
-                    }
-                  );
+                  const response = await fetch(`${base_url}/users/google`, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      email: email,
+                      token: accessToken,
+                    }),
+                    credentials: "include",
+                  });
                   if (!response.ok) {
                     const errorData = await response.json();
                     console.error("Login failed:", errorData.message);

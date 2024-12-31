@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../styles/EditCourse.module.css";
 import { useAdmin } from "./AdminContext";
-import { BASE_URL } from "../../../constants/endPoint";
+const base_url = import.meta.env.VITE_BASE_URL;
 
 const EditCourse = ({ course, onClose }) => {
   const [courseData, setCourseData] = useState({
@@ -63,7 +63,7 @@ const EditCourse = ({ course, onClose }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${BASE_URL}courses/admin/update/${course._id}`,
+        `${base_url}courses/admin/update/${course._id}`,
         {
           method: "PUT",
           credentials: "include",
