@@ -1,6 +1,6 @@
 const os = require("os");
 const QRCode = require("qrcode");
-
+const { server_address } = require("../secrets/dotenv");
 // פונקציה למציאת כתובת ה-IP של המחשב
 function getLocalIPAddress() {
     const interfaces = os.networkInterfaces();
@@ -13,12 +13,16 @@ function getLocalIPAddress() {
     }
     return "localhost"; // fallback אם לא נמצא IP
 }
-
+function getServerAddress() {
+    // משתמשים בכתובת מ-ENV לפרודקשן או בכתובת מקומית
+    return server_address || `${getLocalIPAddress()}:3000`;
+}
 // פונקציה ליצירת QR Code
 async function createQRCode(userId) {
+
     try {
-        const ipAddress = getLocalIPAddress(); // מציאת כתובת ה-IP
-        const url = `http://${ipAddress}:3000/gymVisit/${userId}`; // יצירת ה-URL
+        const serverAddress = getServerAddress(); // מציאת כתובת השרת
+        const url = `http://${serverAddress}/gymVisit/${userId}`; // יצירת ה-URL
 
         // יצירת ה-QR Code
         const qrCode = await QRCode.toDataURL(url);

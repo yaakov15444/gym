@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 const AdminContext = createContext();
+import { BASE_URL } from "../../../constants/endPoint";
 
 const AdminProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
@@ -13,13 +14,10 @@ const AdminProvider = ({ children }) => {
   };
   async function fetchUsers() {
     try {
-      const response = await fetch(
-        "http://localhost:3000/users/admin/allUsers",
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${BASE_URL}users/admin/allUsers`, {
+        method: "GET",
+        credentials: "include",
+      });
       const data = await response.json();
       if (response.ok) {
         setUsers(data);
@@ -32,7 +30,7 @@ const AdminProvider = ({ children }) => {
   }
   async function fetchCourses() {
     try {
-      const response = await fetch("http://localhost:3000/courses/all", {
+      const response = await fetch(`${BASE_URL}courses/all`, {
         method: "GET",
         credentials: "include",
       });

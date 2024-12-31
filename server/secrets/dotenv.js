@@ -9,7 +9,10 @@ const secrets = {
     paypal_client_id: process.env.PAYPAL_CLIENT_ID,
     paypal_secret: process.env.PAYPAL_SECRET,
     paypal_cancel_url: process.env.PAYPAL_CANCEL_URL,
-    paypal_success_url: process.env.PAYPAL_SUCCESS_URL
+    paypal_success_url: process.env.PAYPAL_SUCCESS_URL,
+    base_url_client: process.env.BASE_URL_CLIENT,
+    base_url_server: process.env.BASE_URL_SERVER,
+    server_address: process.env.SERVER_ADDRESS
 }
 
 module.exports = secrets

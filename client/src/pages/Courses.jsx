@@ -3,6 +3,7 @@ import useFetch from "../hooks/useFetch"; // שימוש ב-useFetch כדי לש�
 import styles from "../styles/courses.module.css";
 import CourseDetails from "./CourseDetails";
 import { useLocation } from "react-router-dom";
+import { BASE_URL } from "../constants/endPoint";
 
 const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -12,11 +13,7 @@ const Courses = () => {
       setSelectedCourse(null);
     }
   }, [location]);
-  const {
-    data: courses,
-    loading,
-    error,
-  } = useFetch("http://localhost:3000/courses/all");
+  const { data: courses, loading, error } = useFetch(`${BASE_URL}courses/all`);
 
   const formatSchedule = (schedule) => {
     return schedule

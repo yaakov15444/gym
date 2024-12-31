@@ -4,6 +4,7 @@ import { useAdmin } from "./AdminContext";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/AdminHome.module.css";
 import useFetch from "../../../hooks/useFetch";
+import { BASE_URL } from "../../../constants/endPoint";
 
 const AdminHome = () => {
   const { user } = useUser();
@@ -11,18 +12,18 @@ const AdminHome = () => {
   const navigate = useNavigate();
 
   const { data, loading, error } = useFetch(
-    "http://localhost:3000/announcements/statistics"
+    `${BASE_URL}announcements/statistics`
   );
   const {
     data: courseStats,
     loading: courseLoading,
     error: courseError,
-  } = useFetch("http://localhost:3000/courses/admin/statistics");
+  } = useFetch(`${BASE_URL}courses/admin/statistics`);
   const {
     data: userStats,
     loading: userLoading,
     error: userError,
-  } = useFetch("http://localhost:3000/users/admin/statistics");
+  } = useFetch(`${BASE_URL}users/admin/statistics`);
 
   if (loading || courseLoading || userLoading) {
     return <div className={styles.loading}>Loading statistics...</div>;

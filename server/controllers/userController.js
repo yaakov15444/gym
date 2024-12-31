@@ -5,7 +5,7 @@ const AppError = require("../utils/handleError");
 const createQRCode = require("../jobs/createQRCode");
 const { sendEmail } = require('../services/emailService');
 const jwt = require("jsonwebtoken");
-const { secret_key } = require("../secrets/dotenv");
+const { secret_key, base_url_server, base_url_client } = require("../secrets/dotenv");
 
 const ctrl = {
   async signup(req, res, next) {
@@ -44,7 +44,7 @@ const ctrl = {
         secret_key,
         { expiresIn: '24h' }
       );
-      const verificationLink = `http://localhost:3000/users/verify-email?token=${token}`;
+      const verificationLink = `${base_url_server}/users/verify-email?token=${token}`;
       const subject = "Email Verification";
       const text = "Please verify your email address.";
       const html = `
@@ -61,6 +61,8 @@ const ctrl = {
   },
   async login(req, res, next) {
     try {
+      console.log("Login request received");
+
       const user = await userModel.findOne({ email: req.body.email });
       if (!user) {
         console.log("User not found");
@@ -353,7 +355,7 @@ const ctrl = {
                 <h1 style="text-align: center; color: green;">Email Already Verified</h1>
                 <p style="text-align: center;">You have already verified your email address.</p>
                   <div style="text-align: center; margin-top: 20px;">
-        <a href="http://localhost:5173/Login" 
+        <a href="${base_url_client}/Login" 
            style="display: inline-block; padding: 10px 20px; background-color: blue; color: white; text-decoration: none; font-size: 16px; border-radius: 5px;">
            Go to Login
         </a>
@@ -369,7 +371,7 @@ const ctrl = {
             <h1 style="text-align: center; color: green;">Email Verified Successfully</h1>
             <p style="text-align: center;">Thank you for verifying your email address. You can now log in.</p>
               <div style="text-align: center; margin-top: 20px;">
-        <a href="http://localhost:5173/Login" 
+        <a href= "${base_url_client}/Login"
            style="display: inline-block; padding: 10px 20px; background-color: blue; color: white; text-decoration: none; font-size: 16px; border-radius: 5px;">
            Go to Login
         </a>
@@ -400,7 +402,7 @@ const ctrl = {
       const resetToken = jwt.sign({ userId: user._id }, secret_key, { expiresIn: "1h" });
 
       // יצירת קישור לשחזור סיסמה
-      const resetLink = `http://localhost:3000/users/resetPassword?token=${resetToken}`;
+      const resetLink = `${base_url_server}/users/resetPassword?token=${resetToken}`;
 
       // שליחת מייל למשתמש
       const subject = "Password Reset Request";
@@ -431,7 +433,7 @@ const ctrl = {
       if (!user) {
         return next(new AppError("User not found", 404));
       }
-      const resetPasswordUrl = `http://localhost:5173/updatePassword?token=${token}`;
+      const resetPasswordUrl = `${base_url_client}/updatePassword?token=${token}`;
       res.redirect(resetPasswordUrl);
     } catch (error) {
       console.error("Invalid or expired token:", error);

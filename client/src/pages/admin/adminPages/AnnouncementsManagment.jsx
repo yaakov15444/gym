@@ -3,6 +3,7 @@ import AddAnnouncementForm from "./AddAnnouncementForm.jsx";
 import EditAnnouncementForm from "./EditAnnouncementForm.jsx";
 import styles from "../styles/AnnouncementsManagment.module.css";
 import { useAdmin } from "./AdminContext.jsx";
+import { BASE_URL } from "../../../constants/endPoint";
 
 const AnnouncementsManagment = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -19,7 +20,7 @@ const AnnouncementsManagment = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:3000/announcements/all", {
+      const response = await fetch(`${BASE_URL}announcements/all`, {
         credentials: "include",
       });
       if (response.ok) {
@@ -39,13 +40,10 @@ const AnnouncementsManagment = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/announcements/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${BASE_URL}announcements/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       if (response.ok) {
         alert("Announcement deleted successfully!");
         fetchAnnouncements();
@@ -92,7 +90,7 @@ const AnnouncementsManagment = () => {
   const toggleAnnouncementStatus = async (id, currentStatus) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/announcements/toggle/${id}`, // תחליף את הכתובת לפי הצורך
+        `${BASE_URL}announcements/toggle/${id}`, // תחליף את הכתובת לפי הצורך
         {
           method: "PATCH",
           headers: {

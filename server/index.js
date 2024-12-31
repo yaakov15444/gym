@@ -1,15 +1,17 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const { port } = require('./secrets/dotenv');
+const { port, base_url_client } = require('./secrets/dotenv');
+
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 require('./db/connectToMongo');
 const expireAnnouncements = require('./jobs/expireAnnouncements')();
 const syncCourseParticipants = require('./jobs/syncCourseParticipants')();
 const router = require('./routes/indexRouter');
+
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: base_url_client,
     credentials: true
 };
 app.use(cors(corsOptions));
@@ -28,5 +30,5 @@ app.use(router);
 
 
 app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}`)
+    console.log(`Example app listening on port ${port}`)
 })

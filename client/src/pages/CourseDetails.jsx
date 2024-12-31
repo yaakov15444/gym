@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../styles/courses.module.css"; // ייבוא סגנונות עיצוב
 import { useUser } from "../contexts/UserProvider";
 import { BASE_URL } from "../constants/endPoint";
+
 const CourseDetails = ({ course, onBack }) => {
   const { user } = useUser();
   const formatSchedule = (schedule) => {
@@ -24,7 +25,7 @@ const CourseDetails = ({ course, onBack }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/packages/purchase", {
+      const response = await fetch(`${BASE_URL}packages/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

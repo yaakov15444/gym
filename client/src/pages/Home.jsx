@@ -6,6 +6,7 @@ import { useUser } from "../contexts/UserProvider";
 import Modal from "./Modal";
 import { useLocation, useNavigate } from "react-router-dom";
 import CourseDetails from "./CourseDetails";
+import { BASE_URL } from "../constants/endPoint";
 
 const Home = () => {
   const [showCourses, setShowCourses] = useState([]);
@@ -31,20 +32,20 @@ const Home = () => {
     loading,
     error,
     response,
-  } = useFetch("http://localhost:3000/packages");
+  } = useFetch(`${BASE_URL}packages`);
 
   const {
     data: courses,
     loading: courseLoading,
     error: courseError,
-  } = useFetch("http://localhost:3000/courses/all");
+  } = useFetch(`${BASE_URL}courses/all`);
   console.log(courses);
 
   const {
     data: announcement,
     loading: announcementLoading,
     error: announcementError,
-  } = useFetch("http://localhost:3000/announcements/general");
+  } = useFetch(`${BASE_URL}announcements/general`);
   useEffect(() => {
     setShowCourses(courses.slice(0, 3));
   }, [courses]);
@@ -87,7 +88,7 @@ const Home = () => {
       return; // סגירת הפונקציה אם אין קורסים זמינים
     }
     try {
-      const response = await fetch("http://localhost:3000/packages/purchase", {
+      const response = await fetch(`${BASE_URL}packages/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

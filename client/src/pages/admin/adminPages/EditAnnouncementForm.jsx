@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "../styles/EditAnnouncementForm.module.css";
+import { BASE_URL } from "../../../constants/endPoint";
 
 const EditAnnouncementForm = ({ announcement, onClose }) => {
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ const EditAnnouncementForm = ({ announcement, onClose }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/announcements/${announcement._id}`,
+        `${BASE_URL}announcements/${announcement._id}`,
         {
           method: "PATCH",
           credentials: "include",

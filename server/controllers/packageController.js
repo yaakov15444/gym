@@ -5,6 +5,7 @@ const AppError = require('../utils/handleError');
 const { sendEmail } = require('../services/emailService');
 const { createPayment, capturePayment } = require('../services/paymentService');
 const { text } = require('express');
+const { base_url_client } = require('../secrets/dotenv');
 const packageController = {
     async getAllPackages(req, res, next) {
         try {
@@ -35,8 +36,8 @@ const packageController = {
 
             // שלב 1: אם אין Payment ID, מתחילים תשלום
             if (!paymentId) {
-                const successUrl = `http://localhost:5173/success?packageId=${packageId}&userId=${userId}&courseId=${selectedCourseId}`;
-                const cancelUrl = `http://localhost:5173/cancel`;
+                const successUrl = `${base_url_client}/success?packageId=${packageId}&userId=${userId}&courseId=${selectedCourseId}`;
+                const cancelUrl = `${base_url_client}/cancel`;
 
                 const paymentResult = await createPayment(
                     package.price,

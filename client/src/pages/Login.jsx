@@ -8,7 +8,7 @@ import { useUser } from "../contexts/UserProvider";
 import { fetchData } from "../utils/fetchData";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-
+import { BASE_URL } from "../constants/endPoint";
 const Login = () => {
   const { login } = useUser();
   const navigate = useNavigate();
@@ -26,6 +26,8 @@ const Login = () => {
   const [isChangePassword, setIsChangePassword] = useState(false);
 
   const handleRequest = async (data) => {
+    console.log("login request");
+
     setReq({ ...req, loading: true });
     const {
       data: result,
@@ -47,16 +49,13 @@ const Login = () => {
     setReq({ ...req, loading: true });
     const { email } = data;
     try {
-      const response = await fetch(
-        "http://localhost:3000/users/forgotPassword",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/users/forgotPassword`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
       if (response.ok) {
         alert("A password reset email has been sent to your email address.");
@@ -192,7 +191,7 @@ const Login = () => {
                   console.log(accessToken);
 
                   const response = await fetch(
-                    "http://localhost:3000/users/google",
+                    `${BASE_URL}/users/google`,
                     {
                       method: "POST",
                       headers: {

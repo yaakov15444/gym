@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAdmin } from "./AdminContext";
 import styles from "../styles/AddAnnouncementForm.module.css";
+import { BASE_URL } from "../../../constants/endPoint";
 
 const AddAnnouncementForm = ({ onClose }) => {
   const { courses } = useAdmin(); // משיכת נתוני הקורסים מהקונטקסט
@@ -23,15 +24,12 @@ const AddAnnouncementForm = ({ onClose }) => {
       courseId: formData.courseId || null, // המרה של "" ל-null
     };
     try {
-      const response = await fetch(
-        "http://localhost:3000/announcements/create",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(`${BASE_URL}announcements/create`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       if (response.ok) {
         alert("Announcement added successfully!");

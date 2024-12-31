@@ -7,6 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import UserCalendar from "./UserCalendar";
+import { BASE_URL } from "../constants/endPoint";
+
 const UserInfo = () => {
   const { user, loading } = useUser();
   if (user) {
@@ -48,17 +50,14 @@ const UserInfo = () => {
   };
   const updateUserProfileImage = async (imageUrl) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/users/updateProfileImage",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // כדי לשלוח את הטוקן לשרת
-          body: JSON.stringify({ profileImage: imageUrl }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}users/updateProfileImage`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // כדי לשלוח את הטוקן לשרת
+        body: JSON.stringify({ profileImage: imageUrl }),
+      });
 
       if (response.ok) {
         alert("Profile image updated successfully!");
@@ -77,8 +76,8 @@ const UserInfo = () => {
 
   useEffect(() => {
     if (user && user.package) {
-      setPackageUrl(`http://localhost:3000/packages/${user.package}`);
-      setCoursesUrl(`http://localhost:3000/users/allUserCourses/${user._id}`);
+      setPackageUrl(`${BASE_URL}packages/${user.package}`);
+      setCoursesUrl(`${BASE_URL}users/allUserCourses/${user._id}`);
     }
   }, [user]);
 
@@ -108,7 +107,7 @@ const UserInfo = () => {
     data: announcements,
     loading: announcementsLoading,
     error: announcementsError,
-  } = useFetch("http://localhost:3000/announcements/byUser");
+  } = useFetch(`${BASE_URL}announcements/byUser`);
   const formatSchedule = (schedule) => {
     return schedule
       .map((s) => {
