@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -12,7 +11,6 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true,
         unique: true
     },
     password: {
@@ -35,10 +33,16 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Package'
     },
-    profileImageUrl: { // שדה חדש לתמונת פרופיל
+    profileImageUrl: {
         type: String,
         default: null
-    }
+    },
+    isEmailVerified: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+
 },
 
     {

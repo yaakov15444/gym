@@ -18,16 +18,17 @@ import CoursesManagment from "../pages/admin/adminPages/CoursesManagment";
 import AdminHome from "../pages/admin/adminPages/AdminHome";
 import { AdminProvider } from "../pages/admin/adminPages/AdminContext";
 import AnnouncementsManagment from "../pages/admin/adminPages/AnnouncementsManagment";
+import UpdatePassword from "../pages/UpdatePassword";
 
 const AppRoutes = () => {
   const { user, loading } = useUser();
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout Loding={loading} />}>
           <Route path="*" element={<NotFound />} />
           <Route path="" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -43,6 +44,7 @@ const AppRoutes = () => {
             <>
               <Route path="/Login" element={<Login />} />
               <Route path="/Signup" element={<Signup />} />
+              <Route path="/updatePassword" element={<UpdatePassword />} />
             </>
           )}
           {user && user.role === "Admin" && (

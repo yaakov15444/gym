@@ -2,9 +2,16 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch"; // שימוש ב-useFetch כדי לשלוף קורסים
 import styles from "../styles/courses.module.css";
 import CourseDetails from "./CourseDetails";
+import { useLocation } from "react-router-dom";
 
 const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === "/courses") {
+      setSelectedCourse(null);
+    }
+  }, [location]);
   const {
     data: courses,
     loading,
@@ -71,6 +78,19 @@ const Courses = () => {
                 <div className={styles.schedule}>
                   <strong>Schedule:</strong>{" "}
                   <span>{formatSchedule(course.schedule)}</span>
+                </div>
+                <div
+                  className={
+                    course.isAvailable
+                      ? styles.courseAvailable
+                      : styles.courseFull
+                  }
+                >
+                  {course.isAvailable ? (
+                    <span>{course.availableSlots} spots available</span>
+                  ) : (
+                    <span>No spots available</span>
+                  )}
                 </div>
               </div>
             ))}

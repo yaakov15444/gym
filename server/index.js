@@ -2,12 +2,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const { port } = require('./secrets/dotenv');
-const { makeAdmin, removeAdmin } = require('./services/makeAdmin')
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 require('./db/connectToMongo');
 const expireAnnouncements = require('./jobs/expireAnnouncements')();
-
+const syncCourseParticipants = require('./jobs/syncCourseParticipants')();
 const router = require('./routes/indexRouter');
 const corsOptions = {
     origin: "http://localhost:5173",
@@ -21,6 +20,9 @@ app.use((req, res, next) => {
 
     next();
 });
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 app.use(router);
 // app.use('/', express.static(path.join(__dirname, 'pictures')));
 

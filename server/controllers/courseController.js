@@ -1,5 +1,8 @@
 const courseModel = require("../models/courseModel");
 const AppError = require("../utils/handleError");
+const userModel = require("../models/userModel");
+
+
 const ctrlCourse = {
   async createCourse(req, res, next) {
     try {
@@ -26,13 +29,17 @@ const ctrlCourse = {
   },
   async getAllCourses(req, res, next) {
     try {
-      const courses = await courseModel.find({});
+      const courses = await courseModel.find({}).lean({ virtuals: true });
       if (!courses || courses.length === 0) {
         console.log("No courses found");
         return next(new AppError("No courses found", 404));
       }
+      const coursesWithAvailability = courses.map((course) => ({
+        ...course,
+        isAvailable: course.maxParticipants > course.participants.length,
+      }));
 
-      res.status(200).json(courses);
+      res.status(200).json(coursesWithAvailability);
     } catch (error) {
       console.log(error);
       next(new AppError("Internal server error", 500, error));
@@ -65,7 +72,7 @@ const ctrlCourse = {
       }
 
       // עדכון דינמי רק של השדות שנשלחו
-      const fieldsToUpdate = ["name", "description", "coach", "schedule"];
+      const fieldsToUpdate = ["name", "description", "coach", "schedule", "maxParticipants"];
       fieldsToUpdate.forEach((field) => {
         if (req.body[field] !== undefined) {
           course[field] = req.body[field];

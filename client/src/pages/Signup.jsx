@@ -79,7 +79,7 @@ const Signup = () => {
                   type="text"
                   id="phone"
                   name="phone"
-                  {...register("phone", { required: "Phone is required" })}
+                  {...register("phone")}
                   className={formStyles.input}
                 />
                 {errors.phone && (

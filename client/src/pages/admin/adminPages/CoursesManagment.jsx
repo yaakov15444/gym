@@ -23,8 +23,8 @@ const CourseManagement = () => {
         <EditCourse course={editingCourse} onClose={handleCloseEdit} />
       ) : (
         <div className={styles.grid}>
-          {courses?.map((course) => (
-            <CourseCard key={course._id} course={course} onEdit={handleEdit} />
+          {courses?.map((course, i) => (
+            <CourseCard key={i} course={course} onEdit={handleEdit} />
           ))}
           {/* <CourseCard onEdit={handleEdit} /> */}
         </div>

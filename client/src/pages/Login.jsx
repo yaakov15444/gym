@@ -45,25 +45,21 @@ const Login = () => {
 
   const handleChangePassword = async (data) => {
     setReq({ ...req, loading: true });
-    const { email, currentPassword, newPassword } = data;
+    const { email } = data;
     try {
       const response = await fetch(
-        "http://localhost:3000/users/changePassword",
+        "http://localhost:3000/users/forgotPassword",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            email,
-            currentPassword,
-            newPassword,
-          }),
+          body: JSON.stringify({ email }),
         }
       );
 
       if (response.ok) {
-        alert("Password changed successfully!");
+        alert("A password reset email has been sent to your email address.");
         setIsChangePassword(false);
         reset();
       } else {
@@ -71,7 +67,7 @@ const Login = () => {
         alert(`Error: ${errorData.message}`);
       }
     } catch (error) {
-      alert("An error occurred while changing the password.");
+      alert("An error occurred while sending the reset password email.");
       console.error(error);
     } finally {
       setReq({ ...req, loading: false });
@@ -172,48 +168,8 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="currentPassword" className={formStyles.label}>
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    id="currentPassword"
-                    name="currentPassword"
-                    {...register("currentPassword", {
-                      required: "Current password is required",
-                    })}
-                    className={formStyles.input}
-                  />
-                  {errors.currentPassword && (
-                    <p className={formStyles.errorMessage}>
-                      {errors.currentPassword.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="newPassword" className={formStyles.label}>
-                    New Password
-                  </label>
-                  <input
-                    type="password"
-                    id="newPassword"
-                    name="newPassword"
-                    {...register("newPassword", {
-                      required: "New password is required",
-                    })}
-                    className={formStyles.input}
-                  />
-                  {errors.newPassword && (
-                    <p className={formStyles.errorMessage}>
-                      {errors.newPassword.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
                   <button type="submit" className={formStyles.button}>
-                    Change Password
+                    Submit
                   </button>
                 </div>
               </form>
@@ -223,7 +179,7 @@ const Login = () => {
               onClick={() => setIsChangePassword(!isChangePassword)}
               className={formStyles.linkButton}
             >
-              {isChangePassword ? "Back to Login" : "Change Password"}
+              {isChangePassword ? "Back to Login" : "Forgot Password?"}
             </button>
             <GoogleLogin
               onSuccess={async (credentialResponse) => {

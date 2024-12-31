@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/courses.module.css"; // ייבוא סגנונות עיצוב
 import { useUser } from "../contexts/UserProvider";
-
+import { BASE_URL } from "../constants/endPoint";
 const CourseDetails = ({ course, onBack }) => {
   const { user } = useUser();
   const formatSchedule = (schedule) => {

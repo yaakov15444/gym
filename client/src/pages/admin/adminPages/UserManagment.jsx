@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAdmin } from "./AdminContext";
 import { useUser } from "../../../contexts/UserProvider";
 import UserCard from "./UserCard";
@@ -7,6 +7,8 @@ import styles from "../styles/UserManagement.module.css"; // קובץ CSS מות
 const UserManagement = () => {
   const { users } = useAdmin();
   const { user } = useUser();
+  const [searchTerm, setSearchTerm] = useState(""); // State עבור שדה החיפוש
+  console.log(users);
 
   const handleDelete = async (userId) => {
     try {
@@ -30,12 +32,21 @@ const UserManagement = () => {
       alert("An error occurred while deleting the user.");
     }
   };
-
+  const filteredUsers = users.filter((currentUser) =>
+    currentUser.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   return (
     <div className={styles.container}>
       <h1>User Management</h1>
+      <input
+        type="text"
+        placeholder="Search users..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
+        className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
+      />
       <div className={styles.grid}>
-        {users
+        {filteredUsers
           .filter((currentUser) => currentUser._id !== user._id)
           .map((currentUser, index) => (
             <UserCard key={index} user={currentUser} onDelete={handleDelete} />

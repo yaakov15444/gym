@@ -9,6 +9,7 @@ const EditCourse = ({ course, onClose }) => {
     name: "",
     description: "",
     coach: "",
+    maxParticipants: 0,
     schedule: [],
   });
   const { refreshCourses } = useAdmin();
@@ -18,6 +19,7 @@ const EditCourse = ({ course, onClose }) => {
         name: course.name || "",
         description: course.description || "",
         coach: course.coach || "",
+        maxParticipants: course.maxParticipants || 0,
         schedule: course.schedule
           ? course.schedule.map((item) => ({
               day: item.day || "",
@@ -111,6 +113,16 @@ const EditCourse = ({ course, onClose }) => {
             type="text"
             name="coach"
             value={courseData.coach}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          maxParticipants:
+          <input
+            type="text"
+            name="maxParticipants"
+            value={courseData.maxParticipants}
             onChange={handleChange}
             required
           />

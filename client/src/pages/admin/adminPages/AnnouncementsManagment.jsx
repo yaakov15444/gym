@@ -12,6 +12,7 @@ const AnnouncementsManagment = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingAnnouncement, setEditingAnnouncement] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState(""); // State עבור שדה החיפוש
   const { courses } = useAdmin();
 
   const fetchAnnouncements = async () => {
@@ -82,6 +83,36 @@ const AnnouncementsManagment = () => {
   useEffect(() => {
     handleFilterChange(selectedFilter);
   }, [announcements]); // רענון הסינון כאשר המודעות משתנות
+  const filteredAnnouncementsSearch = filteredAnnouncements.filter(
+    (currentAnnouncement) =>
+      JSON.stringify(currentAnnouncement)
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+  );
+  const toggleAnnouncementStatus = async (id, currentStatus) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/announcements/toggle/${id}`, // תחליף את הכתובת לפי הצורך
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // שולח את העוגיות לשרת
+          body: JSON.stringify({ isActive: !currentStatus }), // הופך את הסטטוס
+        }
+      );
+      if (response.ok) {
+        fetchAnnouncements(); // רענון המודעות לאחר העדכון
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`);
+      }
+    } catch (err) {
+      console.error("Error updating announcement status:", err);
+      alert("An error occurred while updating the announcement status.");
+    }
+  };
 
   if (loading) {
     return <div>Loading announcements...</div>;
@@ -104,6 +135,13 @@ const AnnouncementsManagment = () => {
       ) : (
         <>
           <h1>Announcements Management</h1>
+          <input
+            type="text"
+            placeholder="Search users..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
+            className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
+          />
           <div className={styles.filterContainer}>
             <select
               value={selectedFilter}
@@ -134,7 +172,7 @@ const AnnouncementsManagment = () => {
           )}
           <div className={styles.grid}>
             {!showAddForm &&
-              filteredAnnouncements.map((announcement) => (
+              filteredAnnouncementsSearch.map((announcement) => (
                 <div key={announcement._id} className={styles.card}>
                   <h2>{announcement.title}</h2>
                   <p>
@@ -159,13 +197,31 @@ const AnnouncementsManagment = () => {
                       : "No expiration"}
                   </p>
                   <button
-                    className={styles.editButton}
+                    className={styles.editButton + " " + styles.buttonBase}
                     onClick={() => setEditingAnnouncement(announcement)}
                   >
                     Edit
                   </button>
                   <button
-                    className={styles.deleteButton}
+                    className={
+                      announcement.isActive
+                        ? styles.deactivateButton // עיצוב למצב פעיל
+                        : styles.activateButton + // עיצוב למצב לא פעיל
+                          " " +
+                          styles.buttonBase
+                    }
+                    onClick={() =>
+                      toggleAnnouncementStatus(
+                        announcement._id,
+                        announcement.isActive
+                      )
+                    }
+                  >
+                    {announcement.isActive ? "Deactivate" : "Activate"}
+                  </button>
+
+                  <button
+                    className={styles.deleteButton + " " + styles.buttonBase}
                     onClick={() => handleDelete(announcement._id)}
                   >
                     Delete

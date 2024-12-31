@@ -222,3 +222,17 @@ p {
   color: #333;
   /* צבע טקסט כהה */
 }
+
+.courseAvailable {
+  color: green;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.courseFull {
+  color: red;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 10px;
+}

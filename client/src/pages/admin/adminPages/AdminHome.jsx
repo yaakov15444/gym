@@ -25,7 +25,7 @@ const AdminHome = () => {
   } = useFetch("http://localhost:3000/users/admin/statistics");
 
   if (loading || courseLoading || userLoading) {
-    return <div>Loading statistics...</div>;
+    return <div className={styles.loading}>Loading statistics...</div>;
   }
 
   if (error || courseError || userError) {

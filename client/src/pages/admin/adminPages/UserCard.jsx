@@ -2,13 +2,15 @@ import React from "react";
 import styles from "../styles/UserCard.module.css"; // קובץ CSS מותאם אישית
 
 const UserCard = ({ user, onDelete }) => {
+  console.log(user.package);
+
   return (
     <div className={styles.card}>
       <h3>{user.name}</h3>
       <p>Email: {user.email}</p>
       <p>Phone: {user.phone}</p>
       <p>Role: {user.role}</p>
-      <p>Package: {user.package.name}</p>
+      {user.package && <p>Package: {user.package.name}</p>}
       {user.subscriptionStartDate && (
         <>
           <p>Subscription start: {user.subscriptionStartDate}</p>

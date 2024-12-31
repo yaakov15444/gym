@@ -9,7 +9,9 @@ const Modal = ({ courses, setSelectedCourseId, setIsModalOpen }) => {
   };
 
   const handleClose = () => {
-    setIsModalOpen(false); // סגירת המודל בלי לבחור
+    setSelectedCourseId("");
+    setIsModalOpen(false);
+    window.location.reload();
   };
 
   return (

@@ -11,7 +11,11 @@ const {
   changePassword,
   loginWithGoogle,
   getUserStatistics,
-  updateProfileImage
+  updateProfileImage,
+  verifyEmail,
+  forgotPassword,
+  verifyResetToken,
+  updatePassword
 } = require("../controllers/userController");
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddlewareAdmin = require("../middleware/adminMiddlewareAdmin");
@@ -28,6 +32,10 @@ router.get("/isLoggedIn", isLoggedIn);
 router.get("/allUserCourses/:id", getAllUserCourses);
 router.post("/changePassword", changePassword);
 router.patch("/updateProfileImage", authMiddleware, updateProfileImage);
+router.get("/verify-email/", verifyEmail);
+router.post("/forgotPassword", forgotPassword);
+router.get("/resetPassword", verifyResetToken);
+router.post("/updatePassword", updatePassword);
 // Admin routes
 const adminRouter = express.Router();
 adminRouter.use(authMiddleware, adminMiddlewareAdmin);

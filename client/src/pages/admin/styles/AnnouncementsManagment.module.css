@@ -3,7 +3,10 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Filter Dropdown */
@@ -20,6 +23,13 @@
     outline: none;
     max-width: 300px;
     width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filterContainer select:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
 }
 
 /* Add Button */
@@ -32,11 +42,13 @@
     font-size: 1rem;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
 .addButton:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 /* Grid Layout */
@@ -44,28 +56,33 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+    padding: 20px 0;
 }
 
 /* Card */
 .card {
-    background: #fff;
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Card Title */
 .card h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 /* Card Content */
@@ -73,38 +90,80 @@
     font-size: 1rem;
     color: #555;
     margin: 5px 0;
+    line-height: 1.5;
 }
 
 /* Buttons Inside Cards */
 .editButton,
-.deleteButton {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
+.deleteButton,
+.deactivateButton,
+.activateButton {
+    margin-top: 10px;
     font-size: 0.9rem;
+    padding: 8px 16px;
     border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 10px;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+    /* רוחב מינימלי */
+    max-width: 180px;
+    max-height: fit-content;
+    /* רוחב מקסימלי */
+    display: inline-block;
+}
+
+/* Specific Button Styles */
+.editButton {
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
 }
 
 .editButton:hover {
     background-color: #218838;
+    box-shadow: 0 6px 12px rgba(33, 136, 56, 0.3);
 }
 
 .deleteButton {
     background-color: #dc3545;
+    color: white;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
 }
 
 .deleteButton:hover {
     background-color: #c82333;
+    box-shadow: 0 6px 12px rgba(200, 35, 51, 0.3);
+}
+
+.deactivateButton {
+    background-color: #ff6f61;
+    color: white;
+    box-shadow: 0 4px 8px rgba(255, 111, 97, 0.2);
+}
+
+.deactivateButton:hover {
+    background-color: #ff3e30;
+    box-shadow: 0 6px 12px rgba(255, 62, 48, 0.3);
+}
+
+.activateButton {
+    background-color: #4caf50;
+    color: white;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
+.activateButton:hover {
+    background-color: #388e3c;
+    box-shadow: 0 6px 12px rgba(56, 142, 60, 0.3);
 }
 
 /* Responsive Adjustments */
 @media screen and (max-width: 768px) {
     .container {
-        padding: 10px;
+        padding: 15px;
     }
 
     .filterContainer select {
@@ -117,7 +176,7 @@
     }
 
     .card h2 {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
     }
 
     .card p {
@@ -125,9 +184,11 @@
     }
 
     .editButton,
-    .deleteButton {
+    .deleteButton,
+    .deactivateButton,
+    .activateButton {
         padding: 6px 12px;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
 }
 
@@ -138,11 +199,12 @@
 
     .addButton {
         width: 100%;
-        text-align: center;
     }
 
     .editButton,
-    .deleteButton {
+    .deleteButton,
+    .deactivateButton,
+    .activateButton {
         width: 100%;
         margin-bottom: 10px;
     }

@@ -9,6 +9,9 @@ import "react-calendar/dist/Calendar.css";
 import UserCalendar from "./UserCalendar";
 const UserInfo = () => {
   const { user, loading } = useUser();
+  if (user) {
+    console.log(user.qrCode);
+  }
   const [packageUrl, setPackageUrl] = useState("");
   const [coursesUrl, setCoursesUrl] = useState("");
   const [userEvents, setUserEvents] = useState([]);
@@ -455,6 +458,19 @@ const UserInfo = () => {
             <p>
               <strong>Phone:</strong> {user.phone}
             </p>
+          </div>
+          <div className={styles.qrCodeSection}>
+            <h2>Scan the QR Code</h2>
+            <p>For gym entry, scan the QR code below:</p>
+            {user.qrCode ? (
+              <img
+                src={user.qrCode}
+                alt="QR Code for Gym Entry"
+                className={styles.qrCodeImage}
+              />
+            ) : (
+              <p>Loading QR Code...</p>
+            )}
           </div>
         </div>
 

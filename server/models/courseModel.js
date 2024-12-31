@@ -17,12 +17,23 @@ const courseSchema = new mongoose.Schema(
     },
     participants: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-      validate: [arrayLimit, "{PATH} exceeds the limit of 10 participants"],
+      validate: [
+        function (val) {
+          return val.length <= this.maxParticipants;
+        },
+        "{PATH} exceeds the maximum number of participants",
+      ],
     },
     image: {
       // שדה חדש לתמונה
       type: String,
       required: false,
+    },
+    maxParticipants: {
+      type: Number,
+      required: true,
+      default: 20, // ערך ברירת מחדל
+      min: 1, // מינימום של משתתף אחד
     },
     schedule: [
       {
@@ -50,20 +61,15 @@ const courseSchema = new mongoose.Schema(
       },
     ],
   },
+
   {
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    versionKey: false // ביטול מעקב גרסה
   }
 );
-function arrayLimit(val) {
-  return val.length <= 10;
-}
-courseSchema.virtual("currentParticipants").get(function () {
-  return this.participants.length;
-});
-
-courseSchema.virtual("availableSlots").get(function () {
-  return 10 - this.participants.length;
+courseSchema.virtual("isAvailable").get(function () {
+  return this.maxParticipants > this.participants.length;
 });
 module.exports = mongoose.model("Course", courseSchema);
