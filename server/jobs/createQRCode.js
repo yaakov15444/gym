@@ -4,6 +4,7 @@ const { base_url_client } = require("../secrets/dotenv");
 async function createQRCode() {
     try {
         const url = `${base_url_client}/phoneLogin`;
+        console.log(url);
 
         // יצירת ה-QR Code
         const qrCode = await QRCode.toDataURL(url);
