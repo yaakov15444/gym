@@ -5,7 +5,7 @@ const AppError = require("../utils/handleError");
 const createQRCode = require("../jobs/createQRCode");
 const { sendEmail } = require('../services/emailService');
 const jwt = require("jsonwebtoken");
-const { secret_key, base_url_server, base_url_client } = require("../secrets/dotenv");
+const { secret_key, base_url_server, base_url_client, node_env } = require("../secrets/dotenv");
 
 const ctrl = {
   async signup(req, res, next) {
@@ -81,11 +81,11 @@ const ctrl = {
         { _id: user._id, role: user.role },
         "30d"
       );
-      res.cookie("accessToken", "bearer " + accessToken, {
+      res.cookie("accessToken", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 ימים
+        secure: node_env === "production", // חובה בפרודקשן
+        sameSite: node_env === "production" ? "none" : "lax",
+        maxAge: 1000 * 60 * 60 * 24 * 30, // תוקף של 30 ימים
       });
       res.status(200).json({ message: "User logged in successfully" });
     } catch (error) {
@@ -241,11 +241,11 @@ const ctrl = {
       );
       console.log("User logged in successfully");
 
-      res.cookie("accessToken", "bearer " + accessToken, {
+      res.cookie("accessToken", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 ימים
+        secure: node_env === "production", // חובה בפרודקשן
+        sameSite: node_env === "production" ? "none" : "lax",
+        maxAge: 1000 * 60 * 60 * 24 * 30, // תוקף של 30 ימים
       });
       console.log("User logged in successfully");
 

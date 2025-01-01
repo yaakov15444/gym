@@ -12,7 +12,8 @@ const secrets = {
     paypal_success_url: process.env.PAYPAL_SUCCESS_URL,
     base_url_client: process.env.BASE_URL_CLIENT,
     base_url_server: process.env.BASE_URL_SERVER,
-    server_address: process.env.SERVER_ADDRESS
+    server_address: process.env.SERVER_ADDRESS,
+    node_env: process.env.NODE_ENV
 }
 
 module.exports = secrets
