@@ -57,6 +57,8 @@ const Home = () => {
     }
   }, [location]);
   const handlePurchase = async () => {
+    console.log("packageId:", packageId, selectedCourseId);
+
     if (!user) {
       alert("You must be logged in to purchase a package!");
       return;
@@ -88,7 +90,7 @@ const Home = () => {
       return; // סגירת הפונקציה אם אין קורסים זמינים
     }
     try {
-      const response = await fetch(`${BASE_URL}packages/purchase`, {
+      const response = await fetch(`${base_url}packages/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -145,10 +147,9 @@ const Home = () => {
                 <button
                   className={styles.bookButton}
                   onClick={() => {
-                    console.log("Button clicked!");
                     setPackageId(pkg._id);
                     setSelectedPackageName(pkg.name);
-                    handlePurchase();
+                    // handlePurchase();
                   }}
                 >
                   Book Now
