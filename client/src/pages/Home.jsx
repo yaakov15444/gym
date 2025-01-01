@@ -129,7 +129,7 @@ const Home = () => {
         <img src={GymPic} alt="Gym Image" className={styles.image} />
       </section>
       {/* Gym Packages Section */}
-      <section id="packages" className={styles.packagesSection}>
+      <section id="packages" className={styles.section}>
         <h2>Our Gym Packages</h2>
         {loading ? (
           <p>Loading...</p>
@@ -161,7 +161,7 @@ const Home = () => {
       </section>
 
       {/* Courses Section */}
-      <section id="courses" className={styles.coursesSection}>
+      <section id="courses" className={styles.section}>
         <h2 className={styles.coursesHeader}>Our Popular Courses</h2>
         {courseLoading ? (
           <p>Loading courses...</p>
@@ -193,59 +193,23 @@ const Home = () => {
           </>
         )}
       </section>
-      {announcementLoading ? (
-        <p>Loading announcements...</p>
-      ) : announcementError ? (
-        <p>Error loading announcements: {announcementError.message}</p>
-      ) : (
-        <div className={styles.courses}>
-          {announcement.map((announcement, i) => (
-            <div key={i} className={styles.course}>
-              <h3>{announcement.title}</h3>
-              <p>{announcement.content}</p>
-            </div>
-          ))}
-        </div>
-      )}
-      <section className={styles.announcementsSidebar}>
-        <h3>Latest Announcements</h3>
+      <section className={styles.section}>
+        <h2 className={styles.coursesHeader}>Announcements</h2>
         {announcementLoading ? (
           <p>Loading announcements...</p>
         ) : announcementError ? (
           <p>Error loading announcements: {announcementError.message}</p>
         ) : (
-          <ul className={styles.announcementsList}>
-            {generalAnnouncements.map((announcement) => (
-              <li key={announcement._id} className={styles.announcementItem}>
-                <h4>{announcement.title}</h4>
+          <div className={styles.courses}>
+            {announcement.map((announcement, i) => (
+              <div key={i} className={styles.course}>
+                <h3>{announcement.title}</h3>
                 <p>{announcement.content}</p>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </section>
-      <footer className={styles.footer}>
-        <div className={styles.footerLinks}>
-          <ul>
-            <li>
-              <a href="#about">About Us</a>
-            </li>
-            <li>
-              <a href="#contact">Contact Us</a>
-            </li>
-            <li>
-              <a href="#faq">FAQ</a>
-            </li>
-            <li>
-              <a href="#branches">Branches</a>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.footerContact}>
-          <p>Phone: 9940*</p>
-          <p>Email: contact@holmesplace.co.il</p>
-        </div>
-      </footer>
       {isModalOpen && (
         <Modal
           courses={courses}
