@@ -77,11 +77,11 @@ const ctrl = {
         console.log("Email not verified");
         return next(new AppError("Email not verified", 401));
       }
-      const token = generateToken(
+      const accessToken = generateToken(
         { _id: user._id, role: user.role },
         "30d"
       );
-      res.cookie("accessToken", token, {
+      res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
         secure: node_env === "production", // חובה בפרודקשן
         sameSite: node_env === "production" ? "none" : "lax",
@@ -242,7 +242,7 @@ const ctrl = {
       );
       console.log("User logged in successfully");
 
-      res.cookie("accessToken", token, {
+      res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
         secure: node_env === "production", // חובה בפרודקשן
         sameSite: node_env === "production" ? "none" : "lax",
