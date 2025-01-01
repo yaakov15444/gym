@@ -7,7 +7,7 @@ import Signup from "../pages/Signup";
 import Navbar from "./Navbar";
 import NotFound from "../pages/NotFound";
 import Success from "../pages/Success";
-import SuccessMessage from "../pages/successMessage";
+import SuccessMessage from "../pages/SuccessMessage";
 import About from "../pages/About";
 import UserInfo from "../pages/UserInfo";
 import Courses from "../pages/Courses";
