@@ -86,6 +86,7 @@ const ctrl = {
         secure: node_env === "production", // חובה בפרודקשן
         sameSite: node_env === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 24 * 30, // תוקף של 30 ימים
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
       });
       res.status(200).json({ message: "User logged in successfully" });
     } catch (error) {
@@ -246,6 +247,8 @@ const ctrl = {
         secure: node_env === "production", // חובה בפרודקשן
         sameSite: node_env === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 24 * 30, // תוקף של 30 ימים
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+
       });
       console.log("User logged in successfully");
 
