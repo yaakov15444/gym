@@ -102,6 +102,8 @@ const ctrl = {
         return next(new AppError("User not found", 404));
       }
       const qrCode = await createQRCode();
+      console.log(qrCode);
+
       userWithQr = {
         ...user.toObject(), // המרה לאובייקט JSON רגיל
         qrCode, // הוספת המפתח החדש
