@@ -84,6 +84,7 @@ const ctrl = {
       res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
         secure: false,
+        sameSite: "strict",
       });
       res.status(200).json({ message: "User logged in successfully" });
     } catch (error) {
@@ -242,6 +243,8 @@ const ctrl = {
       res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
         secure: false,
+        sameSite: "strict",   // מונע שליחה בין אתרים
+
       });
       console.log("User logged in successfully");
 
