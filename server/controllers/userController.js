@@ -77,7 +77,7 @@ const ctrl = {
         console.log("Email not verified");
         return next(new AppError("Email not verified", 401));
       }
-      const accessToken = generateToken(
+      const token = generateToken(
         { _id: user._id, role: user.role },
         "30d"
       );
