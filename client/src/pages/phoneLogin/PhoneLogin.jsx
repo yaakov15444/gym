@@ -1,11 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const base_url = import.meta.env.VITE_BASE_URL;
 
 const PhoneLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const response = await fetch(`${base_url}users/userInfo`, {
+          method: "GET",
+          credentials: "include", // מאפשר שליחת קוקיז עם הבקשה
+        });
+
+        if (response.ok) {
+          // אם קיבלת פרטי משתמש, תנווט לדף /gymVisit
+          navigate("/gymVisit");
+        }
+      } catch (error) {
+        // אם הייתה שגיאה, לא נעשה כלום ונתן למשתמש לראות את האתר
+      }
+    };
+
+    checkUser();
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,12 +62,26 @@ const PhoneLogin = () => {
         borderRadius: "8px",
       }}
     >
-      <h2>Login</h2>
+      <h2
+        style={{
+          textAlign: "center",
+          marginBottom: "20px",
+        }}
+      >
+        Login
+      </h2>
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "15px" }}>
+        <div
+          style={{
+            marginBottom: "15px",
+          }}
+        >
           <label
             htmlFor="email"
-            style={{ display: "block", marginBottom: "5px" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
           >
             Email:
           </label>
@@ -63,10 +99,17 @@ const PhoneLogin = () => {
             required
           />
         </div>
-        <div style={{ marginBottom: "15px" }}>
+        <div
+          style={{
+            marginBottom: "15px",
+          }}
+        >
           <label
             htmlFor="password"
-            style={{ display: "block", marginBottom: "5px" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+            }}
           >
             Password:
           </label>
@@ -93,11 +136,42 @@ const PhoneLogin = () => {
             background: "#007BFF",
             color: "#fff",
             cursor: "pointer",
+            width: "100%",
           }}
         >
           Login
         </button>
       </form>
+
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .login-container {
+              padding: 15px;
+            }
+            h2 {
+              font-size: 24px;
+            }
+            input,
+            button {
+              padding: 12px;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .login-container {
+              padding: 10px;
+            }
+            h2 {
+              font-size: 20px;
+            }
+            input,
+            button {
+              padding: 10px;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
