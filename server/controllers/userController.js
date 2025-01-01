@@ -83,7 +83,7 @@ const ctrl = {
       );
       res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "strict",
       });
       res.status(200).json({ message: "User logged in successfully" });
