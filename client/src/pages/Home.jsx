@@ -97,9 +97,11 @@ const Home = () => {
                 <p>{pkg.description}</p>
                 <p>Price: {pkg.price}</p>
                 <button
+                  className={styles.bookButton}
                   onClick={() => {
                     setPackageId(pkg._id);
                     setSelectedPackageName(pkg.name);
+                    handlePurchase();
                   }}
                 >
                   Book Now
@@ -111,30 +113,35 @@ const Home = () => {
       </section>
 
       <section id="courses" className={styles.coursesSection}>
-        <h2
-          className={styles.coursesHeader}
-          onClick={() => navigate("/courses")}
-        >
-          Our Courses
-        </h2>
+        <h2 className={styles.coursesHeader}>Our Popular Courses</h2>
         {coursesLoading ? (
           <p>Loading courses...</p>
         ) : coursesError ? (
           <p>Error loading courses: {coursesError.message}</p>
         ) : (
-          <div className={styles.courses}>
-            {showCourses.map((course) => (
-              <div key={course._id} className={styles.course}>
-                <img
-                  src={course.image}
-                  alt={course.name}
-                  className={styles.courseImage}
-                />
-                <h3>{course.name}</h3>
-                <p>{course.description}</p>
-              </div>
-            ))}
-          </div>
+          <>
+            <div className={styles.courses}>
+              {showCourses.map((course) => (
+                <div key={course._id} className={styles.course}>
+                  <img
+                    src={course.image}
+                    alt={course.name}
+                    className={styles.courseImage}
+                  />
+                  <h3>{course.name}</h3>
+                  <p>{course.description}</p>
+                </div>
+              ))}
+            </div>
+            <div className={styles.moreCoursesContainer}>
+              <h5
+                onClick={() => navigate("/courses")}
+                className={styles.moreCourses}
+              >
+                More Courses
+              </h5>
+            </div>
+          </>
         )}
       </section>
 
@@ -146,7 +153,7 @@ const Home = () => {
         />
       )}
 
-      <aside className={styles.announcementsSidebar}>
+      <section className={styles.announcementsSidebar}>
         <h3>Latest Announcements</h3>
         {announcementsLoading ? (
           <p>Loading announcements...</p>
@@ -162,7 +169,7 @@ const Home = () => {
             ))}
           </ul>
         )}
-      </aside>
+      </section>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Success.css";
+import styles from "../styles/success.module.css";
 import { useNavigate } from "react-router-dom";
 
 const Success = () => {
@@ -59,15 +59,17 @@ const Success = () => {
   }, [navigate]); // הוספת navigate כתלות
 
   if (loading) {
-    return <h1 className="success-container">Loading Payment Processing...</h1>;
+    return (
+      <h1 className={styles.successContainer}>Loading Payment Processing...</h1>
+    );
   }
 
   if (error) {
     return (
-      <div className="success-container error-container">
+      <div className={styles.successContainer + styles.errorContainer}>
         <h1>Payment Failed</h1>
         <p>{error}</p>
-        <button onClick={() => navigate("/")}>
+        <button className={styles.button} onClick={() => navigate("/")}>
           {" "}
           // שימוש ב-navigate במקום window.location.href Back to Home
         </button>
@@ -76,10 +78,12 @@ const Success = () => {
   }
 
   if (message) {
-    return <h1 className="success-container">{message}</h1>; // הוספת תצוגת ההודעה
+    return <h1 className={styles.successContainer}>{message}</h1>; // הוספת תצוגת ההודעה
   }
 
-  return <h1 className="success-container">No Payment Information Found</h1>;
+  return (
+    <h1 className={styles.successContainer}>No Payment Information Found</h1>
+  );
 };
 
 export default Success;

@@ -63,8 +63,8 @@ const Courses = () => {
                   alt={course.name}
                   className={styles.courseImage}
                 />
-                <h3>{course.name}</h3>
-                <p>{course.description}</p>
+                <h3 className={styles.courseName}>{course.name}</h3>
+                <p className={styles.courseDescription}>{course.description}</p>
                 <div className={styles.coach}>
                   <strong>Coach:</strong> <span>{course.coach}</span>
                 </div>
