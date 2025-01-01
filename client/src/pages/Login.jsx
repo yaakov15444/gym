@@ -212,6 +212,7 @@ const Login = () => {
                     console.log("Login successful");
                     login();
                     navigate("/");
+                    reset();
                   } else {
                     console.error("Login failed");
                   }

@@ -227,6 +227,8 @@ const ctrl = {
   async loginWithGoogle(req, res, next) {
     try {
       const { email } = req.body;
+      console.log(email);
+
       if (!email) {
         console.log("Email not provided");
         return next(new AppError("Email is required", 400));
@@ -240,15 +242,12 @@ const ctrl = {
         { _id: user._id, role: user.role },
         "30d"
       );
-      console.log("User logged in successfully");
-
       res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
         secure: node_env === "production", // חובה בפרודקשן
         sameSite: node_env === "production" ? "none" : "lax",
         maxAge: 1000 * 60 * 60 * 24 * 30, // תוקף של 30 ימים
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
-
       });
       console.log("User logged in successfully");
 
