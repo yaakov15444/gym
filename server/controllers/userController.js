@@ -84,7 +84,8 @@ const ctrl = {
       res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
+        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 ימים
       });
       res.status(200).json({ message: "User logged in successfully" });
     } catch (error) {
