@@ -57,6 +57,8 @@ const Home = () => {
     }
   }, [location]);
   const handlePurchase = async () => {
+    console.log("packageId:", packageId, selectedCourseId);
+
     if (!user) {
       alert("You must be logged in to purchase a package!");
       return;
@@ -88,7 +90,7 @@ const Home = () => {
       return; // סגירת הפונקציה אם אין קורסים זמינים
     }
     try {
-      const response = await fetch(`${BASE_URL}packages/purchase`, {
+      const response = await fetch(`${base_url}packages/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -145,10 +147,9 @@ const Home = () => {
                 <button
                   className={styles.bookButton}
                   onClick={() => {
-                    console.log("Button clicked!");
                     setPackageId(pkg._id);
                     setSelectedPackageName(pkg.name);
-                    handlePurchase();
+                    // handlePurchase();
                   }}
                 >
                   Book Now
@@ -207,45 +208,6 @@ const Home = () => {
           ))}
         </div>
       )}
-      <section className={styles.announcementsSidebar}>
-        <h3>Latest Announcements</h3>
-        {announcementLoading ? (
-          <p>Loading announcements...</p>
-        ) : announcementError ? (
-          <p>Error loading announcements: {announcementError.message}</p>
-        ) : (
-          <ul className={styles.announcementsList}>
-            {generalAnnouncements.map((announcement) => (
-              <li key={announcement._id} className={styles.announcementItem}>
-                <h4>{announcement.title}</h4>
-                <p>{announcement.content}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-      <footer className={styles.footer}>
-        <div className={styles.footerLinks}>
-          <ul>
-            <li>
-              <a href="#about">About Us</a>
-            </li>
-            <li>
-              <a href="#contact">Contact Us</a>
-            </li>
-            <li>
-              <a href="#faq">FAQ</a>
-            </li>
-            <li>
-              <a href="#branches">Branches</a>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.footerContact}>
-          <p>Phone: 9940*</p>
-          <p>Email: contact@holmesplace.co.il</p>
-        </div>
-      </footer>
       {isModalOpen && (
         <Modal
           courses={courses}
