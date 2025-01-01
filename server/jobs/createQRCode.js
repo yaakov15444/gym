@@ -3,11 +3,12 @@ const { base_url_client } = require("../secrets/dotenv");
 // פונקציה ליצירת QR Code
 async function createQRCode() {
     try {
-        const url = `${base_url_client}/phoneLogin`;
+        const url = `https://gym-one-gray.vercel.app/phoneLogin`;
         console.log(url);
 
         // יצירת ה-QR Code
         const qrCode = await QRCode.toDataURL(url);
+        console.log(qrCode);
 
         return qrCode; // מחזיר את ה-QR Code כ-Data URL
     } catch (error) {
@@ -15,5 +16,4 @@ async function createQRCode() {
         throw new Error("Failed to create QR Code");
     }
 }
-
 module.exports = createQRCode;

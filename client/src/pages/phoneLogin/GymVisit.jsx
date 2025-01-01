@@ -8,7 +8,7 @@ const GymVisit = () => {
   const handleClick = async () => {
     try {
       const response = await fetch(`${base_url}gymVisit`, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
