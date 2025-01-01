@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 // Create the UserContext
 const UserContext = createContext();
-
+const base_url = import.meta.env.VITE_BASE_URL;
 // Create the UserProvider component
 const UserProvider = ({ children }) => {
   const supabase = useSupabaseClient();
@@ -22,7 +22,7 @@ const UserProvider = ({ children }) => {
   const logoutUser = async () => {
     logout();
     try {
-      const response = await fetch(LOGOUT_URL, {
+      const response = await fetch(`${base_url}users/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -42,7 +42,7 @@ const UserProvider = ({ children }) => {
   const loginUser = async () => {
     setLoading(true);
     try {
-      const response = await fetch(GET_USERINFO_URL, {
+      const response = await fetch(`${base_url}users/userInfo`, {
         method: "GET",
         credentials: "include",
       });

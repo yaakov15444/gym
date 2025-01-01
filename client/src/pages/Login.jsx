@@ -34,7 +34,7 @@ const Login = () => {
       data: result,
       error,
       loading,
-    } = await fetchData(LOGIN_URL, "POST", data);
+    } = await fetchData(`${base_url}users/login`, "POST", data);
     if (result) {
       setReq({ ...req, loading: loading, data: result });
       login();
@@ -191,7 +191,7 @@ const Login = () => {
                   const accessToken = decodedCredential;
                   console.log(accessToken);
 
-                  const response = await fetch(`${base_url}/users/google`, {
+                  const response = await fetch(`${base_url}users/google`, {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",
