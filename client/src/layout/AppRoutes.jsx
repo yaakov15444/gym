@@ -19,6 +19,7 @@ import AdminHome from "../pages/admin/adminPages/AdminHome";
 import { AdminProvider } from "../pages/admin/adminPages/AdminContext";
 import AnnouncementsManagment from "../pages/admin/adminPages/AnnouncementsManagment";
 import UpdatePassword from "../pages/UpdatePassword";
+import PhoneLogin from "../pages/phoneLogin/PhoneLogin";
 
 const AppRoutes = () => {
   const { user, loading } = useUser();
@@ -68,6 +69,8 @@ const AppRoutes = () => {
             />
           )}
         </Route>
+        <Route path="*" element={<NotFound />} />
+        <Route path="/phoneLogin" element={<PhoneLogin />} />
       </Routes>
     </BrowserRouter>
   );
