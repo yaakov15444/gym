@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const { port, base_url_client } = require('./secrets/dotenv');
-
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 require('./db/connectToMongo');

@@ -237,6 +237,8 @@ const ctrl = {
         { _id: user._id, role: user.role },
         "30d"
       );
+      console.log("User logged in successfully");
+
       res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
         secure: false,
