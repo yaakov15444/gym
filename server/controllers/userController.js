@@ -243,9 +243,9 @@ const ctrl = {
 
       res.cookie("accessToken", "bearer " + accessToken, {
         httpOnly: true,
-        secure: false,
-        sameSite: "strict",   // מונע שליחה בין אתרים
-
+        secure: true,
+        sameSite: "none",
+        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 ימים
       });
       console.log("User logged in successfully");
 
