@@ -3,6 +3,6 @@ const router = express.Router();
 const { checkInUser } = require("../controllers/gymVisitController");
 const authMiddleware = require("../middleware/authMiddleware");
 // נתיב GET להוספת כניסה
-router.get("/", authMiddleware, checkInUser);
+router.get("/", checkInUser);
 
 module.exports = router;
