@@ -165,17 +165,27 @@ const EditCourse = ({ course, onClose }) => {
                   required
                 />
               </label>
-              <button type="button" onClick={() => handleDeleteSchedule(index)}>
+              <button
+                type="button"
+                className={styles.button}
+                onClick={() => handleDeleteSchedule(index)}
+              >
                 Remove
               </button>
             </div>
           ))}
-          <button type="button" onClick={handleAddSchedule}>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={handleAddSchedule}
+          >
             Add Schedule
           </button>
         </fieldset>
-        <button type="submit">Save Changes</button>
-        <button type="button" onClick={onClose}>
+        <button type="submit" className={styles.SubmitButton}>
+          Save Changes
+        </button>
+        <button type="button" className={styles.button} onClick={onClose}>
           Cancel
         </button>
       </form>

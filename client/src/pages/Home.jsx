@@ -143,10 +143,12 @@ const Home = () => {
                 <p>{pkg.description}</p>
                 <p>Price: {pkg.price}</p>
                 <button
+                  className={styles.bookButton}
                   onClick={() => {
                     console.log("Button clicked!");
                     setPackageId(pkg._id);
                     setSelectedPackageName(pkg.name);
+                    handlePurchase();
                   }}
                 >
                   Book Now
@@ -160,34 +162,35 @@ const Home = () => {
 
       {/* Courses Section */}
       <section id="courses" className={styles.coursesSection}>
-        <h2
-          className={styles.coursesHeader}
-          onClick={() => navigate("/courses")}
-        >
-          Our Courses
-        </h2>
+        <h2 className={styles.coursesHeader}>Our Popular Courses</h2>
         {courseLoading ? (
           <p>Loading courses...</p>
         ) : courseError ? (
           <p>Error loading courses: {courseError.message}</p>
         ) : (
-          <div className={styles.courses}>
-            {showCourses.map((course, i) => (
-              <div
-                key={i}
-                className={styles.course}
-                onClick={() => handleCourseClick(course)}
+          <>
+            <div className={styles.courses}>
+              {showCourses.map((course) => (
+                <div key={course._id} className={styles.course}>
+                  <img
+                    src={course.image}
+                    alt={course.name}
+                    className={styles.courseImage}
+                  />
+                  <h3>{course.name}</h3>
+                  <p>{course.description}</p>
+                </div>
+              ))}
+            </div>
+            <div className={styles.moreCoursesContainer}>
+              <h5
+                onClick={() => navigate("/courses")}
+                className={styles.moreCourses}
               >
-                <img
-                  src={course.image}
-                  alt={course.name}
-                  className={styles.courseImage}
-                />
-                <h3>{course.name}</h3>
-                <p>{course.description}</p>
-              </div>
-            ))}
-          </div>
+                More Courses
+              </h5>
+            </div>
+          </>
         )}
       </section>
       {announcementLoading ? (
@@ -204,7 +207,23 @@ const Home = () => {
           ))}
         </div>
       )}
-      {/* Footer Section */}
+      <section className={styles.announcementsSidebar}>
+        <h3>Latest Announcements</h3>
+        {announcementLoading ? (
+          <p>Loading announcements...</p>
+        ) : announcementError ? (
+          <p>Error loading announcements: {announcementError.message}</p>
+        ) : (
+          <ul className={styles.announcementsList}>
+            {generalAnnouncements.map((announcement) => (
+              <li key={announcement._id} className={styles.announcementItem}>
+                <h4>{announcement.title}</h4>
+                <p>{announcement.content}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
       <footer className={styles.footer}>
         <div className={styles.footerLinks}>
           <ul>

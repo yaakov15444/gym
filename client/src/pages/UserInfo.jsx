@@ -407,7 +407,7 @@ const UserInfo = () => {
       {/* Main content */}
       <div className={styles.mainContent}>
         <div className={styles.profileImageSection}>
-          <h2>תמונת פרופיל</h2>
+          <h2>Profile Picture</h2>
           <div className={styles.profileImageWrapper}>
             {user && user.profileImageUrl ? (
               <>
@@ -420,7 +420,7 @@ const UserInfo = () => {
                   onClick={() => document.getElementById("fileInput").click()}
                   className={styles.changeImageButton}
                 >
-                  שנה תמונה
+                  Update Profile Picture
                 </button>
               </>
             ) : (
@@ -430,7 +430,7 @@ const UserInfo = () => {
                   onClick={() => document.getElementById("fileInput").click()}
                   className={styles.uploadImageButton}
                 >
-                  העלה תמונה
+                  Upload Profile Picture
                 </button>
               </>
             )}
@@ -442,7 +442,7 @@ const UserInfo = () => {
               style={{ display: "none" }}
             />
           </div>
-          {uploading && <p>מעלה תמונה...</p>}
+          {uploading && <p>Upload Profile Picture...</p>}
         </div>
 
         <div className={styles.section}>
@@ -475,59 +475,67 @@ const UserInfo = () => {
 
         <div className={styles.section}>
           <h2>Package Info</h2>
-          <div className={styles.packageInfo}>
-            <p>
-              <strong>Name:</strong> {userPackage.name}
-            </p>
-            <p>
-              <strong>Description:</strong> {userPackage.description}
-            </p>
-            <p>
-              <strong>Price:</strong> {userPackage.price} ILS
-            </p>
-            <p>
-              <strong>Duration:</strong> {userPackage.durationInMonths} months
-            </p>
-          </div>
+          {userPackage.length != 0 ? (
+            <div className={styles.packageInfo}>
+              <p>
+                <strong>Name:</strong> {userPackage.name}
+              </p>
+              <p>
+                <strong>Description:</strong> {userPackage.description}
+              </p>
+              <p>
+                <strong>Price:</strong> {userPackage.price} ILS
+              </p>
+              <p>
+                <strong>Duration:</strong> {userPackage.durationInMonths} months
+              </p>
+            </div>
+          ) : (
+            <p>You don't have a package yet</p>
+          )}
         </div>
 
         <div className={styles.section}>
           <h2>Your Courses</h2>
-          <div className={styles.coursesTable}>
-            {userCourses.map((course) => (
-              <div key={course._id} className={styles.courseCard}>
-                <img src={course.image} alt={course.name} />
-                <h3>{course.name}</h3>
-                <p>{course.description}</p>
-                <p>
-                  <strong>Coach:</strong> {course.coach}
-                </p>
-                <p>
-                  <strong>Schedule:</strong> {formatSchedule(course.schedule)}
-                </p>
-                <button
-                  onClick={() => addCourseToCalendar(course)}
-                  className={styles.addToCalendarButton}
-                >
-                  Add to Google Calendar
-                </button>
-                <button
-                  onClick={() => addRecurringEventsToCalendar(course)}
-                  className={styles.addToCalendarButton}
-                >
-                  Add All Recurring Events
-                </button>
-              </div>
-            ))}
-          </div>
+          {userCourses.length != 0 ? (
+            <div className={styles.coursesTable}>
+              {userCourses.map((course) => (
+                <div key={course._id} className={styles.courseCard}>
+                  <img src={course.image} alt={course.name} />
+                  <h3>{course.name}</h3>
+                  <p>{course.description}</p>
+                  <p>
+                    <strong>Coach:</strong> {course.coach}
+                  </p>
+                  <p>
+                    <strong>Schedule:</strong> {formatSchedule(course.schedule)}
+                  </p>
+                  <button
+                    onClick={() => addCourseToCalendar(course)}
+                    className={styles.addToCalendarButton}
+                  >
+                    Add to Google Calendar
+                  </button>
+                  <button
+                    onClick={() => addRecurringEventsToCalendar(course)}
+                    className={styles.addToCalendarButton}
+                  >
+                    Add All Recurring Events
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>You don't have any courses yet</p>
+          )}
         </div>
       </div>
       <div className={styles.announcementsSection}>
-        <h2>המודעות שלך</h2>
-        {announcementsError ? (
-          <p>שגיאה בטעינת המודעות</p>
+        <h2>Your messages</h2>
+        {announcementsError && announcementsError.status != 404 ? (
+          <p>{announcementsError.message}</p>
         ) : announcements.length === 0 ? (
-          <p>אין מודעות להצגה</p>
+          <p>There are no messages yet</p>
         ) : (
           <ul className={styles.announcementsList}>
             {announcements.map((announcement) => (

@@ -91,6 +91,9 @@
   background: #0056b3;
 }
 
+.announcementsSection {
+  text-align: center;
+}
 .announcementsSection h2 {
   margin-bottom: 10px;
   color: #333;
