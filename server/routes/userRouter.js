@@ -15,7 +15,8 @@ const {
   verifyEmail,
   forgotPassword,
   verifyResetToken,
-  updatePassword
+  updatePassword,
+
 } = require("../controllers/userController");
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddlewareAdmin = require("../middleware/adminMiddlewareAdmin");

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/courses.module.css"; // ייבוא סגנונות עיצוב
 import { useUser } from "../contexts/UserProvider";
 const base_url = import.meta.env.VITE_BASE_URL;
-
+import { toast } from "../hooks/CustomToast";
 const CourseDetails = ({ course, onBack }) => {
   const { user } = useUser();
   const formatSchedule = (schedule) => {
@@ -20,7 +20,7 @@ const CourseDetails = ({ course, onBack }) => {
   };
   const handlePurchase = async () => {
     if (!user) {
-      alert("You must be logged in to purchase a package!");
+      toast("You must be logged in to purchase a package.", "error");
       return;
     }
 
@@ -49,7 +49,7 @@ const CourseDetails = ({ course, onBack }) => {
       window.open(data.approvalUrl, "_blank");
     } catch (error) {
       console.error("Error purchasing package:", error);
-      alert("Error purchasing package: " + error.message);
+      toast(error.message, "error");
     }
   };
   return (

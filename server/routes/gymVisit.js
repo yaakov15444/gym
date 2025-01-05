@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { checkInUser } = require("../controllers/gymVisitController");
-const authMiddleware = require("../middleware/authMiddleware");
+const { checkInUser, getVisitsSummary } = require("../controllers/gymVisitController");
 // נתיב GET להוספת כניסה
-router.get("/", checkInUser);
+router.get("/summary", getVisitsSummary);
+
+router.get("/:userId", checkInUser);
+
 
 module.exports = router;

@@ -4,6 +4,7 @@ import EditAnnouncementForm from "./EditAnnouncementForm.jsx";
 import styles from "../styles/AnnouncementsManagment.module.css";
 import { useAdmin } from "./AdminContext.jsx";
 const base_url = import.meta.env.VITE_BASE_URL;
+import { toast } from "../../../hooks/CustomToast.jsx";
 
 const AnnouncementsManagment = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -45,15 +46,15 @@ const AnnouncementsManagment = () => {
         credentials: "include",
       });
       if (response.ok) {
-        alert("Announcement deleted successfully!");
+        toast("Announcement deleted successfully!", "success");
         fetchAnnouncements();
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        toast(`Error: ${errorData.message}`, "error");
       }
     } catch (err) {
       console.error("Error deleting announcement:", err);
-      alert("An error occurred while deleting the announcement.");
+      toast("An error occurred while deleting the announcement.", "error");
     }
   };
 
@@ -104,11 +105,14 @@ const AnnouncementsManagment = () => {
         fetchAnnouncements(); // רענון המודעות לאחר העדכון
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        toast(`Error: ${errorData.message}`, "error");
       }
     } catch (err) {
       console.error("Error updating announcement status:", err);
-      alert("An error occurred while updating the announcement status.");
+      toast(
+        "An error occurred while updating the announcement status.",
+        "error"
+      );
     }
   };
 

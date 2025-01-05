@@ -5,6 +5,7 @@ const useFetch = (url, typeRequest = "GET", body = null) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0); // טריגר לרענון
 
   useEffect(() => {
     if (!url) return; // בדוק אם ה-URL ריק ואם כן, עזוב את הפונקציה
@@ -42,9 +43,11 @@ const useFetch = (url, typeRequest = "GET", body = null) => {
     };
 
     fetchData();
-  }, [url, typeRequest, body]);
-
-  return { data, loading, error, response };
+  }, [url, typeRequest, body, refreshTrigger]);
+  const refresh = () => {
+    setRefreshTrigger((prev) => prev + 1); // שינוי הערך מפעיל את ה-Effect מחדש
+  };
+  return { data, loading, error, response, refresh };
 };
 
 export default useFetch;

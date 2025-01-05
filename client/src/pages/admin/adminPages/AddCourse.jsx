@@ -1,115 +1,223 @@
-// AddCourse.jsx
 import React, { useState } from "react";
-import styles from "../styles/AddCourse.module.css";
-import { toast } from "react-toastify";
+import { toast } from "../../../hooks/CustomToast.jsx";
 
-const AddCourse = ({ onAdd }) => {
+const base_url = import.meta.env.VITE_BASE_URL;
+
+const AddCourse = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     coach: "",
-    schedule: [],
+    maxParticipants: 20,
+    image: "",
+    schedule: [{ day: "Sunday", startTime: "", endTime: "" }],
   });
+
+  const [uploading, setUploading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleScheduleChange = (index, field, value) => {
-    const newSchedule = [...formData.schedule];
-    newSchedule[index][field] = value;
-    setFormData((prev) => ({ ...prev, schedule: newSchedule }));
+    const updatedSchedule = [...formData.schedule];
+    updatedSchedule[index][field] = value;
+    setFormData({ ...formData, schedule: updatedSchedule });
   };
 
-  const handleAddSchedule = () => {
-    setFormData((prev) => ({
-      ...prev,
-      schedule: [...prev.schedule, { day: "", startTime: "", endTime: "" }],
-    }));
+  const addScheduleRow = () => {
+    setFormData({
+      ...formData,
+      schedule: [
+        ...formData.schedule,
+        { day: "Sunday", startTime: "", endTime: "" },
+      ],
+    });
   };
 
-  const handleDeleteSchedule = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      schedule: prev.schedule.filter((_, i) => i !== index),
-    }));
+  const removeScheduleRow = (index) => {
+    const updatedSchedule = formData.schedule.filter((_, i) => i !== index);
+    setFormData({ ...formData, schedule: updatedSchedule });
+  };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dizbc3u1u/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      if (data.secure_url) {
+        setFormData({ ...formData, image: data.secure_url });
+        toast("Image uploaded successfully!", "success");
+      } else {
+        throw new Error("Failed to upload image.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast("Error uploading image. Please try again.", "error");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Assuming `onAdd` is a function to add the course in the parent component
-      onAdd(formData);
-      toast.success("Course added successfully!");
-      setFormData({ name: "", description: "", coach: "", schedule: [] }); // Reset form
+      const updatedSchedule = formData.schedule.map((s) => ({
+        ...s,
+        startTime: new Date(`1970-01-01T${s.startTime}:00`),
+        endTime: new Date(`1970-01-01T${s.endTime}:00`),
+      }));
+
+      const response = await fetch(`${base_url}courses/admin/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ ...formData, schedule: updatedSchedule }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast(`Course "${data.course.name}" created successfully!`, "success");
+        setFormData({
+          name: "",
+          description: "",
+          coach: "",
+          maxParticipants: 20,
+          image: "",
+          schedule: [{ day: "Sunday", startTime: "", endTime: "" }],
+        });
+      } else {
+        const error = await response.json();
+        toast(`Failed to create course: ${error.message}`, "error");
+      }
     } catch (error) {
-      console.error("Error adding course:", error);
-      toast.error("An error occurred.");
+      console.error("Error creating course:", error);
+      toast("An error occurred while creating the course.", "error");
     }
   };
 
   return (
-    <div className={styles.container}>
+    <div>
       <h2>Add New Course</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          Course Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Description:
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Coach:
-          <input
-            type="text"
-            name="coach"
-            value={formData.coach}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <fieldset>
-          <legend>Schedule</legend>
-          {formData.schedule.map((item, index) => (
-            <div key={index} className={styles.scheduleItem}>
+        <div>
+          <label>
+            Name:
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Description:
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Coach:
+            <input
+              type="text"
+              name="coach"
+              value={formData.coach}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Max Participants:
+            <input
+              type="number"
+              name="maxParticipants"
+              value={formData.maxParticipants}
+              onChange={handleInputChange}
+              min="1"
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Upload Course Image:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              disabled={uploading}
+            />
+          </label>
+          {uploading && <p>Uploading image...</p>}
+          {formData.image && (
+            <div>
+              <img
+                src={formData.image}
+                alt="Course"
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+          )}
+        </div>
+        <div>
+          <h3>Schedule</h3>
+          {(formData.schedule || []).map((schedule, index) => (
+            <div key={index}>
               <label>
                 Day:
                 <select
-                  value={item.day}
+                  value={schedule.day}
                   onChange={(e) =>
                     handleScheduleChange(index, "day", e.target.value)
                   }
-                  required
                 >
-                  <option value="">Select a day</option>
-                  <option value="Sunday">Sunday</option>
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                  <option value="Saturday">Saturday</option>
+                  {[
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ].map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
                 </select>
               </label>
               <label>
                 Start Time:
                 <input
                   type="time"
-                  value={item.startTime}
+                  value={schedule.startTime}
                   onChange={(e) =>
                     handleScheduleChange(index, "startTime", e.target.value)
                   }
@@ -120,23 +228,25 @@ const AddCourse = ({ onAdd }) => {
                 End Time:
                 <input
                   type="time"
-                  value={item.endTime}
+                  value={schedule.endTime}
                   onChange={(e) =>
                     handleScheduleChange(index, "endTime", e.target.value)
                   }
                   required
                 />
               </label>
-              <button type="button" onClick={() => handleDeleteSchedule(index)}>
-                Remove
-              </button>
+              {formData.schedule.length > 1 && (
+                <button type="button" onClick={() => removeScheduleRow(index)}>
+                  Remove
+                </button>
+              )}
             </div>
           ))}
-          <button type="button" onClick={handleAddSchedule}>
-            Add Schedule
+          <button type="button" onClick={addScheduleRow}>
+            Add Schedule Row
           </button>
-        </fieldset>
-        <button type="submit">Submit</button>
+        </div>
+        <button type="submit">Create Course</button>
       </form>
     </div>
   );

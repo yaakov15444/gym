@@ -88,3 +88,53 @@
   background-color: #dc2626;
   /* Darker red on hover */
 }
+
+/* styles/navbarStyles.module.css */
+
+/* קלאס עבור הכפתור עם התאריך */
+.dateButton {
+  background: none;
+  border: none;
+  font-size: 14px;
+  /* גודל טקסט נוח */
+  color: #fff;
+  /* צבע טקסט לבן */
+  cursor: pointer;
+  text-align: center;
+  padding: 8px 15px;
+  /* ריווח נעים סביב הטקסט */
+  margin: 0 15px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  /* אפקט שינוי צבע בעת ריחוף */
+  display: inline-block;
+}
+
+.dateButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  /* צבע רקע עדין בעת ריחוף */
+}
+
+/* עיצוב של התאריך והזמן */
+.dateButton span {
+  display: block;
+  font-size: 12px;
+  /* גודל טקסט קטן לתאריך */
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+
+.dateButton .opening-hours {
+  font-size: 12px;
+  /* גודל טקסט קטן לשעות הפתיחה */
+  font-weight: normal;
+  margin-top: 5px;
+  color: #ddd;
+  /* צבע טקסט בהיר יותר לשעות הפתיחה */
+}
+
+.dateButton .hours {
+  color: #ffcc00;
+  /* צבע בהיר לשעות הפתיחה */
+  font-weight: bold;
+}

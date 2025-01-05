@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import formStyles from "../styles/formStyles.module.css";
 const base_url = import.meta.env.VITE_BASE_URL;
+import { toast } from "../hooks/CustomToast";
 
 const UpdatePassword = () => {
   const [req, setReq] = useState({
@@ -24,7 +25,7 @@ const UpdatePassword = () => {
     const { newPassword, confirmPassword } = data;
 
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast("Passwords do not match!", "error");
       return;
     }
 
@@ -48,7 +49,7 @@ const UpdatePassword = () => {
         return;
       }
 
-      alert("Password updated successfully! You can now log in.");
+      toast("Password updated successfully! You can now log in.", "success");
       reset();
       navigate("/login");
     } catch (error) {

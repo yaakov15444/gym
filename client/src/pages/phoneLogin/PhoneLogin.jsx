@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const base_url = import.meta.env.VITE_BASE_URL;
+import { toast } from "../../hooks/CustomToast";
 
 const PhoneLogin = () => {
   const [email, setEmail] = useState("");
@@ -42,13 +43,14 @@ const PhoneLogin = () => {
       });
 
       if (response.ok) {
-        alert("Login successful!");
+        toast("Login successful!", "success");
       } else {
         const errorData = await response.json();
-        alert(`Login failed: ${errorData.message || "Unknown error"}`);
+        toast(`Login failed: ${errorData.message || "Unknown error"}`, "error");
       }
     } catch (error) {
-      alert(`An error occurred: ${error.message}`);
+      console.log(error);
+      toast(`An error occurred: ${error.message}`, "error");
     }
   };
 

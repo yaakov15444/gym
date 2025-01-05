@@ -3,11 +3,12 @@ import formStyles from "../styles/formStyles.module.css";
 import styles from "../styles/LoginSIgnup.module.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_URL } from "../constants/endPoint";
 import { useUser } from "../contexts/UserProvider";
 import { fetchData } from "../utils/fetchData";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "../hooks/CustomToast";
+
 const base_url = import.meta.env.VITE_BASE_URL;
 
 const Login = () => {
@@ -59,15 +60,21 @@ const Login = () => {
       });
 
       if (response.ok) {
-        alert("A password reset email has been sent to your email address.");
+        toast(
+          "A password reset email has been sent to your email address.",
+          "success"
+        );
         setIsChangePassword(false);
         reset();
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        toast(`Error: ${errorData.message}`, "error");
       }
     } catch (error) {
-      alert("An error occurred while sending the reset password email.");
+      toast(
+        "An error occurred while sending the reset password email.",
+        "error"
+      );
       console.error(error);
     } finally {
       setReq({ ...req, loading: false });
@@ -205,7 +212,7 @@ const Login = () => {
                   if (!response.ok) {
                     const errorData = await response.json();
                     console.error("Login failed:", errorData.message);
-                    alert("Login failed: " + errorData.message);
+                    toast("Login failed: " + errorData.message, "error");
                     return;
                   }
                   if (response.ok) {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "../../../hooks/CustomToast";
 import styles from "../styles/EditCourse.module.css";
 import { useAdmin } from "./AdminContext";
 const base_url = import.meta.env.VITE_BASE_URL;
@@ -11,9 +10,12 @@ const EditCourse = ({ course, onClose }) => {
     description: "",
     coach: "",
     maxParticipants: 0,
+    image: course.image || "",
     schedule: [],
   });
   const { refreshCourses } = useAdmin();
+  const [uploading, setUploading] = useState(false);
+
   useEffect(() => {
     if (course) {
       setCourseData({
@@ -58,7 +60,38 @@ const EditCourse = ({ course, onClose }) => {
       schedule: prev.schedule.filter((_, i) => i !== index),
     }));
   };
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dizbc3u1u/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      if (data.secure_url) {
+        setCourseData((prev) => ({ ...prev, image: data.secure_url }));
+        toast("Image uploaded successfully!", "success");
+      } else {
+        throw new Error("Failed to upload image.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast("Error uploading image. Please try again.", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -74,14 +107,14 @@ const EditCourse = ({ course, onClose }) => {
       if (response.ok) {
         await refreshCourses(); // Refresh courses after successful update
 
-        toast.success("Course updated successfully!");
+        toast("Course updated successfully!", "success");
         onClose(); // Close edit mode
       } else {
-        toast.error("Failed to update course.");
+        toast("Failed to update course.", "error");
       }
     } catch (error) {
       console.error("Error updating course:", error);
-      toast.error("An error occurred.");
+      toast("An error occurred.", "error");
     }
   };
 
@@ -127,6 +160,25 @@ const EditCourse = ({ course, onClose }) => {
             onChange={handleChange}
             required
           />
+          <label>
+            Upload Course Image:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              disabled={uploading}
+            />
+          </label>
+          {uploading && <p>Uploading image...</p>}
+          {courseData.image && (
+            <div>
+              <img
+                src={courseData.image}
+                alt="Course"
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+          )}
         </label>
         <fieldset>
           <legend>Schedule</legend>
@@ -189,7 +241,6 @@ const EditCourse = ({ course, onClose }) => {
           Cancel
         </button>
       </form>
-      <ToastContainer />
     </div>
   );
 };

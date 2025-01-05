@@ -13,7 +13,8 @@ const secrets = {
     base_url_client: process.env.BASE_URL_CLIENT,
     base_url_server: process.env.BASE_URL_SERVER,
     server_address: process.env.SERVER_ADDRESS,
-    node_env: process.env.NODE_ENV
+    node_env: process.env.NODE_ENV,
+    delete_course_password: process.env.DELETE_COURSE_PASSWORD
 }
 
 module.exports = secrets

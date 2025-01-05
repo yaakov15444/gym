@@ -25,7 +25,6 @@ const courseSchema = new mongoose.Schema(
       ],
     },
     image: {
-      // שדה חדש לתמונה
       type: String,
       required: false,
     },
@@ -51,11 +50,11 @@ const courseSchema = new mongoose.Schema(
           ],
         },
         startTime: {
-          type: Date, // שעת התחלה בפורמט Date
+          type: Date,
           required: true,
         },
         endTime: {
-          type: Date, // שעת סיום בפורמט Date
+          type: Date,
           required: true,
         },
       },

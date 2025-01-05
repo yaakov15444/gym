@@ -1,29 +1,69 @@
 const courseModel = require("../models/courseModel");
 const AppError = require("../utils/handleError");
 const userModel = require("../models/userModel");
-
-
+const Announcement = require("../models/announcement");
+const { delete_course_password } = require("../secrets/dotenv");
 const ctrlCourse = {
   async createCourse(req, res, next) {
     try {
-      const { name, description, coach } = req.body;
-      if (!name || !description || !coach) {
-        console.log("All fields are required");
-        return next(new AppError("All fields are required", 400));
+      const { name, description, coach, maxParticipants, image, schedule } =
+        req.body;
+
+      // בדיקה אם כל השדות הנדרשים נשלחו
+      if (!name || !description || !coach || !maxParticipants || !schedule) {
+        return next(new AppError("Missing required fields", 400));
       }
-      const existingCourse = await courseModel.findOne({ name });
-      if (existingCourse) {
-        console.log("Course already exists");
-        return next(new AppError("Course already exists", 400));
-      }
-      const course = await courseModel.create({ name, description, coach });
-      if (!course) {
-        console.log("Course creation failed");
-        return next(new AppError("Course creation failed", 500));
-      }
-      res.status(201).json({ course, message: "Course created successfully" });
+
+      // יצירת הקורס
+      const newCourse = await courseModel.create({
+        name,
+        description,
+        coach,
+        maxParticipants,
+        image,
+        schedule,
+      });
+
+      const users = await userModel.find()
+        .populate("package", "name")
+        .then((users) =>
+          users.filter(
+            (user) =>
+              user.package?.name === "Unlimited Classes Package" ||
+              user.package?.name === "Seasonal Unlimited Package"
+          )
+        );
+
+      // הוספת המשתמשים למערך המשתתפים בקורס
+      newCourse.participants = users.map((user) => user._id);
+      await newCourse.save();
+
+      // יצירת מודעה חדשה
+      const announcement = await Announcement.create({
+        title: `New Course: ${newCourse.name}`,
+        content: `Exciting news! We have launched a new course: "${newCourse.name}".\n
+          Description: ${newCourse.description}\n
+          Coach: ${newCourse.coach}\n
+           Schedule: ${newCourse.schedule
+            .map(
+              (s) =>
+                `${s.day}, ${new Date(s.startTime).toLocaleTimeString()} - ${new Date(
+                  s.endTime
+                ).toLocaleTimeString()}`
+            )
+            .join(", ")}\n
+            Don't miss it!`,
+        expirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // תוקף של שבוע
+      });
+
+
+      return res.status(201).json({
+        message: "Course created successfully!",
+        course: newCourse,
+        announcement,
+      });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       next(new AppError("Internal server error", 500, error));
     }
   },
@@ -72,7 +112,7 @@ const ctrlCourse = {
       }
 
       // עדכון דינמי רק של השדות שנשלחו
-      const fieldsToUpdate = ["name", "description", "coach", "schedule", "maxParticipants"];
+      const fieldsToUpdate = ["name", "description", "coach", "schedule", "maxParticipants", "image"];
       fieldsToUpdate.forEach((field) => {
         if (req.body[field] !== undefined) {
           course[field] = req.body[field];
@@ -117,79 +157,6 @@ const ctrlCourse = {
       });
     } catch (error) {
       console.error("Error updating course:", error);
-      next(new AppError("Internal server error", 500, error));
-    }
-  },
-
-
-  async enrollInCourse(req, res, next) {
-    try {
-      const { courseId, userId } = req.body;
-      if (!courseId || !userId) {
-        console.log("All fields are required");
-        return next(new AppError("All fields are required", 400));
-      }
-      const course = await courseModel.findOne({ _id: courseId });
-      if (!course) {
-        console.log("Course not found");
-        return next(new AppError("Course not found", 404));
-      }
-      const user = await userModel.findOne({ _id: userId });
-      if (!user) {
-        console.log("User not found");
-        return next(new AppError("User not found", 404));
-      }
-      if (course.participants.includes(userId)) {
-        console.log("User is already enrolled in the course");
-        return next(
-          new AppError("User is already enrolled in the course", 400)
-        );
-      }
-
-      if (course.participants.length >= 10) {
-        console.log("Course is full");
-        return next(new AppError("Course is full", 400));
-      }
-      course.participants.push(userId);
-      user.enrolledCourses.push(courseId);
-      await user.save();
-      await course.save();
-      res.status(200).json({ message: "Enrollment successful" });
-    } catch (error) {
-      console.log(error);
-      next(new AppError("Internal server error", 500, error));
-    }
-  },
-  async unenrollFromCourse(req, res, next) {
-    try {
-      const { courseId, userId } = req.body;
-      if (!courseId || !userId) {
-        console.log("All fields are required");
-        return next(new AppError("All fields are required", 400));
-      }
-      const course = await courseModel.findOne({ _id: courseId });
-      if (!course) {
-        console.log("Course not found");
-        return next(new AppError("Course not found", 404));
-      }
-      const user = await userModel.findOne({ _id: userId });
-      if (!user) {
-        console.log("User not found");
-        return next(new AppError("User not found", 404));
-      }
-      if (!course.participants.includes(userId)) {
-        console.log("User is not enrolled in the course");
-        return next(new AppError("User is not enrolled in the course", 400));
-      }
-      course.participants = course.participants.filter((id) => id !== userId);
-      user.enrolledCourses = user.enrolledCourses.filter(
-        (id) => id !== courseId
-      );
-      await user.save();
-      await course.save();
-      res.status(200).json({ message: "Unenrollment successful" });
-    } catch (error) {
-      console.log(error);
       next(new AppError("Internal server error", 500, error));
     }
   },
@@ -256,7 +223,92 @@ const ctrlCourse = {
       console.error("Error fetching course statistics:", error);
       res.status(500).json({ error: "Internal server error" });
     }
+  },
+  async toggleUserInCourse(req, res, next) {
+    try {
+      console.log(req.body);
+
+      const { courseId } = req.params;
+      const userId = req.user._id;
+
+      // בדיקה אם אחד השדות חסר
+      if (!courseId || !userId) {
+        return next(new AppError("Missing required fields", 400));
+      }
+
+      // מציאת הקורס
+      const course = await courseModel.findById(courseId);
+      if (!course) {
+        console.log("Course not found");
+        return next(new AppError("Course not found", 404));
+      }
+
+      const isUserEnrolled = course.participants.includes(userId);
+
+      if (isUserEnrolled) {
+        course.participants = course.participants.filter(
+          (participantId) => participantId.toString() !== userId
+        );
+        await course.save();
+
+        return res.status(200).json({
+          message: "User successfully removed from course",
+          course,
+        });
+      }
+
+      // אם הקורס מלא, מחזירים הודעת שגיאה
+      if (course.participants.length >= course.maxParticipants) {
+        return next(
+          new AppError(
+            "The course is full. Please check back later or choose another course.",
+            400
+          )
+        );
+      }
+
+      // הוספת המשתמש למערך המשתתפים
+      course.participants.push(userId);
+      await course.save();
+
+      return res.status(200).json({
+        message: "User successfully added to course",
+        course,
+      });
+    } catch (error) {
+      console.error(error.message);
+      next(new AppError(error.message, 500));
+    }
+  },
+  async deleteCourse(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { password } = req.body; // הסיסמה נשלחת בגוף הבקשה
+
+      if (!id || !password) {
+        return next(new AppError("Missing required fields", 400));
+      }
+
+      // בדיקת סיסמה
+      if (password !== process.env.DELETE_COURSE_PASSWORD) {
+        return next(new AppError("Unauthorized: Incorrect password", 401));
+      }
+
+      const course = await courseModel.findById(id);
+      if (!course) {
+        return next(new AppError("Course not found", 404));
+      }
+
+      await course.deleteOne();
+
+      res.status(200).json({ message: "Course deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      next(new AppError("Internal server error", 500));
+    }
   }
+
+
 
 };
 

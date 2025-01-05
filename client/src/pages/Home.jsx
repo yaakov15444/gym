@@ -6,6 +6,9 @@ import { useUser } from "../contexts/UserProvider";
 import Modal from "./Modal";
 import { useLocation, useNavigate } from "react-router-dom";
 import CourseDetails from "./CourseDetails";
+import { toast } from "../hooks/CustomToast";
+// סגנון ברירת המחדל של טוסט
+
 const base_url = import.meta.env.VITE_BASE_URL;
 
 const Home = () => {
@@ -57,10 +60,8 @@ const Home = () => {
     }
   }, [location]);
   const handlePurchase = async () => {
-    console.log("packageId:", packageId, selectedCourseId);
-
     if (!user) {
-      alert("You must be logged in to purchase a package!");
+      toast("You must be logged in to purchase a package.", "error");
       return;
     }
 
@@ -78,7 +79,7 @@ const Home = () => {
 
       // בדיקה אם הקורס מלא
       if (selectedCourse && !selectedCourse.isAvailable) {
-        alert(`The course "${selectedCourse.name}" is fully booked!`);
+        toast(`The course ${selectedCourse.name} is fully booked!`, "error");
         window.location.reload();
         return; // סיום הפונקציה אם הקורס מלא
       }
@@ -86,7 +87,7 @@ const Home = () => {
     const allUnavailable = courses.every((course) => !course.isAvailable);
 
     if (allUnavailable) {
-      alert("No courses are available at the moment.");
+      toast("No courses are available at the moment.", "error");
       return; // סגירת הפונקציה אם אין קורסים זמינים
     }
     try {
@@ -115,7 +116,7 @@ const Home = () => {
       window.location.reload();
     } catch (error) {
       console.error("Error purchasing package:", error);
-      alert("Error purchasing package: " + error.message);
+      toast("Error purchasing package: " + error.message, "error");
     }
   };
   const handleCourseClick = (course) => {

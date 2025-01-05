@@ -94,6 +94,7 @@
 .announcementsSection {
   text-align: center;
 }
+
 .announcementsSection h2 {
   margin-bottom: 10px;
   color: #333;
@@ -230,4 +231,39 @@
   /* ביטול מסגרת ברירת המחדל */
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   /* הדגשה בעת מיקוד */
+}
+
+/* סגנון כללי לכפתור */
+.toggleCourseButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* כפתור במצב הצטרפות */
+.toggleCourseButton.join {
+  background-color: #28a745;
+  /* ירוק */
+  color: white;
+}
+
+.toggleCourseButton.join:hover {
+  background-color: #218838;
+  /* ירוק כהה יותר */
+}
+
+/* כפתור במצב הסרה */
+.toggleCourseButton.remove {
+  background-color: #dc3545;
+  /* אדום */
+  color: white;
+}
+
+.toggleCourseButton.remove:hover {
+  background-color: #c82333;
+  /* אדום כהה יותר */
 }

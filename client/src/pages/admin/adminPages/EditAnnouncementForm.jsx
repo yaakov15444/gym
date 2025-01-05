@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/EditAnnouncementForm.module.css";
 const base_url = import.meta.env.VITE_BASE_URL;
+import { toast } from "../../../hooks/CustomToast";
 
 const EditAnnouncementForm = ({ announcement, onClose }) => {
   const [formData, setFormData] = useState({
@@ -30,15 +31,15 @@ const EditAnnouncementForm = ({ announcement, onClose }) => {
         }
       );
       if (response.ok) {
-        alert("Announcement updated successfully!");
+        ("Announcement updated successfully!");
         onClose(); // סגור את טופס העריכה ועדכן את הקומפוננטה האב
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        toast(`Error: ${errorData.message}`, "error");
       }
     } catch (err) {
       console.error("Error updating announcement:", err);
-      alert("An error occurred while updating the announcement.");
+      toast("An error occurred while updating the announcement.", "error");
     }
   };
 

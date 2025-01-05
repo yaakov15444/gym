@@ -21,6 +21,9 @@ import AnnouncementsManagment from "../pages/admin/adminPages/AnnouncementsManag
 import UpdatePassword from "../pages/UpdatePassword";
 import PhoneLogin from "../pages/phoneLogin/PhoneLogin";
 import GymVisit from "../pages/phoneLogin/GymVisit";
+import VisitChart from "../pages/VisitChart";
+import FAQ from "../pages/FAQ";
+import AddCourse from "../pages/admin/adminPages/AddCourse";
 
 const AppRoutes = () => {
   const { user, loading } = useUser();
@@ -34,8 +37,9 @@ const AppRoutes = () => {
           <Route path="*" element={<NotFound />} />
           <Route path="" element={<Home />} />
           <Route path="/about" element={<About />} />
-
           <Route path="/courses" element={<Courses />} />
+          <Route path="/chart" element={<VisitChart />} />
+          <Route path="/faq" element={<FAQ />} />
           {user ? (
             <>
               <Route path="/success" element={<Success />} />
@@ -58,7 +62,7 @@ const AppRoutes = () => {
                     <Route path="" element={<AdminHome />} />
                     <Route path="/users" element={<UserManagement />} />
                     <Route path="/courses" element={<CoursesManagment />} />
-                    <Route path="/courses/edit/:id" element={<EditCourse />} />
+                    <Route path="/courses/add" element={<AddCourse />} />
                     <Route
                       path="/Announcements"
                       element={<AnnouncementsManagment />}

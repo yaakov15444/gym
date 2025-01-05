@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAdmin } from "./AdminContext";
 import styles from "../styles/AddAnnouncementForm.module.css";
 const base_url = import.meta.env.VITE_BASE_URL;
+import { toast } from "../../../hooks/CustomToast.jsx";
 
 const AddAnnouncementForm = ({ onClose }) => {
   const { courses } = useAdmin(); // משיכת נתוני הקורסים מהקונטקסט
@@ -32,15 +33,15 @@ const AddAnnouncementForm = ({ onClose }) => {
       });
 
       if (response.ok) {
-        alert("Announcement added successfully!");
+        ("Announcement added successfully!");
         onClose(); // קריאה לפונקציית onClose שתתעדכן בקומפוננטת האב
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        toast(`Error: ${errorData.message}`, "error");
       }
     } catch (error) {
       console.error("Error adding announcement:", error);
-      alert("An error occurred.");
+      toast("An error occurred.", "error");
     }
   };
 

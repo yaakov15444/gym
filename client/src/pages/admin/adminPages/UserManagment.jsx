@@ -4,6 +4,7 @@ import { useUser } from "../../../contexts/UserProvider";
 import UserCard from "./UserCard";
 import styles from "../styles/UserManagement.module.css"; // קובץ CSS מותאם אישית
 const base_url = import.meta.env.VITE_BASE_URL;
+import { toast } from "../../../hooks/CustomToast.jsx";
 
 const UserManagement = () => {
   const { users } = useAdmin();
@@ -19,15 +20,15 @@ const UserManagement = () => {
       });
 
       if (response.ok) {
-        alert("User deleted successfully");
+        toast("User deleted successfully", "success");
         fetchUsers(); // רענון רשימת המשתמשים
       } else {
         const errorData = await response.json();
-        alert(`Error deleting user: ${errorData.message}`);
+        toast(`Error deleting user: ${errorData.message}`, "error");
       }
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert("An error occurred while deleting the user.");
+      toast("An error occurred while deleting the user.", "error");
     }
   };
   const filteredUsers = users.filter((currentUser) =>

@@ -4,10 +4,10 @@ import styles from "../styles/userInfo.module.css";
 import useFetch from "../hooks/useFetch";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import "react-datepicker/dist/react-datepicker.css";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import UserCalendar from "./UserCalendar";
 const base_url = import.meta.env.VITE_BASE_URL;
+import { toast } from "../hooks/CustomToast";
 
 const UserInfo = () => {
   const { user, loading } = useUser();
@@ -43,7 +43,7 @@ const UserInfo = () => {
       updateUserProfileImage(data.secure_url);
     } catch (error) {
       console.error("Error uploading image:", error);
-      alert("Error uploading image. Please try again.");
+      toast("Error uploading image. Please try again.", "error");
     } finally {
       setUploading(false);
     }
@@ -60,7 +60,7 @@ const UserInfo = () => {
       });
 
       if (response.ok) {
-        alert("Profile image updated successfully!");
+        toast("Profile image updated successfully!", "success");
         window.location.reload();
       } else {
         const errorData = await response.json();
@@ -101,6 +101,7 @@ const UserInfo = () => {
     data: userCourses,
     loading: coursesLoading,
     error: coursesError,
+    refresh: refreshCourses,
   } = useFetch(coursesUrl);
 
   const {
@@ -130,7 +131,7 @@ const UserInfo = () => {
         },
       });
       if (error) {
-        alert("Error signing in with Google");
+        toast("Error signing in with Google", "error");
         console.log(error);
       }
     } catch (error) {
@@ -194,7 +195,10 @@ const UserInfo = () => {
     console.log(session);
 
     if (!session) {
-      alert("Please log in with Google to add events to your calendar");
+      toast(
+        "Please log in with Google to add events to your calendar",
+        "error"
+      );
       return;
     }
 
@@ -229,7 +233,7 @@ const UserInfo = () => {
       );
 
       if (isEventExists) {
-        alert("The event is already in your Google Calendar!");
+        toast("The event is already in your Google Calendar!", "error");
         return;
       }
 
@@ -249,15 +253,15 @@ const UserInfo = () => {
       if (response.ok) {
         const updatedEvents = await fetchUserEvents(accessToken); // מעדכן את רשימת האירועים
         setUserEvents(updatedEvents); // מעדכן את ה-state עם האירועים החדשים
-        alert("Event added to your Google Calendar!");
+        toast("Event added to your Google Calendar!", "success");
       } else {
         const error = await response.json();
         console.error(error);
-        alert("Failed to add event to your Google Calendar.");
+        toast("Failed to add event to your Google Calendar.", "error");
       }
     } catch (error) {
       console.error(error);
-      alert("An error occurred while adding the event.");
+      toast("An error occurred while adding the event.", "error");
     }
   };
 
@@ -291,7 +295,10 @@ const UserInfo = () => {
   }
   const addRecurringEventsToCalendar = async (course) => {
     if (!session?.provider_token) {
-      alert("Please log in with Google to add events to your calendar");
+      toast(
+        "Please log in with Google to add events to your calendar",
+        "error"
+      );
       return;
     }
 
@@ -300,7 +307,7 @@ const UserInfo = () => {
     const now = new Date();
 
     if (now >= subscriptionEndDate) {
-      alert("Your subscription has already ended!");
+      toast("Your subscription has already ended!", "error");
       return;
     }
 
@@ -396,9 +403,51 @@ const UserInfo = () => {
       }
       const updatedEvents = await fetchUserEvents(accessToken); // מעדכן את רשימת האירועים
       setUserEvents(updatedEvents); // מעדכן את ה-state עם האירועים החדשים
-      alert("All recurring events have been added to your Google Calendar!");
+      toast(
+        "All recurring events have been added to your Google Calendar!",
+        "success"
+      );
     } catch (error) {
       console.error("An error occurred while adding recurring events:", error);
+    }
+  };
+  const handleToggleCourse = async (course) => {
+    try {
+      if (
+        course.participants.some(
+          (participantId) => participantId.toString() === user._id
+        )
+      ) {
+        const confirmRemove = window.confirm(
+          "Are you sure you want to remove yourself from this course? Please note that your spot might be taken by someone else if you leave."
+        );
+        if (!confirmRemove) return; // אם המשתמש לא מאשר, לא שולחים בקשה
+      }
+
+      // שליחת בקשה לנתיב /courses/:courseId/toggle
+      const response = await fetch(`${base_url}courses/toggle/${course._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      // בדיקת הצלחת הבקשה
+      if (!response.ok) {
+        throw new Error("Failed to toggle course.");
+      }
+
+      const data = await response.json();
+      alert(data.message);
+
+      // עדכון מצב המשתמש בקורס בממשק המשתמש
+      course.isUserEnrolled = !course.isUserEnrolled;
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while toggling the course.");
+    } finally {
+      refreshCourses();
     }
   };
 
@@ -521,6 +570,30 @@ const UserInfo = () => {
                     className={styles.addToCalendarButton}
                   >
                     Add All Recurring Events
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleToggleCourse(
+                        course,
+                        course.participants.some(
+                          (participantId) =>
+                            participantId.toString() === user._id
+                        )
+                      )
+                    }
+                    className={`${styles.toggleCourseButton} ${
+                      course.participants.some(
+                        (participantId) => participantId.toString() === user._id
+                      )
+                        ? styles.remove
+                        : styles.join
+                    }`}
+                  >
+                    {course.participants.some(
+                      (participantId) => participantId.toString() === user._id
+                    )
+                      ? "Remove from Course"
+                      : "Join Course"}
                   </button>
                 </div>
               ))}
