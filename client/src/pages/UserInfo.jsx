@@ -595,6 +595,20 @@ const UserInfo = () => {
                       ? "Remove from Course"
                       : "Join Course"}
                   </button>
+                  <div className={styles.buttonsContainer}>
+                    <button
+                      onClick={() => addCourseToCalendar(course)}
+                      className={styles.addToCalendarButton}
+                    >
+                      Add to Google Calendar
+                    </button>
+                    <button
+                      onClick={() => addRecurringEventsToCalendar(course)}
+                      className={styles.addToCalendarButton}
+                    >
+                      Add All Recurring Events
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -635,9 +649,11 @@ const UserInfo = () => {
         {/* Google Sign-In Button */}
         {!session?.provider_token ? (
           <div className={styles.googleSignIn}>
-            <h3>connect with google to see your events</h3>
+            <h3 className={styles.googleSignInText}>
+              connect with google to see your events
+            </h3>
             <button onClick={googleSignIn} className={styles.signInButton}>
-              Sign in with Google
+              Sign in to Google Calendar
             </button>
           </div>
         ) : (

@@ -14,6 +14,9 @@ const Courses = () => {
     }
   }, [location]);
   const { data: courses, loading, error } = useFetch(`${base_url}courses/all`);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const formatSchedule = (schedule) => {
     return schedule

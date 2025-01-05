@@ -27,10 +27,11 @@ const Home = () => {
     }
   }, [isModalOpen]);
   const navigate = useNavigate();
+  const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
   const {
     data: packages,
-    loading,
-    error,
+    loading: packagesLoading,
+    error: packagesError,
     response,
   } = useFetch(`${base_url}packages`);
 
@@ -56,6 +57,15 @@ const Home = () => {
       setSelectedCourse(null);
     }
   }, [location]);
+  useEffect(() => {
+    if (!announcement?.length) return;
+    const interval = setInterval(() => {
+      setCurrentAnnouncementIndex((prevIndex) =>
+        prevIndex === announcement.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [announcement]);
   const handlePurchase = async () => {
     if (!user) {
       toast("You must be logged in to purchase a package.", "error");
@@ -122,6 +132,17 @@ const Home = () => {
   const handleBackToCourses = () => {
     setSelectedCourse(null); // חוזר לדף הקורסים
   };
+  const handlePrevAnnouncement = () => {
+    setCurrentAnnouncementIndex((prevIndex) =>
+      prevIndex === 0 ? announcement.length - 1 : prevIndex - 1
+    );
+  };
+  const handleNextAnnouncement = () => {
+    setCurrentAnnouncementIndex((prevIndex) =>
+      prevIndex === announcement.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   return !selectedCourse ? (
     <div className={styles.wrapper}>
       {/* Image Section */}
@@ -129,11 +150,11 @@ const Home = () => {
         <img src={GymPic} alt="Gym Image" className={styles.image} />
       </section>
       {/* Gym Packages Section */}
-      <section id="packages" className={styles.section}>
+      <section id="packages" className={styles.packagesSection}>
         <h2>Our Gym Packages</h2>
-        {loading ? (
+        {packagesLoading ? (
           <p>Loading...</p>
-        ) : error ? (
+        ) : packagesError ? (
           <p>Error loading packages!</p>
         ) : (
           <div className={styles.packages}>
@@ -150,7 +171,7 @@ const Home = () => {
                   }}
                 >
                   Book Now
-                </button>{" "}
+                </button>
               </div>
             ))}
           </div>
@@ -158,7 +179,7 @@ const Home = () => {
       </section>
 
       {/* Courses Section */}
-      <section id="courses" className={styles.section}>
+      <section id="courses" className={styles.coursesSection}>
         <h2 className={styles.coursesHeader}>Our Popular Courses</h2>
         {courseLoading ? (
           <p>Loading courses...</p>
@@ -190,23 +211,6 @@ const Home = () => {
           </>
         )}
       </section>
-      <section className={styles.section}>
-        <h2 className={styles.coursesHeader}>Announcements</h2>
-        {announcementLoading ? (
-          <p>Loading announcements...</p>
-        ) : announcementError ? (
-          <p>Error loading announcements: {announcementError.message}</p>
-        ) : (
-          <div className={styles.courses}>
-            {announcement.map((announcement, i) => (
-              <div key={i} className={styles.course}>
-                <h3>{announcement.title}</h3>
-                <p>{announcement.content}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
       {isModalOpen && (
         <Modal
           courses={courses}
@@ -215,6 +219,57 @@ const Home = () => {
           setPackageId={setPackageId}
         />
       )}
+      <section className={styles.announcementsContainer}>
+        <h3>Latest Announcements</h3>
+        {announcementLoading ? (
+          <p>Loading announcements...</p>
+        ) : announcementError ? (
+          <p>Error loading announcements: {announcementError.message}</p>
+        ) : (
+          <>
+            <div className={styles.announcementsList}>
+              {announcement.map((announcement, index) => (
+                <div
+                  key={announcement._id}
+                  className={`${styles.announcementItem} ${
+                    index === currentAnnouncementIndex ? styles.active : ""
+                  }`}
+                >
+                  <h4>{announcement.title}</h4>
+                  <p>{announcement.content}</p>
+                </div>
+              ))}
+            </div>
+            <div className={styles.dotsContainer}>
+              {announcement.map((_, index) => (
+                <span
+                  key={index}
+                  className={`${styles.dot} ${
+                    index === currentAnnouncementIndex ? styles.active : ""
+                  }`}
+                  onClick={() => setCurrentAnnouncementIndex(index)}
+                />
+              ))}
+            </div>
+            <div className={styles.navigationArrows}>
+              <button
+                className={`${styles.navigationArrow} ${styles.prevArrow}`}
+                onClick={handlePrevAnnouncement}
+                aria-label="Previous announcement"
+              >
+                &#8249;
+              </button>
+              <button
+                className={`${styles.navigationArrow} ${styles.nextArrow}`}
+                onClick={handleNextAnnouncement}
+                aria-label="Next announcement"
+              >
+                &#8250;
+              </button>
+            </div>
+          </>
+        )}
+      </section>
     </div>
   ) : (
     <div className={styles.courseDetails}>

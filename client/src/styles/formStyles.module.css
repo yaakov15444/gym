@@ -2,9 +2,8 @@
 .formContainer {
   margin: 0 auto;
   padding: 3%;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #1e1e1e;
+  border-radius: 15px;
   max-width: 300px;
   max-height: 40%;
 }
@@ -12,44 +11,50 @@
 /* Input fields styling */
 .input {
   width: 100%;
-  padding: 1.5%;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 16px;
+  margin: 8px 0 16px;
+  background-color: #2d2d2d;
+  border: 1px solid #333;
+  border-radius: 8px;
   font-size: 16px;
-  box-sizing: border-box;
+  color: white;
+  transition: all 0.3s ease;
 }
 
 /* Focus state for input fields */
 .input:focus {
-  border-color: #007bff;
+  border-color: #ff6b00;
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 5px rgba(255, 107, 0, 0.3);
 }
 
 /* Error message styling */
 .errorMessage {
-  color: red;
+  color: #ff4444;
   font-size: 14px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: -8px 0 16px;
 }
 
 /* Submit button styling */
 .button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #ff6b00;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1rem;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #ff8533;
+  transform: translateY(-2px);
 }
 
 /* Label styling */
@@ -57,7 +62,35 @@
   display: block;
   font-size: 14px;
   margin-bottom: 6px;
-  font-weight: bold;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: #ff6b00;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px;
+  margin-top: 0.5rem;
+  transition: color 0.3s ease;
+  text-decoration: underline;
+  width: 100%;
+  text-align: center;
+}
+
+.linkButton:hover {
+  color: #ff8533;
+}
+
+/* Google Login Button Styling */
+div[class*="google-login"] {
+  width: 100% !important;
+  margin-top: 1rem !important;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 /* Responsive design for smaller screens */
@@ -70,25 +103,23 @@
 
   /* Adjust input fields for better spacing */
   .input {
-    padding: 12px; /* Increase padding on smaller screens */
-    font-size: 18px; /* Larger font size for better readability */
+    padding: 10px 14px;
+    font-size: 16px;
   }
 
   /* Adjust button size for better accessibility */
   .button {
-    padding: 14px; /* Increase button padding */
-    font-size: 18px; /* Larger font size */
+    padding: 12px;
+    font-size: 16px;
   }
 
   /* Adjust label size */
   .label {
-    font-size: 16px; /* Larger font size for better readability */
+    font-size: 14px;
   }
-
-  /* Reduce error message font size */
-  .errorMessage {
-    font-size: 16px; /* Larger font size for smaller screens */
-  }
+}
+.haveAccount {
+  color: white;
 }
 
 /* Further adjustments for very small screens */
