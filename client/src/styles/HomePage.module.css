@@ -14,7 +14,8 @@
   height: auto;
 }
 
-.section {
+.packagesSection,
+.coursesSection {
   padding: 1% 0;
   text-align: center;
 }

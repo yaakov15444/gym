@@ -31,11 +31,10 @@ const Home = () => {
   }, [isModalOpen]);
   const navigate = useNavigate();
   const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
-
   const {
     data: packages,
-    loading,
-    error,
+    loading: packagesLoading,
+    error: packagesError,
     response,
   } = useFetch(`${base_url}packages`);
 
@@ -57,22 +56,19 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!generalAnnouncements?.length) return;
-
-    const interval = setInterval(() => {
-      setCurrentAnnouncementIndex((prevIndex) =>
-        prevIndex === generalAnnouncements.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [generalAnnouncements]);
-
-  useEffect(() => {
     if (location.pathname === "/") {
       setSelectedCourse(null);
     }
   }, [location]);
+  useEffect(() => {
+    if (!announcement?.length) return;
+    const interval = setInterval(() => {
+      setCurrentAnnouncementIndex((prevIndex) =>
+        prevIndex === announcement.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [announcement]);
   const handlePurchase = async () => {
     if (!user) {
       toast("You must be logged in to purchase a package.", "error");
@@ -139,32 +135,29 @@ const Home = () => {
   const handleBackToCourses = () => {
     setSelectedCourse(null); // חוזר לדף הקורסים
   };
-  return !selectedCourse ? (
-
   const handlePrevAnnouncement = () => {
     setCurrentAnnouncementIndex((prevIndex) =>
-      prevIndex === 0 ? generalAnnouncements.length - 1 : prevIndex - 1
+      prevIndex === 0 ? announcement.length - 1 : prevIndex - 1
     );
   };
-
   const handleNextAnnouncement = () => {
     setCurrentAnnouncementIndex((prevIndex) =>
-      prevIndex === generalAnnouncements.length - 1 ? 0 : prevIndex + 1
+      prevIndex === announcement.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  return (
+  return !selectedCourse ? (
     <div className={styles.wrapper}>
       {/* Image Section */}
       <section className={styles.imageSection}>
         <img src={GymPic} alt="Gym Image" className={styles.image} />
       </section>
       {/* Gym Packages Section */}
-      <section id="packages" className={styles.section}>
+      <section id="packages" className={styles.packagesSection}>
         <h2>Our Gym Packages</h2>
-        {loading ? (
+        {packagesLoading ? (
           <p>Loading...</p>
-        ) : error ? (
+        ) : packagesError ? (
           <p>Error loading packages!</p>
         ) : (
           <div className={styles.packages}>
@@ -178,12 +171,10 @@ const Home = () => {
                   onClick={() => {
                     setPackageId(pkg._id);
                     setSelectedPackageName(pkg.name);
-                    // handlePurchase();
                   }}
                 >
                   Book Now
-                </button>{" "}
-                {/* הוספת הפונקציה כאן */}
+                </button>
               </div>
             ))}
           </div>
@@ -191,7 +182,7 @@ const Home = () => {
       </section>
 
       {/* Courses Section */}
-      <section id="courses" className={styles.section}>
+      <section id="courses" className={styles.coursesSection}>
         <h2 className={styles.coursesHeader}>Our Popular Courses</h2>
         {courseLoading ? (
           <p>Loading courses...</p>
@@ -223,23 +214,6 @@ const Home = () => {
           </>
         )}
       </section>
-      <section className={styles.section}>
-        <h2 className={styles.coursesHeader}>Announcements</h2>
-        {announcementLoading ? (
-          <p>Loading announcements...</p>
-        ) : announcementError ? (
-          <p>Error loading announcements: {announcementError.message}</p>
-        ) : (
-          <div className={styles.courses}>
-            {announcement.map((announcement, i) => (
-              <div key={i} className={styles.course}>
-                <h3>{announcement.title}</h3>
-                <p>{announcement.content}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
       {isModalOpen && (
         <Modal
           courses={courses}
@@ -248,23 +222,16 @@ const Home = () => {
           setPackageId={setPackageId}
         />
       )}
-    </div>
-  ) : (
-    <div className={styles.courseDetails}>
-      <CourseDetails course={selectedCourse} onBack={handleBackToCourses} />
-        />
-      )}
-
       <section className={styles.announcementsContainer}>
         <h3>Latest Announcements</h3>
-        {announcementsLoading ? (
+        {announcementLoading ? (
           <p>Loading announcements...</p>
-        ) : announcementsError ? (
-          <p>Error loading announcements: {announcementsError.message}</p>
+        ) : announcementError ? (
+          <p>Error loading announcements: {announcementError.message}</p>
         ) : (
           <>
             <div className={styles.announcementsList}>
-              {generalAnnouncements.map((announcement, index) => (
+              {announcement.map((announcement, index) => (
                 <div
                   key={announcement._id}
                   className={`${styles.announcementItem} ${
@@ -277,7 +244,7 @@ const Home = () => {
               ))}
             </div>
             <div className={styles.dotsContainer}>
-              {generalAnnouncements.map((_, index) => (
+              {announcement.map((_, index) => (
                 <span
                   key={index}
                   className={`${styles.dot} ${
@@ -306,6 +273,10 @@ const Home = () => {
           </>
         )}
       </section>
+    </div>
+  ) : (
+    <div className={styles.courseDetails}>
+      <CourseDetails course={selectedCourse} onBack={handleBackToCourses} />
     </div>
   );
 };

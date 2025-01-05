@@ -163,7 +163,7 @@ const Navbar = () => {
                 className={styles.sidebarLink}
                 onClick={toggleSidebar}
               >
-                Our Courses
+                About
               </NavLink>
               {user && user.role === "Admin" && (
                 <NavLink
