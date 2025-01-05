@@ -87,7 +87,10 @@ const Courses = () => {
                   }
                 >
                   {course.isAvailable ? (
-                    <span>{course.availableSlots} spots available</span>
+                    <span>
+                      {course.maxParticipants - course.participants.length}{" "}
+                      spots available
+                    </span>
                   ) : (
                     <span>No spots available</span>
                   )}
