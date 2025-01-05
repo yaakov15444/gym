@@ -14,6 +14,18 @@ const Courses = () => {
     }
   }, [location]);
   const { data: courses, loading, error } = useFetch(`${base_url}courses/all`);
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
+    if (location.pathname === "/courses") setSelectedCourse(null);
+  }, [location]);
+  const {
+    data: courses,
+    loading,
+    error,
+  } = useFetch("http://localhost:3000/courses/all");
 
   const formatSchedule = (schedule) => {
     return schedule

@@ -30,6 +30,8 @@ const Home = () => {
     }
   }, [isModalOpen]);
   const navigate = useNavigate();
+  const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
+
   const {
     data: packages,
     loading,
@@ -53,6 +55,18 @@ const Home = () => {
     setShowCourses(courses.slice(0, 3));
   }, [courses]);
   const location = useLocation();
+
+  useEffect(() => {
+    if (!generalAnnouncements?.length) return;
+
+    const interval = setInterval(() => {
+      setCurrentAnnouncementIndex((prevIndex) =>
+        prevIndex === generalAnnouncements.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [generalAnnouncements]);
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -126,6 +140,20 @@ const Home = () => {
     setSelectedCourse(null); // חוזר לדף הקורסים
   };
   return !selectedCourse ? (
+
+  const handlePrevAnnouncement = () => {
+    setCurrentAnnouncementIndex((prevIndex) =>
+      prevIndex === 0 ? generalAnnouncements.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNextAnnouncement = () => {
+    setCurrentAnnouncementIndex((prevIndex) =>
+      prevIndex === generalAnnouncements.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  return (
     <div className={styles.wrapper}>
       {/* Image Section */}
       <section className={styles.imageSection}>
@@ -224,6 +252,60 @@ const Home = () => {
   ) : (
     <div className={styles.courseDetails}>
       <CourseDetails course={selectedCourse} onBack={handleBackToCourses} />
+        />
+      )}
+
+      <section className={styles.announcementsContainer}>
+        <h3>Latest Announcements</h3>
+        {announcementsLoading ? (
+          <p>Loading announcements...</p>
+        ) : announcementsError ? (
+          <p>Error loading announcements: {announcementsError.message}</p>
+        ) : (
+          <>
+            <div className={styles.announcementsList}>
+              {generalAnnouncements.map((announcement, index) => (
+                <div
+                  key={announcement._id}
+                  className={`${styles.announcementItem} ${
+                    index === currentAnnouncementIndex ? styles.active : ""
+                  }`}
+                >
+                  <h4>{announcement.title}</h4>
+                  <p>{announcement.content}</p>
+                </div>
+              ))}
+            </div>
+            <div className={styles.dotsContainer}>
+              {generalAnnouncements.map((_, index) => (
+                <span
+                  key={index}
+                  className={`${styles.dot} ${
+                    index === currentAnnouncementIndex ? styles.active : ""
+                  }`}
+                  onClick={() => setCurrentAnnouncementIndex(index)}
+                />
+              ))}
+            </div>
+            <div className={styles.navigationArrows}>
+              <button
+                className={`${styles.navigationArrow} ${styles.prevArrow}`}
+                onClick={handlePrevAnnouncement}
+                aria-label="Previous announcement"
+              >
+                &#8249;
+              </button>
+              <button
+                className={`${styles.navigationArrow} ${styles.nextArrow}`}
+                onClick={handleNextAnnouncement}
+                aria-label="Next announcement"
+              >
+                &#8250;
+              </button>
+            </div>
+          </>
+        )}
+      </section>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
+import styles from "../styles/userInfo.module.css";
 
 const localizer = momentLocalizer(moment);
 
@@ -29,16 +30,16 @@ const UserCalendar = ({ userEvents }) => {
   };
 
   return (
-    <div style={{ height: "600px", margin: "20px" }}>
+    <div className={styles.calendarContainer}>
       <h2>Google Calendar Events</h2>
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
-        date={currentDate} // התאריך הנוכחי
-        onNavigate={handleNavigate} // מטפל בניווט בין חודשים
+        style={{ height: 400, margin: "0 auto" }}
+        date={currentDate}
+        onNavigate={handleNavigate}
       />
     </div>
   );

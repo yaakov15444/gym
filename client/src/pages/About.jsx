@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/About.module.css";
 import "../styles/MUI.css"; // Import the CSS module
 import { Pagination, Stack, Box } from "@mui/material";
+import { Link } from "react-router-dom";
 const About = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -52,7 +53,11 @@ const About = () => {
         challenge your body with TRX. Whatever your fitness goals, we have
         something to inspire and empower you to lead a healthier life.
       </p>
-      <h2 className={styles.courseHeader}>Our Courses</h2>
+
+      <Link to="/courses">
+        <h2 className={styles.courseHeader}>Our Courses </h2>
+      </Link>
+
       <div className={styles.courseSummary}>
         <p>
           At{" "}
@@ -68,7 +73,7 @@ const About = () => {
         </p>
       </div>
       <Box sx={{ textAlign: "center", mt: 4 }}>
-        <div>
+        <div className={styles.imageContainer}>
           {/* Render images for the current page */}
           {currentImages.map((img, index) => (
             <img
