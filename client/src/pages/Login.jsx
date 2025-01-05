@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import formStyles from "../styles/formStyles.module.css";
 import styles from "../styles/LoginSIgnup.module.css";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LOGIN_URL } from "../constants/endPoint";
 import { useUser } from "../contexts/UserProvider";
 import { fetchData } from "../utils/fetchData";
@@ -10,6 +10,9 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const { login } = useUser();
   const navigate = useNavigate();
   const {
@@ -85,8 +88,8 @@ const Login = () => {
           {isChangePassword ? "Change Password" : "Login"}
         </h1>
         {req.loading ? (
-          <div className="flex items-center justify-center h-screen">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
           </div>
         ) : (
           <div className={formStyles.formContainer}>
@@ -218,7 +221,9 @@ const Login = () => {
                 </div>
               </form>
             )}
-
+            <h4 className={formStyles.haveAccount}>
+              Don't have an account? <Link to="/signup">Signup</Link>
+            </h4>
             <button
               onClick={() => setIsChangePassword(!isChangePassword)}
               className={formStyles.linkButton}

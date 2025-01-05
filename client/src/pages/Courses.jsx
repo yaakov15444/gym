@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch"; // שימוש ב-useFetch כדי לשלוף קורסים
 import styles from "../styles/courses.module.css";
 import CourseDetails from "./CourseDetails";
+import { useLocation } from "react-router-dom";
 
 const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
+    if (location.pathname === "/courses") setSelectedCourse(null);
+  }, [location]);
   const {
     data: courses,
     loading,

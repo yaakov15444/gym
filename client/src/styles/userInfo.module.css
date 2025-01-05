@@ -4,230 +4,282 @@
   align-items: center;
   gap: 20px;
   padding: 20px;
-  max-width: 1200px;
-  margin: auto;
+  background-color: #232222;
+  color: white;
 }
 
 .mainContent {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%;
+  width: 95%;
 }
 
 .section {
-  background: #f9f9f9;
+  background: #1e1e1e;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(255, 107, 0, 0.1);
+  border: 1px solid #ff6b00;
 }
 
 .section h2 {
-  margin-bottom: 10px;
-  color: #333;
+  color: #ff6b00;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .userInfo p,
 .packageInfo p {
-  margin: 5px 0;
+  margin: 10px 0;
   font-size: 16px;
-  color: #555;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.userInfo strong,
+.packageInfo strong {
+  color: #ff6b00;
 }
 
 .coursesTable,
 .announcementsList {
-  max-height: 300px;
-  /* אזור גלילה */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-height: 400px;
   overflow-y: auto;
-  padding: 10px;
-  background: #fff;
-  border: 1px solid #ddd;
+  padding: 15px;
+  background: #2d2d2d;
   border-radius: 8px;
 }
 
 .courseCard,
 .announcementItem {
+  background: #1e1e1e;
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: #fefefe;
-  padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ff6b00;
 }
 
 .courseCard img {
-  max-height: 150px;
+  width: 100%;
+  max-height: 100px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 .courseCard h3,
 .announcementItem h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #222;
+  color: #ff6b00;
+  margin: 10px 0;
+  font-size: 1.4rem;
 }
 
 .courseCard p,
 .announcementItem p {
-  font-size: 14px;
-  color: #555;
+  color: #ffffff;
+  opacity: 0.8;
+  margin: 8px 0;
 }
-
+.buttonsContainer {
+  margin-top: auto;
+}
 .addToCalendarButton {
-  padding: 8px 12px;
-  background: #007bff;
+  background: #ff6b00;
   color: white;
+  padding: 5px 5px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .addToCalendarButton:hover {
-  background: #0056b3;
-}
-
-.announcementsSection {
-  text-align: center;
-}
-.announcementsSection h2 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.googleSignIn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.signInButton {
-  padding: 10px 20px;
-  background: #ea4335;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.signInButton:hover {
-  background: #c5221f;
-}
-
-/* רספונסיביות */
-@media (max-width: 768px) {
-  .container {
-    padding: 10px;
-  }
-
-  .mainContent {
-    flex-direction: column;
-  }
-
-  .section {
-    padding: 15px;
-  }
-
-  .addToCalendarButton {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .courseCard img {
-    max-height: 100px;
-  }
-
-  .courseCard h3,
-  .announcementItem h3 {
-    font-size: 16px;
-  }
-
-  .courseCard p,
-  .announcementItem p {
-    font-size: 12px;
-  }
+  background: #ff8533;
+  transform: translateY(-2px);
 }
 
 .profileImageSection {
   text-align: center;
   margin-bottom: 20px;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid #ff6b00;
 }
 
 .profileImageWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
 }
 
 .profileImage {
-  width: 100px;
-  /* קוטר התמונה */
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  /* הופך את התמונה לעגולה */
   object-fit: cover;
-  /* כדי שהתמונה לא תתעוות */
-  border: 2px solid #ccc;
-  /* מסגרת דקה מסביב לתמונה */
-  margin-bottom: 10px;
+  border: 3px solid #ff6b00;
 }
 
 .placeholderImage {
-  width: 100px;
-  /* גודל הסמל במקום תמונה */
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  background-color: #e0e0e0;
-  /* צבע רקע אפור */
+  background-color: #2d2d2d;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  color: #888;
-  /* צבע טקסט */
-  border: 2px dashed #ccc;
-  /* מסגרת מקווקוות */
+  border: 3px dashed #ff6b00;
 }
 
 .changeImageButton,
 .uploadImageButton {
-  background-color: #007bff;
-  /* צבע רקע כחול */
-  color: #fff;
-  /* צבע טקסט לבן */
+  background: #ff6b00;
+  color: white;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
-  /* פינות מעוגלות */
-  padding: 8px 15px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
   transition: all 0.3s ease;
-  /* אנימציה חלקה */
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .changeImageButton:hover,
 .uploadImageButton:hover {
-  background-color: #0056b3;
-  /* צבע כהה יותר במעבר עכבר */
+  background: #ff8533;
+  transform: translateY(-2px);
 }
 
-.changeImageButton:active,
-.uploadImageButton:active {
-  background-color: #003f7f;
-  /* צבע לחיצה */
+.googleSignIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.googleSignInText {
+  margin: 3px 0;
+}
+.signInButton {
+  background: #ff8533;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.changeImageButton:focus,
-.uploadImageButton:focus {
-  outline: none;
-  /* ביטול מסגרת ברירת המחדל */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  /* הדגשה בעת מיקוד */
+.signInButton:hover {
+  background: #f46200;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .section {
+    padding: 15px;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+  }
+
+  .profileImage,
+  .placeholderImage {
+    width: 120px;
+    height: 120px;
+  }
+
+  .addToCalendarButton,
+  .changeImageButton,
+  .uploadImageButton {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 625px) {
+  .coursesTable,
+  .announcementsList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.calendarContainer {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid #ff6b00;
+  box-shadow: 0 2px 5px rgba(255, 107, 0, 0.1);
+  margin: 20px 0;
+}
+
+.calendarContainer h2 {
+  color: #ff6b00;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+/* Override react-big-calendar default styles */
+:global(.rbc-calendar) {
+  background-color: #1e1e1e;
+  color: white;
+}
+:global(.rbc-toolbar) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+:global(.rbc-toolbar button) {
+  color: white;
+  background-color: #2d2d2d;
+  border: 1px solid #ff6b00;
+}
+:global(.rbc-toolbar-label) {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+:global(.rbc-toolbar button:hover) {
+  background-color: #ff6b00;
+}
+
+:global(.rbc-toolbar button.rbc-active) {
+  background-color: #ff6b00;
+}
+
+:global(.rbc-header) {
+  background-color: #2d2d2d;
+  color: #ff6b00;
+  padding: 10px;
+}
+
+:global(.rbc-event) {
+  background-color: #ff6b00;
+}
+
+:global(.rbc-today) {
+  background-color: rgba(255, 107, 0, 0.1);
 }

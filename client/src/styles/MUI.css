@@ -1,8 +1,16 @@
 .MuiPagination-ul {
   max-width: fit-content;
-  background-color: #f5f7fa;
+  background: rgb(96, 95, 95);
+  border-radius: 10px;
+}
+.MuiPagination-ul > li {
+  padding: 2px;
 }
 .MuiPagination-root {
   justify-content: center;
   display: flex;
+}
+.MuiPagination-ul > li > button {
+  font-weight: 600;
+  font-size: 0.9rem;
 }

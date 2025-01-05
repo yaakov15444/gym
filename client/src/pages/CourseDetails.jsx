@@ -1,9 +1,13 @@
-import React from "react";
-import styles from "../styles/courses.module.css"; // ייבוא סגנונות עיצוב
+import React, { useEffect } from "react";
+import styles from "../styles/courses.module.css";
 import { useUser } from "../contexts/UserProvider";
 
 const CourseDetails = ({ course, onBack }) => {
   const { user } = useUser();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const formatSchedule = (schedule) => {
     return schedule
       .map((s) => {
@@ -17,6 +21,7 @@ const CourseDetails = ({ course, onBack }) => {
       })
       .join(", ");
   };
+
   const handlePurchase = async () => {
     if (!user) {
       alert("You must be logged in to purchase a package!");
@@ -51,31 +56,29 @@ const CourseDetails = ({ course, onBack }) => {
       alert("Error purchasing package: " + error.message);
     }
   };
+
   return (
     <div className={styles.courseDetailsContainer}>
       <h1 className={styles.courseTitle}>{course.name}</h1>
-      <div>
-        <div className={styles.imageContainer}>
-          <img
-            src={course.image}
-            alt={course.name}
-            className={styles.courseImage}
-          />
-        </div>
-        <div>
-          {/* תיאור הקורס */}
+      <div className={styles.detailsContent}>
+        <img
+          src={course.image}
+          alt={course.name}
+          className={styles.specificCourseImage}
+        />
+        <div className={styles.courseInfo}>
           <p className={styles.courseDescription}>{course.description}</p>
           <div className={styles.coach}>
             <strong>Coach:</strong> <span>{course.coach}</span>
-          </div>{" "}
+          </div>
           {/* לוח זמנים */}
           <div className={styles.scheduleContainer}>
             <h2>Schedule</h2>
             <p>{formatSchedule(course.schedule)}</p>
           </div>
           <button onClick={handlePurchase} className={styles.purchaseButton}>
-            Purchase Package
-          </button>{" "}
+            Purchase Course to one month
+          </button>
         </div>
       </div>
       <button onClick={onBack} className={styles.backButton}>
