@@ -7,10 +7,7 @@ import Modal from "./Modal";
 import { useLocation, useNavigate } from "react-router-dom";
 import CourseDetails from "./CourseDetails";
 import { toast } from "../hooks/CustomToast";
-// סגנון ברירת המחדל של טוסט
-
 const base_url = import.meta.env.VITE_BASE_URL;
-
 const Home = () => {
   const [showCourses, setShowCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -150,12 +147,10 @@ const Home = () => {
                   onClick={() => {
                     setPackageId(pkg._id);
                     setSelectedPackageName(pkg.name);
-                    // handlePurchase();
                   }}
                 >
                   Book Now
                 </button>{" "}
-                {/* הוספת הפונקציה כאן */}
               </div>
             ))}
           </div>
