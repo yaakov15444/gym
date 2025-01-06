@@ -57,7 +57,7 @@ const Login = () => {
     setReq({ ...req, loading: true });
     const { email } = data;
     try {
-      const response = await fetch(`${base_url}/users/forgotPassword`, {
+      const response = await fetch(`${base_url}users/forgotPassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

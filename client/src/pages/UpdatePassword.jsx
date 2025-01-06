@@ -32,7 +32,7 @@ const UpdatePassword = () => {
     setReq({ loading: true, error: null });
 
     try {
-      const response = await fetch(`${base_url}/users/updatePassword`, {
+      const response = await fetch(`${base_url}users/updatePassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
