@@ -22,7 +22,7 @@ const EditAnnouncementForm = ({ announcement, onClose }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${base_url}announcements/${announcement._id}`,
+        `${base_url}announcements/update/${announcement._id}`,
         {
           method: "PATCH",
           credentials: "include",

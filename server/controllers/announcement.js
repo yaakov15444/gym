@@ -48,15 +48,13 @@ const ctrlAnnouncement = {
         try {
             const user = await User.findOne({ _id: req.user._id });
 
-            // מציאת המשתמש וקורסים שהוא רשום אליהם
             if (!user) {
                 console.log('User not found');
                 return next(new AppError('User not found', 404));
             }
 
-            const courseIds = user.enrolledCourses.map(course => course._id); // מזהי הקורסים
+            const courseIds = user.enrolledCourses.map(course => course._id);
 
-            // חיפוש המודעות לפי מזהי הקורסים
             const announcements = await Announcement.find({
                 courseId: { $in: courseIds },
                 isActive: true,
@@ -175,7 +173,8 @@ const ctrlAnnouncement = {
             console.log(error);
             next(new AppError('Internal server error', 500, error));
         }
-    }, async getAnnouncementStatistics(req, res, next) {
+    },
+    async getAnnouncementStatistics(req, res, next) {
         try {
             const activeCount = await Announcement.countDocuments({ isActive: true });
             const inactiveCount = await Announcement.countDocuments({ isActive: false });
@@ -193,7 +192,43 @@ const ctrlAnnouncement = {
             console.log(error);
             next(new AppError('Internal server error', 500, error));
         }
-    }
+    },
+    async makeReaded(req, res, next) {
+        console.log(" trying כדאגשרעדקכג'קכעיעמצימעיגכגשדש ");
+
+        try {
+            console.log(" makeReaded ", req.user._id);
+
+            const user = await User.findOne({ _id: req.user._id });
+            if (!user) {
+                console.log('User not found');
+                return next(new AppError('User not found', 404));
+            }
+
+            const courseIds = user.enrolledCourses.map(course => course._id);
+            const announcements = await Announcement.find({
+                courseId: { $in: courseIds },
+                isActive: true,
+            });
+
+            if (!announcements || announcements.length === 0) {
+                console.log('No announcements found for the user');
+                return next(new AppError('No announcements found for the user', 404));
+            }
+
+            announcements.forEach(announcement => {
+                announcement.isRead = true;
+                announcement.save();
+            });
+
+            res.status(200).json({
+                message: 'Announcements marked as read successfully',
+            })
+        } catch (error) {
+            console.log(error);
+            next(new AppError('Internal server error', 500, error));
+        }
+    },
 
 }
 

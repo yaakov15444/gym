@@ -40,7 +40,7 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
             <strong>Coach:</strong> {course.coach}
           </p>
           <p>
-            <strong>Participants:</strong> {course.currentParticipants}
+            <strong>Max Participants:</strong> {course.currentParticipants}
           </p>
           <p>
             <strong>availableSlots:</strong>{" "}
@@ -53,8 +53,18 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
             {course.schedule && course.schedule.length > 0 ? (
               course.schedule.map((slot, index) => (
                 <li key={index}>
-                  {slot.day}: {new Date(slot.startTime).toLocaleTimeString()} -{" "}
-                  {new Date(slot.endTime).toLocaleTimeString()}
+                  {slot.day}:{" "}
+                  {new Date(slot.startTime).toLocaleTimeString("en-GB", {
+                    timeZone: "Asia/Jerusalem",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}{" "}
+                  -{" "}
+                  {new Date(slot.endTime).toLocaleTimeString("en-GB", {
+                    timeZone: "Asia/Jerusalem",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </li>
               ))
             ) : (

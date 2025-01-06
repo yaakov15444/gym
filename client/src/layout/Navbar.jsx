@@ -4,12 +4,14 @@ import { useUser, UserProvider } from "../contexts/UserProvider";
 import styles from "../styles/navbarStyles.module.css";
 import gymLogo from "../../pictures/logo.png";
 import defaultUserPic from "../../pictures/defaultUser.png";
+import Bell from "../pages/Bell";
 
 const Navbar = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -94,12 +96,15 @@ const Navbar = () => {
         <div className={styles.userSection}>
           {user ? (
             <div className={styles.userProfile}>
+              <Bell isOpen={isOpen} setIsOpen={setIsOpen} />
+
               <img
                 src={user.profileImageUrl || defaultUserPic}
                 alt="Profile"
                 className={styles.profilePic}
                 onClick={toggleProfile}
               />
+
               {isProfileOpen && (
                 <div className={styles.profileDropdown}>
                   <div className={styles.profileHeader}>
@@ -116,6 +121,13 @@ const Navbar = () => {
                     onClick={toggleProfile}
                   >
                     My Profile
+                  </NavLink>
+                  <NavLink
+                    to="/calendar"
+                    className={styles.dropdownLink}
+                    onClick={toggleProfile}
+                  >
+                    My Calendar
                   </NavLink>
                   <button
                     onClick={() => {
@@ -174,6 +186,7 @@ const Navbar = () => {
                   Admin Panel
                 </NavLink>
               )}
+              {/* {user && } */}
               {!user && (
                 <>
                   <NavLink

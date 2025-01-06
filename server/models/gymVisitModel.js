@@ -8,7 +8,10 @@ const gymVisitSchema = new mongoose.Schema({
     },
     checkInTime: {
         type: Date,
-        default: Date.now, // ברירת מחדל: זמן נוכחי
+        default: () => {
+            const now = new Date();
+            return new Date(now.toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
+        },
     },
 });
 

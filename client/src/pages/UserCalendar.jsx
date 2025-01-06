@@ -3,44 +3,54 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
 import styles from "../styles/userInfo.module.css";
+import { useUser } from "../contexts/UserProvider";
 
 const localizer = momentLocalizer(moment);
 
-const UserCalendar = ({ userEvents }) => {
-  const [events, setEvents] = useState([]);
-  const [currentDate, setCurrentDate] = useState(new Date()); // תאריך נוכחי
+const UserCalendar = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [formattedEvents, setFormattedEvents] = useState([]);
+  const { userEvents, session, googleSignIn } = useUser();
 
   useEffect(() => {
-    // מיפוי האירועים לפורמט של React Big Calendar
-    const calendarEvents = userEvents.map((event) => ({
-      title: event.summary,
-      start: new Date(event.start.dateTime),
-      end: new Date(event.end.dateTime),
-    }));
-    setEvents(calendarEvents);
+    if (userEvents) {
+      const formatted = userEvents.map((event) => ({
+        title: event.summary,
+        start: new Date(event.start.dateTime || event.start.date),
+        end: new Date(event.end.dateTime || event.end.date),
+        allDay: !!event.start.date,
+      }));
+      setFormattedEvents(formatted);
+    }
   }, [userEvents]);
 
-  const handleNavigate = (date, view) => {
-    // בודקים אם התאריך המבוקש קטן מהתאריך הנוכחי
-    if (date < new Date()) {
-      setCurrentDate(new Date()); // חזרה לתאריך הנוכחי
-    } else {
-      setCurrentDate(date); // עדכון לתאריך הנבחר
-    }
+  const handleNavigate = (date) => {
+    setCurrentDate(date >= new Date() ? date : new Date());
   };
 
   return (
     <div className={styles.calendarContainer}>
       <h2>Google Calendar Events</h2>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 400, margin: "0 auto" }}
-        date={currentDate}
-        onNavigate={handleNavigate}
-      />
+      {!session?.provider_token ? (
+        <div className={styles.googleSignIn}>
+          <h3 className={styles.googleSignInText}>
+            Connect with Google to see your events
+          </h3>
+          <button onClick={googleSignIn} className={styles.signInButton}>
+            Sign in to Google Calendar
+          </button>
+        </div>
+      ) : (
+        <Calendar
+          localizer={localizer}
+          events={formattedEvents}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 400, margin: "0 auto" }}
+          date={currentDate}
+          onNavigate={handleNavigate}
+        />
+      )}
     </div>
   );
 };

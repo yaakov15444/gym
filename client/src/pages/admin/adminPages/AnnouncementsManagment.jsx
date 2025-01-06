@@ -5,6 +5,7 @@ import styles from "../styles/AnnouncementsManagment.module.css";
 import { useAdmin } from "./AdminContext.jsx";
 const base_url = import.meta.env.VITE_BASE_URL;
 import { toast } from "../../../hooks/CustomToast.jsx";
+import { useNavigate } from "react-router-dom";
 
 const AnnouncementsManagment = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -16,7 +17,7 @@ const AnnouncementsManagment = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState(""); // State עבור שדה החיפוש
   const { courses } = useAdmin();
-
+  const navigate = useNavigate();
   const fetchAnnouncements = async () => {
     setLoading(true);
     setError(null);
@@ -41,7 +42,7 @@ const AnnouncementsManagment = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${base_url}announcements/${id}`, {
+      const response = await fetch(`${base_url}announcements/delete/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -137,6 +138,7 @@ const AnnouncementsManagment = () => {
       ) : (
         <>
           <h1>Announcements Management</h1>
+
           <input
             type="text"
             placeholder="Search users..."
@@ -158,6 +160,9 @@ const AnnouncementsManagment = () => {
               ))}
             </select>
           </div>
+          <button className={styles.backButton} onClick={() => navigate(-1)}>
+            Back
+          </button>
           <button
             className={styles.addButton}
             onClick={() => setShowAddForm((prev) => !prev)}

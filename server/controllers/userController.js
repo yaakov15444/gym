@@ -5,7 +5,7 @@ const AppError = require("../utils/handleError");
 const createQRCode = require("../jobs/createQRCode");
 const { sendEmail } = require('../services/emailService');
 const jwt = require("jsonwebtoken");
-const { secret_key, base_url_server, base_url_client, node_env } = require("../secrets/dotenv");
+const { secret_key, base_url_server, base_url_client, node_env, delete_course_password } = require("../secrets/dotenv");
 
 const ctrl = {
   async signup(req, res, next) {
@@ -153,13 +153,15 @@ const ctrl = {
       next(new AppError("Internal server error", 500, error));
     }
   },
-  async deleteUser(req, res, next) {
+  async toggleActivation(req, res, next) {
     try {
-      const user = await userModel.findByIdAndDelete(req.params.id);
+      const user = await userModel.findById(req.params.id);
       if (!user) {
         console.log("User not found");
         return next(new AppError("User not found", 404));
       }
+      user.isActive = !user.isActive;
+      await user.save();
       res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
       console.log(error);

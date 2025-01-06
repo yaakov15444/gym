@@ -40,7 +40,6 @@ const Home = () => {
     loading: courseLoading,
     error: courseError,
   } = useFetch(`${base_url}courses/all`);
-  console.log(courses);
 
   const {
     data: announcement,
@@ -110,7 +109,6 @@ const Home = () => {
           selectedCourseId: selectedCourseId,
         }),
       });
-      console.log("response", response, packageId, selectedCourseId);
 
       const data = await response.json();
 

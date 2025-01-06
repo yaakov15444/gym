@@ -2,8 +2,6 @@ import React from "react";
 import styles from "../styles/UserCard.module.css"; // קובץ CSS מותאם אישית
 
 const UserCard = ({ user, onDelete }) => {
-  console.log(user.package);
-
   return (
     <div className={styles.card}>
       <h3>{user.name}</h3>
@@ -26,7 +24,20 @@ const UserCard = ({ user, onDelete }) => {
         })}
       </p>
 
-      <button onClick={() => onDelete(user._id)}>Delete User</button>
+      <button
+        onClick={() => {
+          if (
+            window.confirm(
+              "Are you sure you want to delete this user? This action cannot be undone."
+            )
+          ) {
+            onDelete(user._id);
+          }
+        }}
+        className={user.isActive ? styles.inactiveButton : styles.activeButton}
+      >
+        {user.isActive ? "Deactivate" : "Activate"}
+      </button>
     </div>
   );
 };

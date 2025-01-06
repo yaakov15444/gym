@@ -23,6 +23,10 @@ const announcementSchema = new mongoose.Schema({
         type: Date,
         required: false,
         default: null
+    },
+    isRead: {
+        type: Boolean,
+        default: false
     }
 },
     {

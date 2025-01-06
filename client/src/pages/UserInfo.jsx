@@ -2,24 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserProvider";
 import styles from "../styles/userInfo.module.css";
 import useFetch from "../hooks/useFetch";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import "react-datepicker/dist/react-datepicker.css";
-import "react-calendar/dist/Calendar.css";
-import UserCalendar from "./UserCalendar";
 const base_url = import.meta.env.VITE_BASE_URL;
 import { toast } from "../hooks/CustomToast";
+import { useNavigate } from "react-router-dom";
 
 const UserInfo = () => {
-  const { user, loading } = useUser();
+  const {
+    user,
+    loading,
+    session,
+    googleSignIn,
+    addCourseToCalendar,
+    addRecurringEventsToCalendar,
+    userEvents,
+  } = useUser();
   if (user) {
-    console.log(user.qrCode);
   }
   const [packageUrl, setPackageUrl] = useState("");
   const [coursesUrl, setCoursesUrl] = useState("");
-  const [userEvents, setUserEvents] = useState([]);
   const [uploading, setUploading] = useState(false);
   const handleImageUpload = async (event) => {
-    const file = event.target.files[0]; // קבלת הקובץ מהמשתמש
+    const file = event.target.files[0];
     if (!file) return;
 
     setUploading(true);
@@ -35,10 +38,8 @@ const UserInfo = () => {
           body: formData,
         }
       );
-      console.log(response);
 
       const data = await response.json();
-      console.log(data.secure_url);
 
       updateUserProfileImage(data.secure_url);
     } catch (error) {
@@ -47,6 +48,9 @@ const UserInfo = () => {
     } finally {
       setUploading(false);
     }
+  };
+  const handleNavigation = () => {
+    navigate("/calendar", { state: { userEvents, session } });
   };
   const updateUserProfileImage = async (imageUrl) => {
     try {
@@ -70,9 +74,8 @@ const UserInfo = () => {
       console.error("Error updating profile image:", error);
     }
   };
-  const session = useSession();
-  const supabase = useSupabaseClient();
-  // console.log(session);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user && user.package) {
@@ -80,16 +83,6 @@ const UserInfo = () => {
       setCoursesUrl(`${base_url}users/allUserCourses/${user._id}`);
     }
   }, [user]);
-
-  useEffect(() => {
-    const loadEvents = async () => {
-      if (session && session.provider_token) {
-        const events = await fetchUserEvents(session.provider_token); // קבלת אירועים
-        setUserEvents(events); // עדכון state של אירועים
-      }
-    };
-    loadEvents();
-  }, [session]);
 
   const {
     data: userPackage,
@@ -104,11 +97,6 @@ const UserInfo = () => {
     refresh: refreshCourses,
   } = useFetch(coursesUrl);
 
-  const {
-    data: announcements,
-    loading: announcementsLoading,
-    error: announcementsError,
-  } = useFetch(`${base_url}announcements/byUser`);
   const formatSchedule = (schedule) => {
     return schedule
       .map((s) => {
@@ -122,295 +110,11 @@ const UserInfo = () => {
       })
       .join(", ");
   };
-  const googleSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          scopes: "https://www.googleapis.com/auth/calendar",
-        },
-      });
-      if (error) {
-        toast("Error signing in with Google", "error");
-        console.log(error);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  if (!user || loading || announcementsLoading) {
+  if (!user || loading) {
     return <div>טוען נתונים...</div>;
   }
-  const calculateNextOccurrence = (schedule) => {
-    const now = new Date();
-    const currentDay = now.getDay(); // היום הנוכחי (0 - ראשון, 6 - שבת)
-    const dayMap = {
-      Sunday: 0,
-      Monday: 1,
-      Tuesday: 2,
-      Wednesday: 3,
-      Thursday: 4,
-      Friday: 5,
-      Saturday: 6,
-    };
 
-    for (const s of schedule) {
-      const courseDay = dayMap[s.day]; // יום השיעור
-      const startTime = new Date(s.startTime); // שעת התחלה מהשרת
-      const nextDate = new Date(now);
-
-      // אם היום של הקורס אחרי היום הנוכחי או באותו יום אבל השעה מאוחרת יותר
-      if (
-        courseDay > currentDay ||
-        (courseDay === currentDay &&
-          now <
-            new Date(
-              now.setHours(startTime.getUTCHours(), startTime.getUTCMinutes())
-            ))
-      ) {
-        // חשב את התאריך הבא עבור היום הזה
-        nextDate.setDate(now.getDate() + ((courseDay - currentDay + 7) % 7));
-        nextDate.setHours(
-          startTime.getUTCHours(),
-          startTime.getUTCMinutes(),
-          0,
-          0
-        );
-        return nextDate;
-      }
-    }
-
-    // אם אין שיעור קרוב יותר השבוע, חזור לשיעור הראשון לשבוע הבא
-    const firstSchedule = schedule[0];
-    const firstDay = dayMap[firstSchedule.day];
-    const startTime = new Date(firstSchedule.startTime);
-    const nextDate = new Date(now);
-    nextDate.setDate(now.getDate() + ((firstDay - currentDay + 7) % 7));
-    nextDate.setHours(startTime.getUTCHours(), startTime.getUTCMinutes(), 0, 0);
-    return nextDate;
-  };
-
-  const addCourseToCalendar = async (course) => {
-    console.log(session);
-
-    if (!session) {
-      toast(
-        "Please log in with Google to add events to your calendar",
-        "error"
-      );
-      return;
-    }
-
-    // מחשבים את השיעור הבא
-    const nextStart = calculateNextOccurrence(course.schedule);
-    const nextEnd = new Date(nextStart);
-    nextEnd.setHours(nextEnd.getHours() + 1); // מוסיפים שעה לאירוע
-
-    const event = {
-      summary: course.name,
-      description: course.description,
-      start: {
-        dateTime: nextStart.toISOString(),
-        timeZone: "Asia/Jerusalem",
-      },
-      end: {
-        dateTime: nextEnd.toISOString(),
-        timeZone: "Asia/Jerusalem",
-      },
-    };
-
-    try {
-      const accessToken = session.provider_token;
-      console.log("accessToken: ", accessToken);
-
-      // בדיקת קיום האירוע
-      const isEventExists = userEvents.some(
-        (existingEvent) =>
-          existingEvent.summary === course.name &&
-          new Date(existingEvent.start.dateTime).getTime() ===
-            new Date(nextStart).getTime()
-      );
-
-      if (isEventExists) {
-        toast("The event is already in your Google Calendar!", "error");
-        return;
-      }
-
-      // הוספת האירוע ליומן
-      const response = await fetch(
-        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(event),
-        }
-      );
-
-      if (response.ok) {
-        const updatedEvents = await fetchUserEvents(accessToken); // מעדכן את רשימת האירועים
-        setUserEvents(updatedEvents); // מעדכן את ה-state עם האירועים החדשים
-        toast("Event added to your Google Calendar!", "success");
-      } else {
-        const error = await response.json();
-        console.error(error);
-        toast("Failed to add event to your Google Calendar.", "error");
-      }
-    } catch (error) {
-      console.error(error);
-      toast("An error occurred while adding the event.", "error");
-    }
-  };
-
-  async function fetchUserEvents(accessToken) {
-    try {
-      const response = await fetch(
-        `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${new Date().toISOString()}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Google Calendar Response:", data);
-
-        console.log("User Events:", data.items);
-        return data.items;
-      } else {
-        const error = await response.json();
-        console.error("Error fetching events:", error);
-        return [];
-      }
-    } catch (error) {
-      console.error("Error fetching events:", error);
-      return [];
-    }
-  }
-  const addRecurringEventsToCalendar = async (course) => {
-    if (!session?.provider_token) {
-      toast(
-        "Please log in with Google to add events to your calendar",
-        "error"
-      );
-      return;
-    }
-
-    const accessToken = session.provider_token;
-    const subscriptionEndDate = new Date(user.subscriptionEndDate);
-    const now = new Date();
-
-    if (now >= subscriptionEndDate) {
-      toast("Your subscription has already ended!", "error");
-      return;
-    }
-
-    // מציאת כל הימים הרלוונטיים
-    const dayMap = {
-      Sunday: 0,
-      Monday: 1,
-      Tuesday: 2,
-      Wednesday: 3,
-      Thursday: 4,
-      Friday: 5,
-      Saturday: 6,
-    };
-    const courseDay = dayMap[course.schedule[0].day];
-    const recurringDates = [];
-
-    let nextDate = new Date(now);
-
-    while (nextDate <= subscriptionEndDate) {
-      nextDate.setDate(
-        nextDate.getDate() + ((courseDay - nextDate.getDay() + 7) % 7)
-      );
-
-      if (nextDate <= subscriptionEndDate) {
-        recurringDates.push(new Date(nextDate));
-      }
-
-      nextDate.setDate(nextDate.getDate() + 7); // שבוע קדימה
-    }
-
-    try {
-      for (const date of recurringDates) {
-        const startTime = new Date(date);
-        const endTime = new Date(date);
-        endTime.setHours(startTime.getHours() + 1);
-
-        // בדיקה אם האירוע כבר קיים ב-userEvents
-        const roundToMinutes = (date) => {
-          const roundedDate = new Date(date);
-          roundedDate.setSeconds(0, 0); // מאפס את השניות והמילישניות
-          return roundedDate.getTime();
-        };
-
-        const normalizeTitle = (title) => title.trim().toLowerCase();
-        const updatedEvents = await fetchUserEvents(accessToken);
-        setUserEvents(updatedEvents);
-        const isEventExists = userEvents.some((existingEvent) => {
-          const existingStart = roundToMinutes(
-            new Date(existingEvent.start.dateTime)
-          );
-          const newStart = roundToMinutes(startTime);
-
-          const existingTitle = normalizeTitle(existingEvent.summary);
-          const newTitle = normalizeTitle(course.name);
-
-          return existingTitle === newTitle && existingStart === newStart;
-        });
-
-        if (isEventExists) {
-          console.log(`Event on ${startTime} already exists. Skipping.`);
-          continue; // דלג אם האירוע כבר קיים
-        }
-
-        const event = {
-          summary: course.name,
-          description: course.description,
-          start: {
-            dateTime: startTime.toISOString(),
-            timeZone: "Asia/Jerusalem",
-          },
-          end: {
-            dateTime: endTime.toISOString(),
-            timeZone: "Asia/Jerusalem",
-          },
-        };
-
-        const response = await fetch(
-          "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(event),
-          }
-        );
-
-        if (!response.ok) {
-          const error = await response.json();
-          console.error("Failed to add event:", error);
-        }
-      }
-      const updatedEvents = await fetchUserEvents(accessToken); // מעדכן את רשימת האירועים
-      setUserEvents(updatedEvents); // מעדכן את ה-state עם האירועים החדשים
-      toast(
-        "All recurring events have been added to your Google Calendar!",
-        "success"
-      );
-    } catch (error) {
-      console.error("An error occurred while adding recurring events:", error);
-    }
-  };
   const handleToggleCourse = async (course) => {
     try {
       if (
@@ -439,13 +143,13 @@ const UserInfo = () => {
       }
 
       const data = await response.json();
-      alert(data.message);
+      toast(data.message, "success");
 
       // עדכון מצב המשתמש בקורס בממשק המשתמש
       course.isUserEnrolled = !course.isUserEnrolled;
     } catch (error) {
       console.error(error);
-      alert("An error occurred while toggling the course.");
+      toast(error.message, "error");
     } finally {
       refreshCourses();
     }
@@ -559,18 +263,7 @@ const UserInfo = () => {
                   <p>
                     <strong>Schedule:</strong> {formatSchedule(course.schedule)}
                   </p>
-                  <button
-                    onClick={() => addCourseToCalendar(course)}
-                    className={styles.addToCalendarButton}
-                  >
-                    Add to Google Calendar
-                  </button>
-                  <button
-                    onClick={() => addRecurringEventsToCalendar(course)}
-                    className={styles.addToCalendarButton}
-                  >
-                    Add All Recurring Events
-                  </button>
+
                   <button
                     onClick={() =>
                       handleToggleCourse(
@@ -617,36 +310,8 @@ const UserInfo = () => {
           )}
         </div>
       </div>
-      <div className={styles.announcementsSection}>
-        <h2>Your messages</h2>
-        {announcementsError && announcementsError.status != 404 ? (
-          <p>{announcementsError.message}</p>
-        ) : announcements.length === 0 ? (
-          <p>There are no messages yet</p>
-        ) : (
-          <ul className={styles.announcementsList}>
-            {announcements.map((announcement) => (
-              <li key={announcement._id} className={styles.announcementItem}>
-                <h3>{announcement.title}</h3>
-                <p>{announcement.content}</p>
-                {announcement.expirationDate && (
-                  <p>
-                    <strong>תוקף:</strong>{" "}
-                    {new Date(announcement.expirationDate).toLocaleDateString()}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      {/* Calendar section */}
-      <div className={styles.events}>
-        <div className={styles.events}>
-          <UserCalendar userEvents={userEvents} />
-        </div>
 
-        {/* Google Sign-In Button */}
+      <div className={styles.events}>
         {!session?.provider_token ? (
           <div className={styles.googleSignIn}>
             <h3 className={styles.googleSignInText}>
@@ -657,7 +322,11 @@ const UserInfo = () => {
             </button>
           </div>
         ) : (
-          <></>
+          <>
+            <div className={styles.events}>
+              <button onClick={handleNavigation}>Go to User Calendar</button>{" "}
+            </div>
+          </>
         )}
       </div>
     </div>

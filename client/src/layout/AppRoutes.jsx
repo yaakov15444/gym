@@ -19,11 +19,11 @@ import AdminHome from "../pages/admin/adminPages/AdminHome";
 import { AdminProvider } from "../pages/admin/adminPages/AdminContext";
 import AnnouncementsManagment from "../pages/admin/adminPages/AnnouncementsManagment";
 import UpdatePassword from "../pages/UpdatePassword";
-import PhoneLogin from "../pages/phoneLogin/PhoneLogin";
 import GymVisit from "../pages/phoneLogin/GymVisit";
 import VisitChart from "../pages/VisitChart";
 import FAQ from "../pages/FAQ";
 import AddCourse from "../pages/admin/adminPages/AddCourse";
+import UserCalendar from "../pages/UserCalendar";
 
 const AppRoutes = () => {
   const { user, loading } = useUser();
@@ -45,6 +45,8 @@ const AppRoutes = () => {
               <Route path="/success" element={<Success />} />
               <Route path="/successMessage" element={<SuccessMessage />} />
               <Route path="/info" element={<UserInfo />} />
+              <Route path="/calendar" element={<UserCalendar />} />
+              <Route path="/checkIn" element={<GymVisit />} />
             </>
           ) : (
             <>
@@ -74,9 +76,6 @@ const AppRoutes = () => {
             />
           )}
         </Route>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/phoneLogin" element={<PhoneLogin />} />
-        <Route path="/gymVisit" element={<GymVisit />} />
       </Routes>
     </BrowserRouter>
   );

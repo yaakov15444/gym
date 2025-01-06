@@ -36,15 +36,13 @@ const VisitChart = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data);
 
         // הוספת כל השעות מ-6 בבוקר עד 22 בלילה
-        const allHours = Array.from({ length: 17 }, (_, i) => i + 6); // יצירת שעות 6 עד 22
+        const allHours = Array.from({ length: 17 }, (_, i) => i + 6);
         const formattedData = allHours.map((hour) => {
           const visit = data.find((item) => item._id === hour);
           return visit ? visit.count : 0; // אם יש ביקור בשעה זו, מחזירים את המספר, אחרת 0
         });
-
         setVisitData(formattedData);
         setLoading(false);
       } catch (error) {
@@ -76,7 +74,7 @@ const VisitChart = () => {
     plugins: {
       title: {
         display: true,
-        text: "Gym Visit Summary by Hour", // טקסט למעלה
+        text: "Gym Visit Summary by Hour",
         font: {
           size: 18,
         },
@@ -90,6 +88,19 @@ const VisitChart = () => {
         title: {
           display: true,
           text: "Hour of the Day",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Number of Visits",
+        },
+        ticks: {
+          stepSize: 1, // קפיצות שלמות בלבד
+          beginAtZero: true, // להתחיל מ-0
+          callback: function (value) {
+            return Number.isInteger(value) ? value : null; // להציג רק מספרים שלמים
+          },
         },
       },
     },

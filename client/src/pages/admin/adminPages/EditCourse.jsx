@@ -26,10 +26,14 @@ const EditCourse = ({ course, onClose }) => {
         schedule: course.schedule
           ? course.schedule.map((item) => ({
               day: item.day || "",
-              startTime: new Date(item.startTime)
-                .toISOString()
-                .substring(11, 16), // Format to HH:mm
-              endTime: new Date(item.endTime).toISOString().substring(11, 16), // Format to HH:mm
+              startTime: new Date(item.startTime).toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }), // Format to HH:mm
+              endTime: new Date(item.endTime).toLocaleTimeString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }), // Format to HH:mm
             }))
           : [],
       });

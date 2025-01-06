@@ -11,33 +11,21 @@ const {
     updateAnnouncement,
     toggleAnnouncementStatus,
     getAnnouncementStatistics,
-
+    makeReaded
 } = require('../controllers/announcement');
 const authMiddleware = require('../middleware/authMiddleware');
 const adminMiddleware = require('../middleware/adminMiddlewareAdmin');
-
 router.get('/general', getGeneralAnnouncements);
-
 router.use(authMiddleware);
 router.get('/byUser', getAnnouncementsForUser);
-
 router.use(adminMiddleware);
-
 router.post('/create', createAnnouncement);
-
 router.get('/all', getAllAnnouncements);
-
 router.get('/active', getActiveAnnouncements);
-
 router.get('/inactive', getInactiveAnnouncements);
-
-router.delete('/:id', deleteAnnouncement);
-
-router.patch('/:id', updateAnnouncement);
-
+router.patch('/readed', authMiddleware, makeReaded);
+router.delete('/delete/:id', deleteAnnouncement);
+router.patch('/update/:id', updateAnnouncement);
 router.patch('/toggle/:id', toggleAnnouncementStatus);
-
-// סטטיסטיקות על המודעות
 router.get('/statistics', getAnnouncementStatistics);
-
 module.exports = router;

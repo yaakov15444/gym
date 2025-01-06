@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useUser } from "../../contexts/UserProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const GymVisit = () => {
   const [message, setMessage] = useState("");
   const [messageColor, setMessageColor] = useState("green");
   const base_url = import.meta.env.VITE_BASE_URL;
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  useEffect(() => {
+    if (!user) {
+      localStorage.setItem("redirectAfterLogin", location.pathname);
+      navigate("/login");
+    }
+  }, [user, navigate, location.pathname]);
 
   const handleClick = async () => {
     try {
-      const response = await fetch(`${base_url}gymVisit`, {
+      const userId = user._id;
+      const response = await fetch(`${base_url}gymVisit/${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +38,6 @@ const GymVisit = () => {
         setMessageColor("red");
       }
     } catch (error) {
-      setMessage("An error occurred.");
       setMessageColor("red");
     }
   };
@@ -42,26 +54,33 @@ const GymVisit = () => {
         boxSizing: "border-box",
       }}
     >
-      <button
-        onClick={handleClick}
-        style={{
-          padding: "15px 30px",
-          fontSize: "16px",
-          border: "none",
-          borderRadius: "8px",
-          backgroundColor: "#007BFF",
-          color: "#fff",
-          cursor: "pointer",
-          marginBottom: "20px",
-          width: "100%",
-          maxWidth: "300px",
-          transition: "background-color 0.3s",
-          textAlign: "center",
-        }}
-      >
-        Enter Gym
-      </button>
-
+      {user && !message && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            height: "100vh",
+            padding: "20px",
+            boxSizing: "border-box",
+          }}
+        >
+          <button
+            onClick={handleClick}
+            style={{
+              backgroundColor: "#ff6b00",
+              color: "white",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            enter gym
+          </button>
+        </div>
+      )}
       {message && (
         <div
           style={{

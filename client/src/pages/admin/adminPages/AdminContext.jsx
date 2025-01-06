@@ -12,6 +12,9 @@ const AdminProvider = ({ children }) => {
   const refreshCourses = async () => {
     await fetchCourses();
   };
+  const refreshUsers = async () => {
+    await fetchUsers();
+  };
   async function fetchUsers() {
     try {
       const response = await fetch(`${base_url}users/admin/allUsers`, {
@@ -50,6 +53,7 @@ const AdminProvider = ({ children }) => {
         users,
         courses,
         refreshCourses,
+        refreshUsers,
       }}
     >
       {children}

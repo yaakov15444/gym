@@ -21,24 +21,14 @@ const gymVisitCtrl = {
             if (lastVisit) {
                 const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
                 if (lastVisit.checkInTime > oneHourAgo) {
-                    return res.status(400).send(
-                        ` <div style="text-align: center; padding: 20px; font-family: Arial; color: red;">
-                            <h1 style="font-size: 60px; font-weight: bold; text-align: center; color: red;">Check-In Already Done</h1>
-                            <p style="font-size: 30px; text-align: center; color: black;">You have already checked in within the last hour.</p>
-                            <p><strong>Last Check-In:</strong> ${new Date(lastVisit.checkInTime).toLocaleTimeString()}</p>
-                        </div>`
-                    );
+                    console.log("Check-in already done within the last hour");
+                    return res.status(400).json({ message: "Check-in already done within the last hour" });
                 }
             }
             const gymVisit = new GymVisit({ userId });
             await gymVisit.save();
 
-            res.status(200).send(`
-                <div style="text-align: center; padding: 20px; font-family: Arial; color: green;">
-                <h1 style="font-size: 60px; font-weight: bold; text-align: center; color: green;">Check-In Successful</h1>
-                <p style="font-size: 30px; text-align: center; color: black;">You have successfully checked into the gym!</p>
-                </div>
-            `);
+            res.status(200).json({ message: "Check-in successful" });
         } catch (error) {
             console.error("Error during check-in:", error);
             next(new AppError("Failed to check-in", 500));

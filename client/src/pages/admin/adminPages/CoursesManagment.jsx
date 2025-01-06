@@ -44,6 +44,9 @@ const CourseManagement = () => {
   return (
     <div className={styles.container}>
       <h1>Course Management</h1>
+      <button className={styles.backButton} onClick={() => navigate(-1)}>
+        Back
+      </button>
       {editingCourse ? (
         <EditCourse course={editingCourse} onClose={handleCloseEdit} />
       ) : (

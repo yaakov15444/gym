@@ -4,7 +4,7 @@ const {
   getUser,
   logout,
   getAllUsers,
-  deleteUser,
+  toggleActivation,
   getUserById,
   isLoggedIn,
   getAllUserCourses,
@@ -44,7 +44,7 @@ adminRouter.use(authMiddleware, adminMiddlewareAdmin);
 adminRouter.get("/allUsers", getAllUsers);
 adminRouter.get("/statistics", getUserStatistics);
 adminRouter.get("/:id", getUserById);
-adminRouter.delete("/:id", deleteUser);
+adminRouter.delete("/:id", toggleActivation);
 router.use("/admin", adminRouter);
 
 module.exports = router;

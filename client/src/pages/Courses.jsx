@@ -19,18 +19,19 @@ const Courses = () => {
   }, []);
 
   const formatSchedule = (schedule) => {
-    return schedule
-      .map((s) => {
-        const startTime = new Date(s.startTime);
-        const endTime = new Date(s.endTime);
-        const options = { hour: "2-digit", minute: "2-digit" };
-        return `${s.day}: ${startTime.toLocaleTimeString(
-          "en-GB",
-          options
-        )} - ${endTime.toLocaleTimeString("en-GB", options)}`;
-      })
-      .join(", ");
+    return schedule.map((s, index) => {
+      const startTime = new Date(s.startTime);
+      const endTime = new Date(s.endTime);
+      const options = { hour: "2-digit", minute: "2-digit" };
+      return (
+        <div key={index}>
+          {s.day}: {startTime.toLocaleTimeString("en-GB", options)} -{" "}
+          {endTime.toLocaleTimeString("en-GB", options)}
+        </div>
+      );
+    });
   };
+
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
   };
@@ -76,7 +77,7 @@ const Courses = () => {
                   <strong>Coach:</strong> <span>{course.coach}</span>
                 </div>
                 <div className={styles.schedule}>
-                  <strong>Schedule:</strong>{" "}
+                  <strong>Schedule:</strong> <br />
                   <span>{formatSchedule(course.schedule)}</span>
                 </div>
                 <div
