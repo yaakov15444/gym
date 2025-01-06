@@ -40,13 +40,13 @@ const AppRoutes = () => {
           <Route path="/courses" element={<Courses />} />
           <Route path="/chart" element={<VisitChart />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/checkIn" element={<GymVisit />} />
           {user ? (
             <>
               <Route path="/success" element={<Success />} />
               <Route path="/successMessage" element={<SuccessMessage />} />
               <Route path="/info" element={<UserInfo />} />
               <Route path="/calendar" element={<UserCalendar />} />
-              <Route path="/checkIn" element={<GymVisit />} />
             </>
           ) : (
             <>

@@ -43,7 +43,9 @@ const Login = () => {
     if (result) {
       setReq({ ...req, loading: loading, data: result });
       login();
-      navigate("/");
+      const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+      navigate(redirectPath);
+      localStorage.removeItem("redirectAfterLogin");
       reset();
     } else {
       // Handle error response
@@ -222,9 +224,11 @@ const Login = () => {
                     return;
                   }
                   if (response.ok) {
-                    console.log("Login successful");
                     login();
-                    navigate("/");
+                    const redirectPath =
+                      localStorage.getItem("redirectAfterLogin") || "/";
+                    navigate(redirectPath);
+                    localStorage.removeItem("redirectAfterLogin");
                     reset();
                   } else {
                     console.error("Login failed");
