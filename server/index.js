@@ -10,10 +10,7 @@ const syncCourseParticipants = require('./jobs/syncCourseParticipants')();
 const router = require('./routes/indexRouter');
 
 const corsOptions = {
-    origin: [base_url_client, "https://gym-one-gray-yaakov.vercel.app",
-        "https://gym-oh9l7iwbh-yaakovs-projects-b65f313b.vercel.app/",
-        "https://gym-yaakovs-projects-b65f313b.vercel.app/"
-    ],
+    origin: '*',
     credentials: true
 };
 app.use(cors(corsOptions));
