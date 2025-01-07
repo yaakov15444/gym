@@ -28,7 +28,7 @@ import UserCalendar from "../pages/UserCalendar";
 const AppRoutes = () => {
   const { user, loading } = useUser();
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading"></div>;
   }
   return (
     <BrowserRouter>

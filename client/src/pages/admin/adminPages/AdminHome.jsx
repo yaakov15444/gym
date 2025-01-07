@@ -26,7 +26,7 @@ const AdminHome = () => {
   } = useFetch(`${base_url}users/admin/statistics`);
 
   if (loading || courseLoading || userLoading) {
-    return <div className={styles.loading}>Loading statistics...</div>;
+    return <div className={styles.loading}></div>;
   }
 
   if (error || courseError || userError) {
@@ -43,7 +43,7 @@ const AdminHome = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Admin Dashboard</h1>
+      <h1 className={styles.title}>Admin Dashboard</h1>
       <div className={styles.dashboardGrid}>
         <div className={styles.card} onClick={() => navigate("/admin/users")}>
           <h2>User Statistics</h2>

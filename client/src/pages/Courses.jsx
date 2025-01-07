@@ -52,7 +52,7 @@ const Courses = () => {
             </p>
           </>
         )}
-        {loading && <p>Loading courses...</p>}
+        {loading && <div className="loading"></div>}
         {error && (
           <p>
             Error loading courses: {error.message || "Something went wrong!"}
