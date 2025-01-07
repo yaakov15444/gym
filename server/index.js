@@ -10,7 +10,7 @@ const syncCourseParticipants = require('./jobs/syncCourseParticipants')();
 const router = require('./routes/indexRouter');
 
 const corsOptions = {
-    origin: '*',
+    // origin: base_url_client,
     credentials: true
 };
 app.use(cors(corsOptions));
