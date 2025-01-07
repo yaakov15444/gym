@@ -12,7 +12,7 @@ const UpdatePassword = () => {
   });
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token"); // חילוץ הטוקן מהכתובת
+  const token = searchParams.get("token");
 
   const {
     register,
