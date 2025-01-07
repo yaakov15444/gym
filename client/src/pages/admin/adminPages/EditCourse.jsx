@@ -120,11 +120,12 @@ const EditCourse = ({ course, onClose }) => {
 
   return (
     <div className={styles.container}>
-      <h1>Edit Course</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <h1 className={styles.title}>Edit Course</h1>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <label className={styles.label}>
           Course Name:
           <input
+            className={styles.input}
             type="text"
             name="name"
             value={courseData.name}
@@ -132,18 +133,20 @@ const EditCourse = ({ course, onClose }) => {
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Description:
           <textarea
+            className={styles.input}
             name="description"
             value={courseData.description}
             onChange={handleChange}
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Coach:
           <input
+            className={styles.input}
             type="text"
             name="coach"
             value={courseData.coach}
@@ -151,42 +154,48 @@ const EditCourse = ({ course, onClose }) => {
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           maxParticipants:
           <input
+            className={styles.input}
             type="text"
             name="maxParticipants"
             value={courseData.maxParticipants}
             onChange={handleChange}
             required
           />
-          <label>
+          <label className={styles.label}>
             Upload Course Image:
             <input
+              className={styles.input}
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
               disabled={uploading}
             />
           </label>
-          {uploading && <p>Uploading image...</p>}
+          {uploading && (
+            <p className={styles.uploadingText}>Uploading image...</p>
+          )}
           {courseData.image && (
-            <div>
+            <div className={styles.imagePreview}>
               <img
                 src={courseData.image}
                 alt="Course"
+                className={styles.previewImage}
                 style={{ maxWidth: "200px" }}
               />
             </div>
           )}
         </label>
-        <fieldset>
-          <legend>Schedule</legend>
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Schedule</legend>
           {courseData.schedule.map((item, index) => (
             <div key={index} className={styles.scheduleItem}>
-              <label>
+              <label className={styles.label}>
                 Day:
                 <input
+                  className={styles.scheduleInput}
                   type="text"
                   value={item.day}
                   onChange={(e) =>
@@ -195,9 +204,10 @@ const EditCourse = ({ course, onClose }) => {
                   required
                 />
               </label>
-              <label>
+              <label className={styles.label}>
                 Start Time:
                 <input
+                  className={styles.scheduleInput}
                   type="time"
                   value={item.startTime}
                   onChange={(e) =>
@@ -206,9 +216,10 @@ const EditCourse = ({ course, onClose }) => {
                   required
                 />
               </label>
-              <label>
+              <label className={styles.label}>
                 End Time:
                 <input
+                  className={styles.scheduleInput}
                   type="time"
                   value={item.endTime}
                   onChange={(e) =>
@@ -219,7 +230,7 @@ const EditCourse = ({ course, onClose }) => {
               </label>
               <button
                 type="button"
-                className={styles.button}
+                className={styles.removeButton}
                 onClick={() => handleDeleteSchedule(index)}
               >
                 Remove
@@ -228,7 +239,7 @@ const EditCourse = ({ course, onClose }) => {
           ))}
           <button
             type="button"
-            className={styles.button}
+            className={styles.addScheduleButton}
             onClick={handleAddSchedule}
           >
             Add Schedule
@@ -237,7 +248,7 @@ const EditCourse = ({ course, onClose }) => {
         <button type="submit" className={styles.SubmitButton}>
           Save Changes
         </button>
-        <button type="button" className={styles.button} onClick={onClose}>
+        <button type="button" className={styles.cancelButton} onClick={onClose}>
           Cancel
         </button>
       </form>

@@ -1,49 +1,77 @@
 .card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+  border: 1.5px solid #ff6b00;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card > div > div > input {
+  width: 90%;
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
-.addButton {
-    width: 100%;
-    height: 200px;
-    border: 2px dashed #4caf50;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    color: #4caf50;
-    font-size: 48px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  width: 140px;
+  margin: auto;
+  justify-content: space-around;
 }
-
-.addButton:hover {
-    background-color: #e8f5e9;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.editButton {
+  background-color: rgb(33, 177, 255);
+  border: none;
+  cursor: pointer;
+  padding: 9px;
+  border-radius: 10px;
+  font-size: 1rem;
 }
-
-.addIcon {
-    font-size: 72px;
-    color: #4caf50;
+.editButton:hover {
+  transform: translateY(-5px);
+  transition: transform 0.2s ease;
 }
-
+.deleteButton {
+  background-color: red;
+  border: none;
+  cursor: pointer;
+  padding: 9px;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.deleteButton:hover {
+  transform: translateY(-5px);
+  transition: transform 0.2s ease-in-out;
+}
 .courseImage {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  width: 48%;
+  margin: auto;
+  margin-top: 10px;
+}
+.confirmButton {
+  background-color: green;
+  border: none;
+  cursor: pointer;
+  padding: 9px;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.cancelButton {
+  background-color: red;
+  border: none;
+  cursor: pointer;
+  padding: 9px;
+  border-radius: 10px;
+  font-size: 1rem;
 }

@@ -37,13 +37,15 @@ const UserManagement = () => {
   return (
     <div className={styles.container}>
       <h1>User Management</h1>
-      <input
-        type="text"
-        placeholder="Search users..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
-        className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
-      />
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder="Search users..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
+          className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
+        />
+      </div>
       <div className={styles.grid}>
         {filteredUsers
           .filter((currentUser) => currentUser._id !== user._id)

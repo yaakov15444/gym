@@ -28,7 +28,7 @@ import AddCourse from "../pages/admin/adminPages/AddCourse";
 const AppRoutes = () => {
   const { user, loading } = useUser();
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading"></div>;
   }
   return (
     <BrowserRouter>

@@ -43,7 +43,7 @@ const CourseManagement = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Course Management</h1>
+      <h1 className={styles.heading}>Course Management</h1>
       {editingCourse ? (
         <EditCourse course={editingCourse} onClose={handleCloseEdit} />
       ) : (

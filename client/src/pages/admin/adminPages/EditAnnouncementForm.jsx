@@ -31,8 +31,8 @@ const EditAnnouncementForm = ({ announcement, onClose }) => {
         }
       );
       if (response.ok) {
-        ("Announcement updated successfully!");
-        onClose(); // סגור את טופס העריכה ועדכן את הקומפוננטה האב
+        toast("Announcement updated successfully!", "success");
+        onClose();
       } else {
         const errorData = await response.json();
         toast(`Error: ${errorData.message}`, "error");
@@ -44,12 +44,13 @@ const EditAnnouncementForm = ({ announcement, onClose }) => {
   };
 
   return (
-    <div className={styles.formContainer}>
-      <h2>Edit Announcement</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Edit Announcement</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <label className={styles.label}>
           Title:
           <input
+            className={styles.input}
             type="text"
             name="title"
             value={formData.title}
@@ -57,26 +58,30 @@ const EditAnnouncementForm = ({ announcement, onClose }) => {
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Content:
           <textarea
+            className={styles.input}
             name="content"
             value={formData.content}
             onChange={handleChange}
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Expiration Date:
           <input
+            className={styles.input}
             type="date"
             name="expirationDate"
             value={formData.expirationDate}
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Save Changes</button>
-        <button type="button" onClick={onClose}>
+        <button type="submit" className={styles.submitButton}>
+          Save Changes
+        </button>
+        <button type="button" className={styles.cancelButton} onClick={onClose}>
           Cancel
         </button>
       </form>

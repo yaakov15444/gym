@@ -22,6 +22,7 @@ const Navbar = () => {
   };
 
   const [currentDate, setCurrentDate] = useState("");
+  const [currentTime, setCurrentTime] = useState("");
 
   // פונקציה לעדכון התאריך והזמן כל שנייה
   useEffect(() => {
@@ -32,12 +33,16 @@ const Navbar = () => {
         year: "numeric",
         month: "short",
         day: "numeric",
+        hour12: true,
+      });
+      const formattedTime = now.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
         hour12: true,
       });
       setCurrentDate(formattedDate);
+      setCurrentTime(formattedTime);
     };
 
     // עדכון התאריך כל שנייה
@@ -60,16 +65,28 @@ const Navbar = () => {
           <span></span>
           <span></span>
         </button>
-        {/* Logo */}
-        <NavLink to="/">
-          <img src={gymLogo} alt="logo" className={styles.logo} />
-        </NavLink>
-        <NavLink to="/chart" className={styles.dateButton}>
-          <span>{currentDate}</span>
-          <div className={styles.openingHours}>
-            <span className={styles.hours}>Opening Hours: </span>06:00 - 22:00
-          </div>
-        </NavLink>{" "}
+        <ul className={styles.navbarLogoAndTime}>
+          <li>
+            {/* Logo */}
+            <NavLink to="/">
+              <img src={gymLogo} alt="logo" className={styles.logo} />
+            </NavLink>
+          </li>
+          <li>
+            <div className={styles.dateContainer}>
+              <span>{currentDate}</span>
+              <span>{currentTime}</span>
+            </div>
+          </li>
+          <li>
+            <NavLink to="/chart" className={styles.dateButton}>
+              <div className={styles.openingHours}>
+                <span className={styles.hours}>Opening Hours: </span>06:00 -
+                22:00
+              </div>
+            </NavLink>
+          </li>
+        </ul>
         {/* NavLinks based on User Authentication */}
         <ul className={styles.navbarLinks}>
           <li>

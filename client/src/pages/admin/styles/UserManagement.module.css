@@ -1,24 +1,28 @@
 .container {
-    padding: 24px;
+  padding: 24px;
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 24px;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    padding: 16px;
+  display: grid;
+  width: 80%;
+  margin: auto;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
 }
-
+.searchContainer {
+  display: flex;
+  justify-content: center;
+}
 .searchInput {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 80%;
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }

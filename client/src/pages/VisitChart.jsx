@@ -63,7 +63,7 @@ const VisitChart = () => {
       {
         label: "Number of Visits",
         data: visitData, // מספר הביקורים לכל שעה
-        borderColor: "rgba(75, 192, 192, 1)",
+        borderColor: "#ff6b00",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.4,
       },
@@ -76,7 +76,6 @@ const VisitChart = () => {
     plugins: {
       title: {
         display: true,
-        text: "Gym Visit Summary by Hour", // טקסט למעלה
         font: {
           size: 18,
         },
@@ -90,6 +89,18 @@ const VisitChart = () => {
         title: {
           display: true,
           text: "Hour of the Day",
+          font: {
+            size: 15,
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Number of Visits",
+          font: {
+            size: 15,
+          },
         },
       },
     },
@@ -100,20 +111,26 @@ const VisitChart = () => {
   }
 
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "800px",
+        margin: "0 auto",
+      }}
+    >
       <h2
         style={{ textAlign: "center", fontSize: "24px", marginBottom: "20px" }}
       >
         Gym Visit Summary
       </h2>
       <p
-        style={{ textAlign: "center", fontSize: "16px", marginBottom: "30px" }}
+        style={{ textAlign: "center", fontSize: "18px", marginBottom: "30px" }}
       >
         The chart below shows the number of gym visits for each hour of the day.
         It helps visualize the peak hours for gym activity.
       </p>
 
-      <div style={{ marginBottom: "30px" }}>
+      <div style={{ marginBottom: "30px", width: "75%", margin: "0 auto" }}>
         <Line data={chartData} options={chartOptions} />
       </div>
     </div>
