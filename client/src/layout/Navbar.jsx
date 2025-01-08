@@ -35,13 +35,13 @@ const Navbar = () => {
         year: "numeric",
         month: "short",
         day: "numeric",
-        hour12: true,
+        hour12: false,
       });
       const formattedTime = now.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
-        hour12: true,
+        hour12: false,
       });
       setCurrentDate(formattedDate);
       setCurrentTime(formattedTime);
