@@ -225,13 +225,19 @@
   }
 }
 
+.generalContainer {
+  padding: 24px;
+  background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+  min-height: calc(100vh - 80px);
+}
+
 .calendarContainer {
-  background: #1e1e1e;
   padding: 20px;
+  max-width: 80%;
   border-radius: 15px;
   border: 1px solid #ff6b00;
   box-shadow: 0 2px 5px rgba(255, 107, 0, 0.1);
-  margin: 20px 0;
+  margin: 20px auto;
 }
 
 .calendarContainer h2 {
@@ -242,46 +248,145 @@
   letter-spacing: 2px;
   text-align: center;
 }
-/* Override react-big-calendar default styles */
-:global(.rbc-calendar) {
+
+.googleSignIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.googleSignInText {
+  color: #ffffff;
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.signInButton {
+  background: #ff6b00;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.signInButton:hover {
+  background: #ff8533;
+  transform: translateY(-2px);
+}
+
+/* React Big Calendar Overrides */
+.rbc-calendar {
   background-color: #1e1e1e;
   color: white;
+  border-radius: 8px;
+  padding: 15px;
 }
-:global(.rbc-toolbar) {
+
+.rbc-toolbar {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 15px;
 }
-:global(.rbc-toolbar button) {
+
+.rbc-toolbar button {
   color: white;
   background-color: #2d2d2d;
   border: 1px solid #ff6b00;
+  padding: 8px 12px;
+  margin: 2px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
-:global(.rbc-toolbar-label) {
-  font-size: 1rem;
+
+.rbc-toolbar-label {
+  font-size: 1.2rem;
   font-weight: bold;
+  color: #ff6b00;
+  margin: 10px 0;
 }
 
-:global(.rbc-toolbar button:hover) {
+.rbc-toolbar button:hover {
   background-color: #ff6b00;
 }
 
-:global(.rbc-toolbar button.rbc-active) {
+.rbc-toolbar button.rbc-active {
   background-color: #ff6b00;
 }
 
-:global(.rbc-header) {
+.rbc-header {
   background-color: #2d2d2d;
   color: #ff6b00;
   padding: 10px;
+  border: none;
 }
 
-:global(.rbc-event) {
+.rbc-event {
   background-color: #ff6b00;
+  border: none;
+  border-radius: 4px;
 }
 
-:global(.rbc-today) {
+.rbc-today {
   background-color: rgba(255, 107, 0, 0.1);
+}
+
+.rbc-off-range-bg {
+  background-color: #2d2d2d;
+}
+
+.rbc-month-view {
+  border: 1px solid #ff6b00;
+  border-radius: 8px;
+}
+
+.rbc-day-bg + .rbc-day-bg {
+  border-left: 1px solid #333;
+}
+
+.rbc-month-row + .rbc-month-row {
+  border-top: 1px solid #333;
+}
+
+@media (max-width: 768px) {
+  .generalContainer {
+    padding: 16px;
+  }
+
+  .calendarContainer {
+    padding: 15px;
+    margin: 10px 0;
+  }
+
+  .calendarContainer h2 {
+    font-size: 1.5rem;
+  }
+
+  .googleSignInText {
+    font-size: 1rem;
+  }
+
+  .signInButton {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .rbc-toolbar {
+    font-size: 0.9rem;
+  }
+
+  .rbc-toolbar-label {
+    font-size: 1rem;
+  }
 }
 
 /* סגנון כללי לכפתור */
