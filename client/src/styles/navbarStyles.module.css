@@ -22,6 +22,11 @@
   gap: 1rem;
   padding-left: 0px;
 }
+@media screen and (max-width: 420px) {
+  .navbarLogoAndTime {
+    gap: 0px;
+  }
+}
 /* Logo/Home link */
 .logo {
   height: 60px;
@@ -54,6 +59,7 @@
 
 .userProfile {
   position: relative;
+  width: max-content;
 }
 
 .profilePic {

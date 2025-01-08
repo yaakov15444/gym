@@ -1,73 +1,73 @@
 .bellContainer {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .bellIcon {
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    color: black;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: black;
 }
 
 .badge {
-    position: absolute;
-    top: -5px;
-    /* יישור אנכי מעל הפעמון */
-    right: -5px;
-    /* יישור אופקי */
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 5px;
-    font-size: 12px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: -5px;
+  /* יישור אנכי מעל הפעמון */
+  right: -5px;
+  /* יישור אופקי */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .announcementsSection {
-    margin-right: 500px;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #fff;
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    z-index: 1000;
-    width: 300px;
-    max-height: 400px;
-    overflow-y: auto;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    color: #333;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
 }
 
 .closeButton {
-    background: none;
-    border: none;
-    color: #333;
-    font-size: 16px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .redDot {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    max-width: 0.1px;
-    max-height: 0.11px;
-    background-color: red;
-    border-radius: 50%;
-    border: 0.1px solid white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  max-width: 0.1px;
+  max-height: 0.11px;
+  transform: scale(0.5);
+  background-color: red;
+  border-radius: 50%;
+  border: 0.1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
