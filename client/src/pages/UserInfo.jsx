@@ -211,6 +211,19 @@ const UserInfo = () => {
               <strong>Phone:</strong> {user.phone}
             </p>
           </div>
+          <div className={styles.qrCodeSection}>
+            <h2>Scan the QR Code</h2>
+            <p>For gym entry, scan the QR code below:</p>
+            {user.qrCode ? (
+              <img
+                src={user.qrCode}
+                alt="QR Code for Gym Entry"
+                className={styles.qrCodeImage}
+              />
+            ) : (
+              <p>Loading QR Code...</p>
+            )}
+          </div>
         </div>
 
         <div className={styles.section}>
