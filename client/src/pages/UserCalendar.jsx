@@ -29,28 +29,30 @@ const UserCalendar = () => {
   };
 
   return (
-    <div className={styles.calendarContainer}>
-      <h2>Google Calendar Events</h2>
-      {!session?.provider_token ? (
-        <div className={styles.googleSignIn}>
-          <h3 className={styles.googleSignInText}>
-            Connect with Google to see your events
-          </h3>
-          <button onClick={googleSignIn} className={styles.signInButton}>
-            Sign in to Google Calendar
-          </button>
-        </div>
-      ) : (
-        <Calendar
-          localizer={localizer}
-          events={formattedEvents}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 400, margin: "0 auto" }}
-          date={currentDate}
-          onNavigate={handleNavigate}
-        />
-      )}
+    <div className={styles.generalContainer}>
+      <div className={styles.calendarContainer}>
+        <h2>Google Calendar Events</h2>
+        {!session?.provider_token ? (
+          <div className={styles.googleSignIn}>
+            <h3 className={styles.googleSignInText}>
+              Connect with Google to see your events
+            </h3>
+            <button onClick={googleSignIn} className={styles.signInButton}>
+              Sign in to Google Calendar
+            </button>
+          </div>
+        ) : (
+          <Calendar
+            localizer={localizer}
+            events={formattedEvents}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 400, margin: "0 auto" }}
+            date={currentDate}
+            onNavigate={handleNavigate}
+          />
+        )}
+      </div>
     </div>
   );
 };
