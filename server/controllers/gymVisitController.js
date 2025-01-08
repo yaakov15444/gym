@@ -19,7 +19,7 @@ const gymVisitCtrl = {
             }
             const lastVisit = await GymVisit.findOne({ userId }).sort({ checkInTime: -1 });
             if (lastVisit) {
-                const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+                const oneHourAgo = new Date(Date.now() - 90 * 60 * 1000);
                 if (lastVisit.checkInTime > oneHourAgo) {
                     return res.status(400).send(
                         ` <div style="text-align: center; padding: 20px; font-family: Arial; color: red;">
