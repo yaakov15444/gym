@@ -37,14 +37,15 @@ const UserManagement = () => {
   return (
     <div className={styles.container}>
       <h1>User Management</h1>
-
-      <input
-        type="text"
-        placeholder="Search users..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
-        className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
-      />
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder="Search users..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
+          className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
+        />
+      </div>
       <button className={styles.backButton} onClick={() => navigate(-1)}>
         Back
       </button>

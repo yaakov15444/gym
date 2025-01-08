@@ -263,7 +263,18 @@ const UserInfo = () => {
                   <p>
                     <strong>Schedule:</strong> {formatSchedule(course.schedule)}
                   </p>
-
+                  <button
+                    onClick={() => addCourseToCalendar(course)}
+                    className={styles.addToCalendarButton}
+                  >
+                    Add to Google Calendar
+                  </button>
+                  <button
+                    onClick={() => addRecurringEventsToCalendar(course)}
+                    className={styles.addToCalendarButton}
+                  >
+                    Add All Recurring Events
+                  </button>
                   <button
                     onClick={() =>
                       handleToggleCourse(

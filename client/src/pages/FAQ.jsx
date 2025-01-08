@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/FAQ.module.css";
 
 const FAQ = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const questions = [
     {
       question: "What are your opening hours?",
@@ -41,39 +44,41 @@ const FAQ = () => {
   };
 
   return (
-    <div className={styles.faqContainer}>
-      <h2 className={styles.title}>Frequently Asked Questions</h2>
-      <ul className={styles.faqList}>
-        {questions.map((item, index) => (
-          <li
-            key={index}
-            className={`${styles.faqItem} ${
-              openIndex === index ? styles.open : ""
-            }`}
-          >
-            <button
-              className={styles.faqQuestion}
-              onClick={() => toggleQuestion(index)}
-            >
-              {item.question}
-              <span
-                className={`${styles.arrow} ${
-                  openIndex === index ? styles.rotated : ""
-                }`}
-              >
-                &#9662;
-              </span>
-            </button>
-            <div
-              className={`${styles.faqAnswer} ${
-                openIndex === index ? styles.visible : styles.hidden
+    <div className={styles.faqBackground}>
+      <div className={styles.faqContainer}>
+        <h2 className={styles.title}>Frequently Asked Questions</h2>
+        <ul className={styles.faqList}>
+          {questions.map((item, index) => (
+            <li
+              key={index}
+              className={`${styles.faqItem} ${
+                openIndex === index ? styles.open : ""
               }`}
             >
-              {item.answer}
-            </div>
-          </li>
-        ))}
-      </ul>
+              <button
+                className={styles.faqQuestion}
+                onClick={() => toggleQuestion(index)}
+              >
+                {item.question}
+                <span
+                  className={`${styles.arrow} ${
+                    openIndex === index ? styles.rotated : ""
+                  }`}
+                >
+                  &#9662;
+                </span>
+              </button>
+              <div
+                className={`${styles.faqAnswer} ${
+                  openIndex === index ? styles.visible : styles.hidden
+                }`}
+              >
+                {item.answer}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

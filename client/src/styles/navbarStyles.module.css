@@ -4,7 +4,6 @@
   color: white;
   width: 100%;
   border-bottom: 1px solid rgba(255, 107, 0, 0.2);
-  position: relative;
 }
 
 /* Main navbar styles */
@@ -16,7 +15,13 @@
   max-width: 1400px;
   margin: 0 auto;
 }
-
+.navbarLogoAndTime {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-left: 0px;
+}
 /* Logo/Home link */
 .logo {
   height: 60px;
@@ -27,7 +32,21 @@
 .logo:hover {
   transform: scale(1.05);
 }
-
+.dateContainer {
+  display: flex;
+  flex-direction: column;
+}
+.dateContainer > span {
+  margin: 0 auto;
+}
+@media screen and (max-width: 550px) {
+  .dateContainer {
+    display: none;
+  }
+  .dateButton {
+    padding: 0px 0px;
+  }
+}
 /* User Profile Styles */
 .userSection {
   position: relative;
@@ -301,7 +320,6 @@
   /* צבע טקסט לבן */
   cursor: pointer;
   text-align: center;
-  padding: 8px 15px;
   /* ריווח נעים סביב הטקסט */
   margin: 0 15px;
   font-weight: bold;

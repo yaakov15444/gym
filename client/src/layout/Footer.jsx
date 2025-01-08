@@ -49,9 +49,7 @@ const Footer = () => {
         <div className={styles.footerSection}>
           <h3>Opening Hours</h3>
           <div className={styles.footerContact}>
-            <p>Monday - Friday: 6:00 AM - 11:00 PM</p>
-            <p>Saturday: 8:00 AM - 8:00 PM</p>
-            <p>Sunday: 6:00 AM - 10:00 PM</p>
+            <p>Sunday-Saturday: 06:00-22:00</p>
           </div>
         </div>
       </div>

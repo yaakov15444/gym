@@ -8,6 +8,9 @@ import { toast } from "../../../hooks/CustomToast.jsx";
 import { useNavigate } from "react-router-dom";
 
 const AnnouncementsManagment = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [announcements, setAnnouncements] = useState([]);
   const [filteredAnnouncements, setFilteredAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -118,7 +121,7 @@ const AnnouncementsManagment = () => {
   };
 
   if (loading) {
-    return <div>Loading announcements...</div>;
+    return <div className="loading"></div>;
   }
 
   if (error) {
@@ -137,38 +140,38 @@ const AnnouncementsManagment = () => {
         />
       ) : (
         <>
-          <h1>Announcements Management</h1>
-
-          <input
-            type="text"
-            placeholder="Search users..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
-            className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
-          />
-          <div className={styles.filterContainer}>
-            <select
-              value={selectedFilter}
-              onChange={(e) => handleFilterChange(e.target.value)}
-            >
-              <option value="all">All Announcements</option>
-              <option value="general">General Announcements</option>
-              {courses.map((course) => (
-                <option key={course._id} value={course._id}>
-                  {course.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button className={styles.backButton} onClick={() => navigate(-1)}>
-            Back
-          </button>
-          <button
-            className={styles.addButton}
-            onClick={() => setShowAddForm((prev) => !prev)}
-          >
-            {showAddForm ? "Close Form" : "Add Announcement"}
-          </button>
+          {!showAddForm && (
+            <>
+              <h1>Announcements Management</h1>
+              <input
+                type="text"
+                placeholder="Search announcements..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // עדכון ערך החיפוש
+                className={styles.searchInput} // ניתן לעצב את שדה החיפוש בקובץ CSS
+              />
+              <div className={styles.filterContainer}>
+                <select
+                  value={selectedFilter}
+                  onChange={(e) => handleFilterChange(e.target.value)}
+                >
+                  <option value="all">All Announcements</option>
+                  <option value="general">General Announcements</option>
+                  {courses.map((course) => (
+                    <option key={course._id} value={course._id}>
+                      {course.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button
+                className={styles.addButton}
+                onClick={() => setShowAddForm(true)}
+              >
+                Add Announcement
+              </button>
+            </>
+          )}
           {showAddForm && (
             <AddAnnouncementForm
               onClose={() => {
@@ -203,36 +206,37 @@ const AnnouncementsManagment = () => {
                         ).toLocaleDateString()
                       : "No expiration"}
                   </p>
-                  <button
-                    className={styles.editButton + " " + styles.buttonBase}
-                    onClick={() => setEditingAnnouncement(announcement)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className={
-                      announcement.isActive
-                        ? styles.deactivateButton // עיצוב למצב פעיל
-                        : styles.activateButton + // עיצוב למצב לא פעיל
-                          " " +
-                          styles.buttonBase
-                    }
-                    onClick={() =>
-                      toggleAnnouncementStatus(
-                        announcement._id,
+                  <div className={styles.buttonsContainer}>
+                    <button
+                      className={styles.editButton + " " + styles.buttonBase}
+                      onClick={() => setEditingAnnouncement(announcement)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className={
                         announcement.isActive
-                      )
-                    }
-                  >
-                    {announcement.isActive ? "Deactivate" : "Activate"}
-                  </button>
-
-                  <button
-                    className={styles.deleteButton + " " + styles.buttonBase}
-                    onClick={() => handleDelete(announcement._id)}
-                  >
-                    Delete
-                  </button>
+                          ? styles.deactivateButton // עיצוב למצב פעיל
+                          : styles.activateButton + // עיצוב למצב לא פעיל
+                            " " +
+                            styles.buttonBase
+                      }
+                      onClick={() =>
+                        toggleAnnouncementStatus(
+                          announcement._id,
+                          announcement.isActive
+                        )
+                      }
+                    >
+                      {announcement.isActive ? "Deactivate" : "Activate"}
+                    </button>
+                    <button
+                      className={styles.deleteButton + " " + styles.buttonBase}
+                      onClick={() => handleDelete(announcement._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
           </div>

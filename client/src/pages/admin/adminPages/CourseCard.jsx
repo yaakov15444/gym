@@ -25,7 +25,7 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
 
   return (
     <div className={styles.card}>
-      {course ? (
+      {course && (
         <>
           <img
             src={course.image}
@@ -80,10 +80,6 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
             </button>
           </div>
         </>
-      ) : (
-        <button className={styles.addButton}>
-          <span className={styles.addIcon}>+</span> Add Course
-        </button>
       )}
       {showDeleteModal && (
         <div className={styles.modal}>
@@ -91,7 +87,7 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
             <h2>Confirm Deletion</h2>
             <p>
               Are you sure you want to delete <strong>{course.name}</strong>?
-              Please enter your password:
+              Please enter Admin password:
             </p>
             <input
               type="password"

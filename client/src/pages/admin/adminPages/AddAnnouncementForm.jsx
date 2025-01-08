@@ -46,12 +46,13 @@ const AddAnnouncementForm = ({ onClose }) => {
   };
 
   return (
-    <div className={styles.formContainer}>
-      <h2>Add Announcement</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Add New Announcement</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <label className={styles.label}>
           Title:
           <input
+            className={styles.input}
             type="text"
             name="title"
             value={formData.title}
@@ -59,18 +60,20 @@ const AddAnnouncementForm = ({ onClose }) => {
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Content:
           <textarea
+            className={styles.input}
             name="content"
             value={formData.content}
             onChange={handleChange}
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Course:
           <select
+            className={styles.input}
             name="courseId"
             value={formData.courseId}
             onChange={handleChange}
@@ -83,17 +86,20 @@ const AddAnnouncementForm = ({ onClose }) => {
             ))}
           </select>
         </label>
-        <label>
+        <label className={styles.label}>
           Expiration Date:
           <input
+            className={styles.input}
             type="date"
             name="expirationDate"
             value={formData.expirationDate}
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Add Announcement</button>
-        <button type="button" onClick={onClose}>
+        <button type="submit" className={styles.submitButton}>
+          Add Announcement
+        </button>
+        <button type="button" className={styles.cancelButton} onClick={onClose}>
           Cancel
         </button>
       </form>
