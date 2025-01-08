@@ -146,6 +146,13 @@ const Navbar = () => {
                   >
                     My Calendar
                   </NavLink>
+                  <NavLink
+                    to="/qrcode"
+                    className={styles.dropdownLink}
+                    onClick={toggleProfile}
+                  >
+                    QR Code
+                  </NavLink>
                   <button
                     onClick={() => {
                       logout();

@@ -24,6 +24,7 @@ import VisitChart from "../pages/VisitChart";
 import FAQ from "../pages/FAQ";
 import AddCourse from "../pages/admin/adminPages/AddCourse";
 import UserCalendar from "../pages/UserCalendar";
+import QRcode from "../pages/QRcode";
 
 const AppRoutes = () => {
   const { user, loading } = useUser();
@@ -47,6 +48,7 @@ const AppRoutes = () => {
               <Route path="/successMessage" element={<SuccessMessage />} />
               <Route path="/info" element={<UserInfo />} />
               <Route path="/calendar" element={<UserCalendar />} />
+              <Route path="qrcode" element={<QRcode />} />
             </>
           ) : (
             <>
