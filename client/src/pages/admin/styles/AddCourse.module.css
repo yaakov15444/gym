@@ -154,3 +154,21 @@
     width: 95%;
   }
 }
+.cancelButton {
+  background-color: red;
+  color: white;
+  padding: 1rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+  margin-top: 1rem;
+}
+.cancelButton:hover {
+  background-color: #de0000;
+  transform: translateY(-2px);
+}

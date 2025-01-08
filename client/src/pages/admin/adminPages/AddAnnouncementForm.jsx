@@ -99,7 +99,7 @@ const AddAnnouncementForm = ({ onClose }) => {
         <button type="submit" className={styles.submitButton}>
           Add Announcement
         </button>
-        <button type="button" className={styles.cancelButton} onClick={onClose}>
+        <button type="button" className={styles.cancelButton}>
           Cancel
         </button>
       </form>

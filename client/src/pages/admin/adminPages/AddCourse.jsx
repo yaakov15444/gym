@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/AddCourse.module.css";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddCourse = ({ onAdd }) => {
+  const nav = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -148,6 +150,13 @@ const AddCourse = ({ onAdd }) => {
         </fieldset>
         <button type="submit" className={styles.submitButton}>
           Submit
+        </button>
+        <button
+          type="button"
+          className={styles.cancelButton}
+          onClick={() => nav("/admin/courses")}
+        >
+          Cancel
         </button>
       </form>
     </div>
