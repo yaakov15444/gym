@@ -34,7 +34,7 @@ const UserCalendar = () => {
         <h2>Google Calendar Events</h2>
         {!session?.provider_token ? (
           <div className={styles.googleSignIn}>
-            <h3 className={styles.googleSignInText}>
+            <h3 className={styles.googleSignInText2}>
               Connect with Google to see your events
             </h3>
             <button onClick={googleSignIn} className={styles.signInButton}>
