@@ -36,7 +36,19 @@ h1 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
-
+@media screen and (max-width: 420px) {
+  .container {
+    justify-content: center;
+  }
+  .card {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 380px) {
+  .card {
+    width: 70%;
+  }
+}
 .card:hover {
   transform: translateY(-10px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);

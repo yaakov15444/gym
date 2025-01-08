@@ -85,7 +85,7 @@ const Bell = ({ isOpen, setIsOpen }) => {
       <button className={styles.closeButton} onClick={() => setIsOpen(false)}>
         Close
       </button>
-      <h2>Your messages</h2>
+      <h2 className={styles.announcementsTitle}>Your messages</h2>
       {announcementsLoading ? (
         <div className={styles.loadingContainer}>
           <p>Loading your announcements...</p>
