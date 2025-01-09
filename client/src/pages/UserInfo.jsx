@@ -296,25 +296,6 @@ const UserInfo = () => {
           )}
         </div>
       </div>
-
-      <div className={styles.events}>
-        {!session?.provider_token ? (
-          <div className={styles.googleSignIn}>
-            <h3 className={styles.googleSignInText}>
-              connect with google to see your events
-            </h3>
-            <button onClick={googleSignIn} className={styles.signInButton}>
-              Sign in to Google Calendar
-            </button>
-          </div>
-        ) : (
-          <>
-            <div className={styles.events}>
-              <button onClick={handleNavigation}>Go to User Calendar</button>{" "}
-            </div>
-          </>
-        )}
-      </div>
     </div>
   );
 };
