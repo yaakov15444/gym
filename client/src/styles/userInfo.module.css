@@ -169,10 +169,7 @@
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  margin-top: 20px;
-}
-.googleSignInText {
-  margin: 3px 0;
+  margin-top: 5px;
 }
 .signInButton {
   background: #ff8533;
@@ -228,7 +225,7 @@
 .generalContainer {
   padding: 24px;
   background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
-  min-height: calc(100vh - 80px);
+  min-height: 65vh;
 }
 
 .calendarContainer {
@@ -249,17 +246,13 @@
   text-align: center;
 }
 
-.googleSignIn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin-top: 20px;
-  padding: 20px;
-}
-
 .googleSignInText {
   color: #ffffff;
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 10px 0;
+}
+.googleSignInText2 {
   font-size: 1.2rem;
   text-align: center;
   margin: 10px 0;
