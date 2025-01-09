@@ -74,7 +74,7 @@ const AdminHome = () => {
           className={styles.card}
           onClick={() => navigate("/admin/announcements")}
         >
-          <h2>Announcements</h2>
+          <h2>Announcements Statistics</h2>
           <p>Total Announcements: {data?.totalAnnouncements || 0}</p>
           <p>Active: {data?.activeAnnouncements || 0}</p>
           <p>Expired: {data?.expiredAnnouncements || 0}</p>
