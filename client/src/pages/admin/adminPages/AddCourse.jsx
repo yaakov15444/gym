@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const AddCourse = ({ onAdd }) => {
+  const [uploading, setUploading] = useState(false);
+
   const nav = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -14,6 +16,7 @@ const AddCourse = ({ onAdd }) => {
     description: "",
     coach: "",
     schedule: [],
+    image: null,
   });
 
   const handleInputChange = (e) => {
@@ -39,6 +42,38 @@ const AddCourse = ({ onAdd }) => {
       ...prev,
       schedule: prev.schedule.filter((_, i) => i !== index),
     }));
+  };
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dizbc3u1u/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      if (data.secure_url) {
+        setFormData((prev) => ({ ...prev, image: data.secure_url }));
+        toast.success("Image uploaded successfully!");
+      } else {
+        throw new Error("Failed to upload image.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast.error("Error uploading image. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -86,6 +121,26 @@ const AddCourse = ({ onAdd }) => {
             required
           />
         </label>
+        <label>
+          Upload Course Image:
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            disabled={uploading}
+          />
+        </label>
+        {uploading && <p>Uploading image...</p>}
+        {formData.image && (
+          <div>
+            <img
+              src={formData.image}
+              alt="Course"
+              style={{ maxWidth: "200px" }}
+            />
+          </div>
+        )}
+
         <fieldset>
           <legend>Schedule</legend>
           {formData.schedule.map((item, index) => (
