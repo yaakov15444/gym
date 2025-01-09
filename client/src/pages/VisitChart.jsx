@@ -60,7 +60,7 @@ const VisitChart = () => {
     datasets: [
       {
         label: "Number of Visits",
-        data: visitData, // מספר הביקורים לכל שעה
+        data: visitData,
         borderColor: "#ff6b00",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.4,

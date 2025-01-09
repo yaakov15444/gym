@@ -181,10 +181,7 @@ const ctrlCourse = {
   },
   async getCourseStatistics(req, res, next) {
     try {
-      // סך כל הקורסים
       const totalCourses = await courseModel.countDocuments();
-
-      // קורסים מלאים (10 משתתפים)
       const fullCourses = await courseModel.countDocuments({ "participants.9": { $exists: true } });
 
       // קורסים ריקים (ללא משתתפים)

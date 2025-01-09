@@ -194,8 +194,6 @@ const ctrlAnnouncement = {
         }
     },
     async makeReaded(req, res, next) {
-        console.log(" trying כדאגשרעדקכג'קכעיעמצימעיגכגשדש ");
-
         try {
             console.log(" makeReaded ", req.user._id);
 
@@ -204,23 +202,19 @@ const ctrlAnnouncement = {
                 console.log('User not found');
                 return next(new AppError('User not found', 404));
             }
-
             const courseIds = user.enrolledCourses.map(course => course._id);
             const announcements = await Announcement.find({
                 courseId: { $in: courseIds },
                 isActive: true,
             });
-
             if (!announcements || announcements.length === 0) {
                 console.log('No announcements found for the user');
                 return next(new AppError('No announcements found for the user', 404));
             }
-
             announcements.forEach(announcement => {
                 announcement.isRead = true;
                 announcement.save();
             });
-
             res.status(200).json({
                 message: 'Announcements marked as read successfully',
             })

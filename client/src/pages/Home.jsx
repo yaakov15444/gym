@@ -70,28 +70,22 @@ const Home = () => {
       toast("You must be logged in to purchase a package.", "error");
       return;
     }
-
-    // עדכון קוד בהתאם לסוג החבילה
     if (selectedPackageName === "Single Class Package" && !selectedCourseId) {
       setSelectedCourseId("");
       setIsModalOpen(true);
       return;
     }
     if (selectedCourseId) {
-      // חיפוש הקורס ברשימת הקורסים
       const selectedCourse = courses.find(
         (course) => course._id === selectedCourseId
       );
-
-      // בדיקה אם הקורס מלא
       if (selectedCourse && !selectedCourse.isAvailable) {
         toast(`The course ${selectedCourse.name} is fully booked!`, "error");
         window.location.reload();
-        return; // סיום הפונקציה אם הקורס מלא
+        return;
       }
     }
     const allUnavailable = courses.every((course) => !course.isAvailable);
-
     if (allUnavailable) {
       toast("No courses are available at the moment.", "error");
       return; // סגירת הפונקציה אם אין קורסים זמינים

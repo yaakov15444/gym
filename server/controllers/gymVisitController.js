@@ -1,5 +1,5 @@
 const express = require("express");
-const GymVisit = require("../models/gymVisitModel"); // מודל הכניסה
+const GymVisit = require("../models/gymVisitModel");
 const router = express.Router();
 const AppError = require("../utils/handleError");
 const User = require("../models/userModel");
