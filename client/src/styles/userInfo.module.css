@@ -87,9 +87,11 @@
   opacity: 0.8;
   margin: 8px 0;
 }
+
 .buttonsContainer {
   margin-top: auto;
 }
+
 .addToCalendarButton {
   background: #ff6b00;
   color: white;
@@ -102,6 +104,7 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-left: 8px;
 }
 
 .addToCalendarButton:hover {
@@ -171,6 +174,7 @@
   gap: 15px;
   margin-top: 5px;
 }
+
 .signInButton {
   background: #ff8533;
   color: white;
@@ -214,7 +218,9 @@
     width: 100%;
   }
 }
+
 @media screen and (max-width: 625px) {
+
   .coursesTable,
   .announcementsList {
     display: grid;
@@ -252,6 +258,7 @@
   text-align: center;
   margin: 10px 0;
 }
+
 .googleSignInText2 {
   font-size: 1.2rem;
   text-align: center;
@@ -342,11 +349,11 @@
   border-radius: 8px;
 }
 
-.rbc-day-bg + .rbc-day-bg {
+.rbc-day-bg+.rbc-day-bg {
   border-left: 1px solid #333;
 }
 
-.rbc-month-row + .rbc-month-row {
+.rbc-month-row+.rbc-month-row {
   border-top: 1px solid #333;
 }
 

@@ -53,7 +53,7 @@ const ctrl = {
             <a href="${verificationLink}">${verificationLink}</a>
         `;
       await sendEmail(user.email, subject, text, html);
-      res.status(201).json({ user, message: "User registered successfully" });
+      res.status(201).json({ user, message: "User registered successfully and verification email sent" });
     } catch (error) {
       console.log(error);
       next(new AppError("Internal server error", 500, error));
@@ -61,8 +61,6 @@ const ctrl = {
   },
   async login(req, res, next) {
     try {
-      console.log("Login request received");
-
       const user = await userModel.findOne({ email: req.body.email });
       if (!user) {
         console.log("User not found");
@@ -73,9 +71,9 @@ const ctrl = {
         console.log("Invalid password");
         return next(new AppError("Invalid password", 401));
       }
-      if (user.isEmailVerified === false) {
+      if (!user.isEmailVerified) {
         console.log("Email not verified");
-        return next(new AppError("Email not verified", 401));
+        return next(new AppError("Email not verified please check your email", 401));
       }
       const accessToken = generateToken(
         { _id: user._id, role: user.role },
@@ -240,6 +238,10 @@ const ctrl = {
       if (!user) {
         console.log("User not found");
         return next(new AppError("User not found", 404));
+      }
+      if (!user.isEmailVerified) {
+        console.log("Email not verified");
+        return next(new AppError("Email not verified please check your email", 401));
       }
       const accessToken = generateToken(
         { _id: user._id, role: user.role },

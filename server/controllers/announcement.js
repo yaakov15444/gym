@@ -47,24 +47,19 @@ const ctrlAnnouncement = {
     async getAnnouncementsForUser(req, res, next) {
         try {
             const user = await User.findOne({ _id: req.user._id });
-
             if (!user) {
                 console.log('User not found');
                 return next(new AppError('User not found', 404));
             }
-
             const courseIds = user.enrolledCourses.map(course => course._id);
-
             const announcements = await Announcement.find({
                 courseId: { $in: courseIds },
                 isActive: true,
             });
-
             if (!announcements || announcements.length === 0) {
                 console.log('No announcements found for the user');
                 return next(new AppError('No announcements found for the user', 404));
             }
-
             res.status(200).json(announcements);
         } catch (error) {
             console.log(error);

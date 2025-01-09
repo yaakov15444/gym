@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { SIGNUP_URL } from "../constants/endPoint";
 import { fetchData } from "../utils/fetchData";
+import { toast } from "../hooks/CustomToast";
 const Signup = () => {
   const navigate = useNavigate();
   const {
@@ -33,6 +34,7 @@ const Signup = () => {
     // Parse the JSON response
     if (result) {
       setReq({ ...req, loading: loading, data: result });
+      toast("Account created successfully check your email", { type: "info" });
       navigate("/login");
       reset();
     } else {

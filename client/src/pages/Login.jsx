@@ -44,6 +44,7 @@ const Login = () => {
       setReq({ ...req, loading: loading, data: result });
       login();
       const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+      toast("Login successful", "success");
       navigate(redirectPath);
       localStorage.removeItem("redirectAfterLogin");
       reset();
