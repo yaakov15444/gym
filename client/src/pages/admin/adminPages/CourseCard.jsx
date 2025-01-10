@@ -91,6 +91,7 @@ const CourseCard = ({ course, onEdit, onDelete }) => {
             </p>
             <input
               type="password"
+              className={styles.passInput}
               value={deletePassword}
               onChange={(e) => setDeletePassword(e.target.value)}
               placeholder="Enter password"
