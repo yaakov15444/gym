@@ -4,7 +4,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
     "start": "nodemon index.js"
+=======
+    "dev": "nodemon index.js"
+>>>>>>> 88b4b3c78b606bcc02f565e5a3120b555bdefea1
   },
   "keywords": [],
   "author": "",
@@ -28,11 +32,14 @@
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.9",
     "qrcode": "^1.5.4"
+<<<<<<< HEAD
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^22.15.29",
     "typescript": "^5.8.3"
+=======
+>>>>>>> 88b4b3c78b606bcc02f565e5a3120b555bdefea1
   }
 }
