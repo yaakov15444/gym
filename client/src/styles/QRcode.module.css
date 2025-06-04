@@ -1,0 +1,35 @@
+.qrCodeSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 340px;
+    margin: 20px auto;
+}
+
+.qrCodeSection h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.qrCodeSection p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.qrCodeImage {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border: 2px solid #333;
+    border-radius: 10px;
+}

@@ -1,0 +1,76 @@
+/* NotFound.module.css */
+
+/* Full screen styling */
+.notFoundContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: fit-content;
+  background-color: #232222;
+  padding: 2rem;
+}
+
+/* Content styling */
+.notFoundContent {
+  text-align: center;
+  background-color: #1e1e1e;
+  padding: 40px;
+  border-radius: 15px;
+  border: 1px solid #ff6b00;
+  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.1);
+  width: 80%;
+  max-width: 500px;
+}
+
+/* Heading styling */
+.notFoundHeading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ff6b00;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Paragraph styling */
+.notFoundText {
+  font-size: 1.2rem;
+  color: #ffffff;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+/* Button styling */
+.notFoundButton {
+  padding: 12px 25px;
+  font-size: 1rem;
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.notFoundButton:hover {
+  background-color: #ff8533;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .notFoundContent {
+    width: 90%;
+    padding: 30px;
+  }
+
+  .notFoundHeading {
+    font-size: 2rem;
+  }
+
+  .notFoundText {
+    font-size: 1.1rem;
+  }
+}

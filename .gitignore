@@ -1,0 +1,6 @@
+# Ignore directories named node_modules
+node_modules/
+
+# Ignore files named .env
+.env
+
