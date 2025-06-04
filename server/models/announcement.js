@@ -14,7 +14,6 @@ const announcementSchema = new mongoose.Schema({
         ref: 'Course',
         default: null
     },
-
     isActive: {
         type: Boolean,
         default: true
